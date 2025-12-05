@@ -24,32 +24,35 @@ Ensure you have the following installed:
    ```bash
    git clone https://github.com/Saha-hub123/FindServices.git
    ```
-    kemudian masuk kedalam foldernya
+2. **Masuk kedalam foldernya**
    ```bash
    cd FindServices
    ```
-2. **Install Backend Dependencies (Composer)**
+3. **Install Backend Dependencies (Composer)**
    ```bash
    composer install
    ```
-   jangan lupa update jika sudah ada
+   > jangan lupa update jika sudah ada
    ```bash
    composer update
    ```
-3. **Install Frontend Dependencies (NPM)**
+4. **Install Frontend Dependencies (NPM)**
    ```bash
-   npm install
+   npm install vite@7 laravel-vite-plugin@2 @vitejs/plugin-vue@6
    ```
-   jangan lupa update jika sudah ada
+   > jangan lupa update jika sudah ada
    ```bash
    npm update
    ```
-4. **Environment Configuration**
+
+## Konfigurasi
+
+1. **Environment Configuration**
    ```bash
    cp .env.example .env
    ```
-   Buka file .env dan perbarui bagian DB_DATABASE, DB_USERNAME, dan DB_PASSWORD agar sesuai dengan pengaturan databse lokal Anda.
-5. **Generate Application Key**
+   > Buka file `.env` dan perbarui bagian `DB_DATABASE=`, `DB_USERNAME=`, dan `DB_PASSWORD=` sesuai dengan pengaturan databse lokal Anda.
+2. **Generate Application Key**
    ```bash
    php artisan key:generate
    ```
@@ -69,6 +72,38 @@ Ensure you have the following installed:
    ```bash
    http://localhost:8000
    ```
+
+## 🤝 Contributing
+
+We welcome contributions! Please follow these steps to contribute to the project using the **Feature Branch Workflow**:
+
+1. **Pull the latest changes**
+   Before starting, ensure your local main branch is up to date.
+   ```bash
+   git checkout main
+   git pull origin main
+   ```
+2. **Create a New Branch**
+   Create a branch for your feature or fix. Use a descriptive name (e.g., `feature/login-page` or `fix/nav-bar`).
+   ```bash
+   git checkout -b feature/your-feature-name
+   ```
+3. **Make Changes & Commit**
+   Write your code and commit your changes with a clear message.
+   ```bash
+   git add .
+   git commit -m "Add: description of your changes"
+   ```
+4. **Push to the Branch**
+   Push your branch to the repository.
+   ```bash
+   git push origin feature/your-feature-name
+   ```
+5. **Create a Pull Request (PR)**
+   - Go to the repository on GitHub.
+   - You will see a "Compare & pull request" button.
+   - Click it, add a description of your work, and submit the PR.
+   - Wait for a code review before merging.
 
 ## About Laravel
 
