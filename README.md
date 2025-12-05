@@ -7,16 +7,41 @@
 <a href="https://packagist.org/packages/laravel/framework"><img src="https://img.shields.io/packagist/l/laravel/framework" alt="License"></a>
 </p>
 
-## 🛠️ Installation & Setup
+<p align="center">
+  <a href="https://vuejs.org/" target="_blank">
+    <img src="https://upload.wikimedia.org/wikipedia/commons/9/95/Vue.js_Logo_2.svg" width="200" alt="Vue.js Logo">
+  </a>
+</p>
 
-Follow these steps to get the project up and running on your local machine.
+<p align="center">
+    <img src="https://img.shields.io/badge/vuejs-%2335495e.svg?style=for-the-badge&logo=vuedotjs&logoColor=%234FC08D" alt="Vue.js Badge">
+    <img src="https://img.shields.io/badge/vite-%23646CFF.svg?style=for-the-badge&logo=vite&logoColor=white" alt="Vite Badge">
+    <img src="https://img.shields.io/badge/NPM-%23CB3837.svg?style=for-the-badge&logo=npm&logoColor=white" alt="NPM Badge">
+    <a href="https://github.com/vuejs/core/blob/main/LICENSE"><img src="https://img.shields.io/badge/license-MIT-green.svg?style=for-the-badge" alt="License"></a>
+</p>
 
-### Prerequisites
+---
 
-Ensure you have the following installed:
-* [PHP](https://www.php.net/) >= 8.1
-* [Composer](https://getcomposer.org/)
-* [Node.js](https://nodejs.org/) & NPM
+## 🛠️ Prerequisites & Setup
+
+To ensure a smooth development experience with this Laravel + Vue.js project, please make sure your local environment is set up correctly.
+
+### Essential Tools
+
+| Tool | Description | Requirement / Link |
+| :--- | :--- | :--- |
+| <img src="https://www.php.net/images/logos/new-php-logo.svg" width="45"> | **PHP**<br>(Backend Runtime) | **Version 8.1+** is required.<br>[Download PHP](https://www.php.net/) |
+| <img src="https://getcomposer.org/img/logo-composer-transparent.png" width="40"> | **Composer**<br>(PHP Dependency Manager) | Required to install Laravel packages.<br>[Download Composer](https://getcomposer.org/) |
+| <img src="https://raw.githubusercontent.com/github/explore/80688e429a7d4ef2fca1e82350fe8e3517d3494d/topics/nodejs/nodejs.png" width="35"> | **Node.js Runtime**<br>(Frontend Runtime) | **Version 18.0+ (LTS)** recommended.<br>[Download Node.js](https://nodejs.org/) |
+| <img src="https://raw.githubusercontent.com/github/explore/80688e429a7d4ef2fca1e82350fe8e3517d3494d/topics/npm/npm.png" width="35"> | **NPM**<br>(JS Package Manager) | Comes with Node.js. Used to compile Vue assets. |
+
+### Recommended Extensions (VS Code)
+
+| Tool | Description | Link |
+| :--- | :--- | :--- |
+| <img src="https://upload.wikimedia.org/wikipedia/commons/9/9a/Visual_Studio_Code_1.35_icon.svg" width="32"> | **VS Code** | The recommended editor.<br>[Download VS Code](https://code.visualstudio.com/) |
+| <img src="https://vuejs.org/images/logo.png" width="32"> | **Vue - Official** | Syntax highlighting for Vue files.<br>[Extension Link](vscode:extension/Vue.volar) |
+| <img src="https://upload.wikimedia.org/wikipedia/commons/thumb/9/9a/Laravel.svg/1200px-Laravel.svg.png" width="30"> | **Laravel Blade Snippets** | Support for Blade templating.<br>[Extension Link](vscode:extension/onecentlin.laravel-blade) |
 
 ### Cara pemasangan
 
@@ -62,7 +87,7 @@ Ensure you have the following installed:
    ```
 4. **Jalankan Assets**
    ```bash
-   npm run build
+   npm run dev
    ```
 5. **Jalankan Reverb**
    ```bash
