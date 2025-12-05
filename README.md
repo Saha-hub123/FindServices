@@ -26,7 +26,7 @@
       <img src="https://img.shields.io/badge/vuejs-%2335495e.svg?style=flat-square&logo=vuedotjs&logoColor=%234FC08D" alt="Vue.js Badge">
       <img src="https://img.shields.io/badge/vite-%23646CFF.svg?style=flat-square&logo=vite&logoColor=white" alt="Vite Badge">
       <img src="https://img.shields.io/badge/NPM-%23CB3837.svg?style=flat-square&logo=npm&logoColor=white" alt="NPM Badge">
-        <a href="https://github.com/vuejs/core/blob/main/LICENSE"><img src="https://img.shields.io/badge/license-MIT-green.svg?style=for-the-badge" width="50" alt="License"></a>
+        <a href="https://github.com/vuejs/core/blob/main/LICENSE"><img src="https://img.shields.io/badge/license-MIT-green.svg?style=for-the-badge" width="100" alt="License"></a>
     </td>
   </tr>
 </table>
