@@ -45,7 +45,7 @@ Ensure you have the following installed:
    npm update
    ```
 
-## Konfigurasi
+### Konfigurasi
 
 1. **Environment Configuration**
    ```bash
