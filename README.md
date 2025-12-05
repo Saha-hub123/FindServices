@@ -56,19 +56,24 @@ Ensure you have the following installed:
    ```bash
    php artisan key:generate
    ```
-6. **Jalankan Database Migrations**
+3. **Jalankan Database Migrations**
    ```bash
    php artisan migrate
    ```
-7. **Jalankan Assets**
+4. **Jalankan Assets**
    ```bash
    npm run build
    ```
-8. **Jalankan laravel**
+5. **Jalankan Reverb**
+   ```bash
+   php artisan reverb:start
+   ```
+   > untuk menjalakan fitur `realtime`
+6. **Jalankan Laravel**
    ```bash
    php artisan serve
    ```
-6. **Buka Lokalhost**
+7. **Buka Lokalhost**
    ```bash
    http://localhost:8000
    ```
