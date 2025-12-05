@@ -7,6 +7,24 @@
 <a href="https://packagist.org/packages/laravel/framework"><img src="https://img.shields.io/packagist/l/laravel/framework" alt="License"></a>
 </p>
 
+## 🛠️ Installation & Setup
+
+Follow these steps to get the project up and running on your local machine.
+
+### Prerequisites
+
+Ensure you have the following installed:
+* [PHP](https://www.php.net/) >= 8.1
+* [Composer](https://getcomposer.org/)
+* [Node.js](https://nodejs.org/) & NPM
+
+### Installation Steps
+
+1. **Clone the repository**
+   ```bash
+   git clone [https://github.com/username-kamu/nama-repo.git](https://github.com/username-kamu/nama-repo.git)
+   cd nama-repo
+
 ## About Laravel
 
 Laravel is a web application framework with expressive, elegant syntax. We believe development must be an enjoyable and creative experience to be truly fulfilling. Laravel takes the pain out of development by easing common tasks used in many web projects, such as:
