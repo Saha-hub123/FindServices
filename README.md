@@ -18,12 +18,53 @@ Ensure you have the following installed:
 * [Composer](https://getcomposer.org/)
 * [Node.js](https://nodejs.org/) & NPM
 
-### Installation Steps
+### Cara pemasangan
 
 1. **Clone the repository**
    ```bash
-   git clone [https://github.com/username-kamu/nama-repo.git](https://github.com/username-kamu/nama-repo.git)
+   git clone https://github.com/Saha-hub123/FindServices.git
+kemudian masuk kedalam foldernya
+   ```bash
    cd nama-repo
+
+ 2. **Install Backend Dependencies (Composer)**
+   ```bash
+   composer install
+jangan lupa update jika sudah ada
+    ```bash
+   composer update
+
+3. **Install Frontend Dependencies (NPM)**
+   ```bash
+   npm install
+jangan lupa update jika sudah ada
+    ```bash
+   npm update
+
+4. **Environment Configuration**
+   ```bash
+   cp .env.example .env
+Buka file .env dan perbarui bagian DB_DATABASE, DB_USERNAME, dan DB_PASSWORD agar sesuai dengan pengaturan databse lokal Anda.
+
+5. **Generate Application Key**
+   ```bash
+   php artisan key:generate
+
+6. **Jalankan Database Migrations**
+   ```bash
+   php artisan migrate
+
+7. **Jalankan Assets**
+   ```bash
+   npm run build
+
+8. **Jalankan laravel**
+   ```bash
+   php artisan serve
+
+6. **Buka Lokalhost**
+   ```bash
+   http://localhost:8000
 
 ## About Laravel
 
