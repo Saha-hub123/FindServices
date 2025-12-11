@@ -11,6 +11,18 @@ class Category extends Model
 
     protected $guarded = ['id'];
 
+    protected $fillable = [
+        'name', 
+        'slug', 
+        'description', 
+        'icon_class' // <-- Tambahkan ini
+    ];
+
+    public function getRouteKeyName()
+    {
+        return 'slug';
+    }
+
     // Relasi: Satu kategori punya banyak service
     public function services()
     {

@@ -427,7 +427,7 @@ const deleteMessage = (msgId) => {
                                 </div>
                             </div>
                             <div class="flex items-center space-x-1 shrink-0 ml-2">
-                                <Link :href="route('service.show', activeContextService.id)" class="text-xs bg-white border border-blue-200 text-blue-600 px-2 py-1 rounded hover:bg-blue-50">Lihat</Link>
+                                <Link :href="route('service.show', activeContextService.slug)" class="text-xs bg-white border border-blue-200 text-blue-600 px-2 py-1 rounded hover:bg-blue-50">Lihat</Link>
                                 <button @click="clearContext" class="text-gray-400 hover:text-red-500 p-1"><i class="fas fa-times"></i></button>
                             </div>
                         </div>

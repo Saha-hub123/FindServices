@@ -24,7 +24,8 @@ class Service extends Model
         'latitude',     // Koordinat Map (Baru)
         'longitude',    // Koordinat Map (Baru)
         'status',       // active/inactive/pending
-        'rating_avg'    // Rata-rata rating (opsional, jika ingin bisa diupdate langsung)
+        'rating_avg',    // Rata-rata rating (opsional, jika ingin bisa diupdate langsung)
+        'slug',
     ];
 
     // Relasi: Dimiliki oleh User (Provider)
@@ -62,5 +63,10 @@ class Service extends Model
     public function scopeActive($query)
     {
         return $query->where('status', 'active');
+    }
+
+    public function getRouteKeyName()
+    {
+        return 'slug';
     }
 }

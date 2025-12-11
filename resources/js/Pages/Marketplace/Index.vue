@@ -77,7 +77,7 @@ const submitSearch = () => {
                                         >
                                             <div class="w-6 h-6 rounded flex items-center justify-center mr-3 transition-colors"
                                                  :class="searchForm.category === cat.slug ? 'bg-blue-200 text-blue-700' : 'bg-gray-200 text-gray-500 group-hover:bg-gray-300'">
-                                                <i class="fas fa-tag text-xs"></i>
+                                                <i :class="cat.icon_class || 'fas fa-tag'" class="text-xs"></i>
                                             </div>
                                             <span class="text-sm truncate">{{ cat.name }}</span>
                                         </button>

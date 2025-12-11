@@ -130,7 +130,7 @@ const submit = () => {
     form.transform((data) => ({
         ...data,
         _method: 'PUT',
-    })).post(route('services.update', props.service.id));
+    })).post(route('services.update', props.service));
 };
 
 // ... import yang sudah ada ...
@@ -264,7 +264,7 @@ const closeSearch = () => {
                             <div class="border-2 border-dashed border-gray-300 rounded-lg p-6 text-center hover:bg-gray-50 transition cursor-pointer relative mb-4">
                                 <input type="file" multiple @change="handleNewImageUpload" class="absolute inset-0 opacity-0 cursor-pointer w-full h-full">
                                 <i class="fas fa-cloud-upload-alt text-3xl text-gray-400 mb-2"></i>
-                                <p class="text-sm text-gray-500">Upload foto baru</p>
+                                <p class="text-sm text-gray-500">Upload foto baru (max.size 2mb)</p>
                             </div>
 
                             <div v-if="newImagePreviews.length > 0" class="grid grid-cols-4 gap-4">

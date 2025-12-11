@@ -261,7 +261,7 @@ const closeSearch = () => {
                             <div class="border-2 border-dashed border-gray-300 rounded-lg p-6 text-center hover:bg-gray-50 transition cursor-pointer relative">
                                 <input type="file" multiple @change="handleImageUpload" class="absolute inset-0 opacity-0 cursor-pointer w-full h-full">
                                 <i class="fas fa-cloud-upload-alt text-3xl text-gray-400 mb-2"></i>
-                                <p class="text-sm text-gray-500">Klik atau geser foto ke sini</p>
+                                <p class="text-sm text-gray-500">Klik atau geser foto ke sini (max.size 2mb)</p>
                             </div>
 
                             <div v-if="imagePreviews.length > 0" class="grid grid-cols-3 md:grid-cols-5 gap-4 mt-4">

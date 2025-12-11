@@ -136,7 +136,7 @@ const filteredHistory = computed(() => {
                                     </div>
                                     <div>
                                         <span class="block">Jasa yang Dipesan</span>
-                                        <span class="text-xs text-gray-500">Pembelian saya ({{ myBookings.length }})</span>
+                                        <span class="text-xs text-gray-500">Pesanan Saya ({{ myBookings.length }})</span>
                                     </div>
                                 </button>
 
@@ -150,7 +150,7 @@ const filteredHistory = computed(() => {
                                     </div>
                                     <div>
                                         <span class="block">Pesanan Masuk</span>
-                                        <span class="text-xs text-gray-500">Penjualan saya ({{ incomingOrders.length }})</span>
+                                        <span class="text-xs text-gray-500">Orderan Saya ({{ incomingOrders.length }})</span>
                                     </div>
                                 </button>
 

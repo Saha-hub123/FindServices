@@ -21,10 +21,10 @@ class BookingController extends Controller
         $user = Auth::user();
 
         // Daftar status yang dianggap "Aktif" (Butuh tindakan)
-        $activeStatuses = ['unpaid', 'pending', 'paid', 'confirmed', 'in_progress', 'waiting_completion'];
+        $activeStatuses = ['unpaid', 'pending', 'paid', 'confirmed', 'in_progress', 'waiting_completion', 'rejected'];
         
         // Daftar status yang dianggap "Selesai/Arsip"
-        $historyStatuses = ['completed', 'cancelled', 'rejected'];
+        $historyStatuses = ['completed', 'cancelled'];
 
         // 1. Booking Saya (Customer) - HANYA YANG AKTIF
         $myBookings = Booking::with(['service.galleries', 'provider'])

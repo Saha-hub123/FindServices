@@ -58,7 +58,7 @@ const formatCurrency = (value) => {
             </div>
             
             
-            <Link :href="route('service.show', service.id)" 
+            <Link :href="route('service.show', service.slug)"
                   class="inline-flex items-center px-4 py-2 bg-blue-600 border border-transparent rounded-md font-semibold text-xs text-white uppercase tracking-widest hover:bg-blue-700 active:bg-blue-900 focus:outline-none transition ease-in-out duration-150">
                 Lihat Detail & Booking
             </Link>

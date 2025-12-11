@@ -8,6 +8,7 @@ use Inertia\Inertia;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB; 
 use Illuminate\Support\Facades\Storage;
+use Illuminate\Support\Str; // Jangan lupa import
 
 class ServiceController extends Controller
 {
@@ -62,9 +63,13 @@ class ServiceController extends Controller
         ]);
 
         DB::transaction(function () use ($request, $validated) {
+            // Buat Slug Unik
+            // Tips: Tambahkan timestamp atau random string agar tidak bentrok jika judul sama
+            $slug = Str::slug($validated['title']) . '-' . Str::random(5);
             // 1. Simpan Data Service
             $service = Auth::user()->services()->create([
                 'title' => $validated['title'],
+                'slug' => $slug,
                 'category_id' => $validated['category_id'],
                 'description' => $validated['description'],
                 'price_min' => $validated['price_min'],
@@ -84,7 +89,7 @@ class ServiceController extends Controller
             }
         });
 
-        return redirect()->route('dashboard')->with('message', 'Jasa berhasil diterbitkan!');
+        return redirect()->route('profile.index')->with('message', 'Jasa berhasil diterbitkan!');
     }
 
     public function edit(Service $service)
@@ -127,8 +132,14 @@ class ServiceController extends Controller
 
         DB::transaction(function () use ($request, $service, $validated) {
             // 1. Update Data Text
+            // Cek apakah judul berubah? Jika ya, update slug juga
+            $slug = $service->slug;
+            if ($request->title !== $service->title) {
+                $slug = Str::slug($request->title) . '-' . Str::random(5);
+            }
             $service->update([
                 'title' => $validated['title'],
+                'slug' => $slug,
                 'category_id' => $validated['category_id'],
                 'description' => $validated['description'],
                 'price_min' => $validated['price_min'],
@@ -161,7 +172,7 @@ class ServiceController extends Controller
             }
         });
 
-        return redirect()->route('dashboard')->with('message', 'Jasa berhasil diperbarui!');
+        return redirect()->route('profile.index')->with('message', 'Jasa berhasil diperbarui!');
     }
 
     // Method Delete (Soft Delete)

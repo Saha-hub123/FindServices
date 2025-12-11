@@ -66,7 +66,7 @@ const formatCurrency = (value) => {
                 </Link>
             </div>
             
-            <Link :href="route('service.show', service.id)" class="absolute inset-0 z-10"></Link>
+            <Link :href="route('service.show', service.slug)" class="absolute inset-0 z-10"></Link>
         </div>
     </div>
 </template>

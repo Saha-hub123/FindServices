@@ -10,6 +10,7 @@ use App\Http\Controllers\MarketplaceController;
 use App\Http\Controllers\BookingController;
 use App\Http\Controllers\ChatController;
 use Illuminate\Support\Facades\Broadcast;
+use App\Http\Controllers\SearchController;
 
 // Route::get('/', function () {
 //     return Inertia::render('Welcome', [
@@ -38,9 +39,6 @@ Route::middleware('auth')->group(function () {
     Route::get('/profile/me', [ProfileController::class, 'index'])->name('profile.index');
     Route::get('/user/{user}', [ProfileController::class, 'show'])->name('profile.show');
 
-    // Form Edit (Bawaan Breeze - Settings)
-    Route::get('/profile', [ProfileController::class, 'edit'])->name('profile.edit');
-    // ... route update & destroy bawaan ...
 });
 
 Route::middleware('auth')->group(function () {
@@ -66,7 +64,11 @@ Route::middleware('auth')->group(function () {
 
 
 Route::middleware('auth')->group(function () {
-    Route::get('/profile', [ProfileController::class, 'edit'])->name('profile.edit');
+    // Profil Visual
+    Route::get('/profile/edit', [ProfileController::class, 'edit'])->name('profile.edit');
+    
+    // Pengaturan Akun (Baru)
+    Route::get('/profile/settings', [ProfileController::class, 'settings'])->name('profile.settings');
     Route::patch('/profile', [ProfileController::class, 'update'])->name('profile.update');
     Route::delete('/profile', [ProfileController::class, 'destroy'])->name('profile.destroy');
     Route::get('/service/{service}', [ServiceController::class, 'show'])
@@ -86,6 +88,7 @@ Route::middleware('auth')->group(function () {
     Route::delete('/services/{id}/force', [ServiceController::class, 'forceDelete'])->name('services.force-delete');
     // Nanti tambahkan route service di sini
     // Route::resource('services', ServiceController::class);
+    Route::get('/search', [SearchController::class, 'index'])->name('search.index');
 });
 
 // Route::get('/dashboard', function () {

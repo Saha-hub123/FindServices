@@ -300,7 +300,7 @@ watch(() => props.booking.status, (newStatus) => {
                                     <div v-if="booking.status === 'rejected'">
                                         <p class="text-xs text-gray-500 mb-2">Pesanan anda ditolak, Silahkan tanya pada penyedia alasannya</p>
                                         <button @click="updateStatus('pending')" class="w-full py-2 bg-orange-100 text-orange-800 rounded-lg font-bold text-sm hover:bg-orange-200">
-                                            Ajukan Pesanan Ulang
+                                            Ajukan Ulang Pesanan
                                         </button>
                                         <button @click="updateStatus('cancelled')" class="w-full mt-2 py-2 bg-white border border-red-200 text-red-600 hover:bg-red-50 rounded-lg font-bold text-sm">
                                             Batalkan Pesanan
@@ -324,7 +324,7 @@ watch(() => props.booking.status, (newStatus) => {
                                     <div v-if="booking.status === 'completed'">
                                         <p class="text-xs text-gray-500 mb-2">Pesanan telah selesai dikerjakan, terima kasih.</p>
                                         
-                                        <Link :href="route('service.show', booking.service_id)" 
+                                        <Link :href="route('service.show', booking.service)" 
                                             class="flex items-center justify-center w-full py-2 bg-blue-100 text-blue-700 rounded-lg font-bold text-sm hover:bg-blue-200 transition">
                                             Lihat Jasa Ini
                                         </Link>

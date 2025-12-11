@@ -211,12 +211,12 @@ onMounted(() => {
 
                                 <div class="p-5 space-y-3">
                                     <div v-if="service.user_id === auth_user_id" class="space-y-3">
-                                        <div class="text-center p-3 bg-yellow-50 text-yellow-800 rounded-lg text-sm border border-yellow-200 flex items-center justify-center">
+                                        <div class="text-center p-3 bg-yellow-50 text-yellow-800 rounded-lg text-sm border border-yellow-600 flex items-center justify-center">
                                             <i class="fas fa-info-circle mr-2"></i> 
                                             <span>Ini adalah jasa milik Anda.</span>
                                         </div>
-                                        <Link :href="route('services.edit', service.id)" 
-                                            class="w-full py-3 px-4 bg-white border border-blue-600 text-blue-600 hover:bg-blue-50 font-bold rounded-lg shadow-sm transition flex items-center justify-center">
+                                        <Link :href="route('services.edit', service)" 
+                                            class="w-full py-3 px-4 bg-yellow-50 border border-yellow-600 text-yellow-800 hover:bg-yellow-100 font-bold rounded-lg shadow-sm transition flex items-center justify-center">
                                             <i class="fas fa-edit mr-2"></i> Edit Jasa
                                         </Link>
                                     </div>
