@@ -146,6 +146,38 @@ We welcome contributions! Please follow these steps to contribute to the project
    - Click it, add a description of your work, and submit the PR.
    - Wait for a code review before merging.
 
+## Gambar Website
+
+### Tampilan dashboard
+![Tampilan dashboard](img/dashboard.png)
+
+### Tampilan halaman search
+![Tampilan halaman search](img/search.png)
+
+### Tampilan marketplace jasa
+![Tampilan marketplace](img/marketplace.png)
+
+### Tampilan detail jasa
+![Tampilan detail jasa](img/detail_jasa.png)
+
+### Tampilan edit jasa
+![Tampilan edit jasa](img/edit_jasa.png)
+
+### Tampilan halaman booking
+![Tampilan halaman booking](img/booking_index.png)
+
+### Tampilan detail booking
+![Tampilan detail booking](img/detail_booking.png)
+
+### Tampilan halaman chat
+![Tampilan halaman chat](img/chat.png)
+
+### Tampilan profile
+![Tampilan profile](img/profile.png)
+
+### Tampilan edit profile
+![Tampilan edit profile](img/profile_edit.png)
+
 ## About Laravel
 
 Laravel is a web application framework with expressive, elegant syntax. We believe development must be an enjoyable and creative experience to be truly fulfilling. Laravel takes the pain out of development by easing common tasks used in many web projects, such as:
