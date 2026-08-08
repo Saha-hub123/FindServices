@@ -5,11 +5,15 @@ import { Link } from '@inertiajs/vue3';
 
 <template>
     <div
-        class="flex min-h-screen flex-col items-center bg-gray-100 pt-6 sm:justify-center sm:pt-0 dark:bg-gray-900"
+        class="flex min-h-screen flex-col items-center bg-gray-50 pt-6 sm:justify-center sm:pt-0 dark:bg-gray-900"
     >
         <div>
-            <Link href="/">
-                <ApplicationLogo class="h-20 w-20 fill-current text-gray-500" />
+            <Link :href="route('welcome')" class="flex items-center gap-2">
+                <div
+                    class="h-12 w-12 bg-blue-600 rounded-lg flex items-center justify-center text-white font-bold text-2xl">
+                    F
+                </div>
+                <span class="font-bold text-2xl text-blue-600 tracking-tight">FindServices</span>
             </Link>
         </div>
 

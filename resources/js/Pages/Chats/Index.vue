@@ -34,10 +34,10 @@ const activeContextBooking = ref(props.targetBooking);
 const activeContextService = ref(props.targetService);
 
 const form = useForm({
-    receiver_id: props.activeChat ? props.activeChat.id : null,
+    receiver_id: props.activeChat ? props.activeChat.hash_id : null,
     message: '',
     service_id: props.targetService ? props.targetService.id : null,
-    booking_id: props.targetBooking ? props.targetBooking.id : null,
+    booking_id: props.targetBooking?.hash_id || null,
     reply_to_id: null
 });
 
@@ -68,13 +68,15 @@ const updateConversationList = (userId, newMessageObj, incrementUnread = false) 
 // Watcher Ganti Chat
 watch(() => props.activeChat, (newChat) => {
     if (newChat) {
-        form.receiver_id = newChat.id;
+        form.receiver_id = newChat.hash_id;
         form.message = '';
         cancelReply();
+
         activeContextBooking.value = props.targetBooking;
         activeContextService.value = props.targetService;
         isContextHidden.value = false;
-        form.booking_id = props.targetBooking ? props.targetBooking.id : null;
+
+        form.booking_id = props.targetBooking?.hash_id || null;
         form.service_id = props.targetService ? props.targetService.id : null;
         
         // Reset Unread Count saat dibuka
@@ -202,11 +204,11 @@ const handleReply = (msg) => {
     form.reply_to_id = msg.id;
     isContextHidden.value = false;
     if (msg.booking) {
-        form.booking_id = msg.booking.id;
+        form.booking_id = msg.booking.hash_id;
         form.service_id = null;
         activeContextBooking.value = msg.booking;
         activeContextService.value = null;
-        updateUrlSilent(msg.booking.id, null);
+        updateUrlSilent(msg.booking.hash_id, null);
     } else if (msg.service) {
         form.service_id = msg.service.id;
         form.booking_id = null;
@@ -256,7 +258,48 @@ const scrollToBottom = async () => {
     }
 };
 
-const formatTime = (dateString) => new Date(dateString).toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' });
+// Helper: Format Waktu Chat (WhatsApp Style)
+const formatTime = (dateString) => {
+    if (!dateString) return '';
+    
+    const date = new Date(dateString);
+    const now = new Date();
+
+    // Kita set jam ke 00:00:00 agar perbandingannya murni berdasarkan tanggal kalender
+    // Bukan berdasarkan selisih 24 jam.
+    const dateZero = new Date(date.getFullYear(), date.getMonth(), date.getDate());
+    const nowZero = new Date(now.getFullYear(), now.getMonth(), now.getDate());
+
+    const diffTime = nowZero - dateZero;
+    const diffDays = Math.floor(diffTime / (1000 * 60 * 60 * 24));
+
+    // 1. HARI INI (Tampilkan Jam, misal: 14:30)
+    if (diffDays === 0) {
+        return date.toLocaleTimeString('id-ID', {
+            hour: '2-digit',
+            minute: '2-digit',
+            hour12: false
+        }).replace('.', ':'); // Pastikan pemisah adalah titik dua
+    }
+
+    // 2. KEMARIN
+    if (diffDays === 1) {
+        return 'Kemarin';
+    }
+
+    // 3. DALAM SEMINGGU (Tampilkan Nama Hari, misal: Senin)
+    if (diffDays < 7) {
+        return date.toLocaleDateString('id-ID', { weekday: 'long' });
+    }
+
+    // 4. LEBIH DARI SEMINGGU (Tampilkan Tanggal, misal: 30/01/24)
+    return date.toLocaleDateString('id-ID', {
+        day: '2-digit',
+        month: '2-digit',
+        year: '2-digit'
+    });
+};
+
 const getStatusClass = (status) => {
     switch(status) {
         case 'unpaid': return 'bg-gray-200 text-gray-800';
@@ -339,7 +382,7 @@ const deleteMessage = (msgId) => {
                             </div>
 
                             <div v-for="user in filteredConversations" :key="user.id" 
-                                @click="openChat(user.id)"
+                                @click="openChat(user.hash_id)"
                                 class="flex items-center p-3 cursor-pointer hover:bg-gray-50 transition relative border-b border-gray-50 last:border-0"
                                 :class="activeChat && activeChat.id === user.id ? 'bg-blue-50 border-l-4 border-l-blue-500' : 'border-l-4 border-l-transparent'">
                                 
@@ -356,7 +399,7 @@ const deleteMessage = (msgId) => {
                                 <div class="ml-3 flex-1 overflow-hidden pr-2">
                                     <div class="flex justify-between items-baseline mb-0.5">
                                         <h3 class="text-sm font-semibold truncate" :class="user.unread_count > 0 ? 'text-black font-bold' : 'text-gray-900'">{{ user.name }}</h3>
-                                        <span v-if="user.last_message" class="text-[10px]" :class="user.unread_count > 0 ? 'text-blue-600 font-bold' : 'text-gray-400'">
+                                        <span v-if="user.last_message" class="text-[10px] whitespace-nowrap" :class="user.unread_count > 0 ? 'text-blue-600 font-bold' : 'text-gray-400'">
                                             {{ formatTime(user.last_message.created_at) }}
                                         </span>
                                     </div>
@@ -379,7 +422,7 @@ const deleteMessage = (msgId) => {
                             <div class="flex items-center group">
                                 <Link :href="route('chats.index')" class="md:hidden mr-3 text-gray-500"><i class="fas fa-arrow-left text-lg"></i></Link>
                                 <div class="relative">
-                                    <Link :href="route('profile.show', activeChat.id)" class="relative cursor-pointer">
+                                    <Link :href="route('profile.show', activeChat.hash_id)" class="relative cursor-pointer">
                                         <img :src="activeChat.avatar ? '/storage/' + activeChat.avatar : 'https://ui-avatars.com/api/?name=' + activeChat.name" class="h-10 w-10 rounded-full group-hover:opacity-80 transition object-cover group-hover:ring-4 group-hover:ring-blue-100" alt="Avatar">
                                         <span v-if="isUserOnline(activeChat.id)" class="absolute bottom-0 right-0 block h-2.5 w-2.5 rounded-full ring-2 ring-white bg-green-500"></span>
                                     </Link>
@@ -387,7 +430,7 @@ const deleteMessage = (msgId) => {
                                 </div>
                                 <div class="ml-3">
                                     <h3 class="font-bold text-gray-800 text-sm">
-                                        <Link :href="route('profile.show', activeChat.id)" class="group-hover:underline transition group-hover:text-gray-600">
+                                        <Link :href="route('profile.show', activeChat.hash_id)" class="group-hover:underline transition group-hover:text-gray-600">
                                             {{ activeChat.name }}
                                         </Link>
                                     </h3>
@@ -406,14 +449,14 @@ const deleteMessage = (msgId) => {
                                 <img v-if="activeContextBooking.service?.galleries?.[0]" :src="'/storage/' + activeContextBooking.service.galleries[0].image" class="h-10 w-10 rounded object-cover border border-blue-200 mr-3 bg-white shrink-0">
                                 <div class="min-w-0">
                                     <div class="flex items-center space-x-2">
-                                        <p class="text-[10px] text-blue-600 font-bold uppercase">Booking #{{ activeContextBooking.id }}</p>
-                                        <span class="px-1.5 py-0.5 rounded-full text-[9px] font-bold uppercase" :class="getStatusClass(activeContextBooking.status)">{{ getStatusLabel(activeContextBooking.status) }}</span>
+                                        <p class="text-[10px] text-blue-600 font-bold uppercase">Booking #{{ activeContextBooking?.hash_id }}</p>
+                                        <span class="px-1.5 py-0.5 rounded-full text-[9px] font-bold uppercase" :class="getStatusClass(activeContextBooking?.status)">{{ getStatusLabel(activeContextBooking?.status) }}</span>
                                     </div>
                                     <h4 class="font-bold text-gray-800 text-xs truncate">{{ activeContextBooking.service?.title ?? 'Jasa Tidak Ditemukan' }}</h4>
                                 </div>
                             </div>
                             <div class="flex items-center space-x-1 shrink-0 ml-2">
-                                <Link :href="route('bookings.show', activeContextBooking.id)" class="text-xs bg-white border border-blue-300 text-blue-700 px-2 py-1 rounded shadow-sm hover:bg-blue-50">Detail</Link>
+                                <Link :href="route('bookings.show', activeContextBooking?.hash_id)" class="text-xs bg-white border border-blue-300 text-blue-700 px-2 py-1 rounded shadow-sm hover:bg-blue-50">Detail</Link>
                                 <button @click="clearContext" class="text-gray-400 hover:text-red-500 p-1"><i class="fas fa-times"></i></button>
                             </div>
                         </div>
@@ -468,11 +511,11 @@ const deleteMessage = (msgId) => {
                                                 </p>
                                             </div>
 
-                                            <div v-if="msg.booking" @click="router.visit(route('bookings.show', msg.booking.id))" class="bg-white/90 p-2 mb-2 rounded text-gray-800 cursor-pointer border-l-4 border-yellow-400 shadow-sm transition hover:bg-white" :class="msg.sender_id === auth_id ? 'text-gray-800' : ''">
-                                                <p class="font-bold text-[10px] text-gray-500 uppercase">Booking #{{ msg.booking.id }}</p>
+                                            <div v-if="msg.booking" @click="router.visit(route('bookings.show', msg.booking.hash_id))" class="bg-white/90 p-2 mb-2 rounded text-gray-800 cursor-pointer border-l-4 border-yellow-400 shadow-sm transition hover:bg-white" :class="msg.sender_id === auth_id ? 'text-gray-800' : ''">
+                                                <p class="font-bold text-[10px] text-gray-500 uppercase">Booking #{{ msg.booking.hash_id }}</p>
                                                 <p class="text-xs font-bold truncate">{{ msg.booking.service?.title || msg.service?.title || 'Info tidak tersedia' }}</p>
                                             </div>
-                                            <div v-else-if="msg.service" @click="router.visit(route('service.show', msg.service.id))" class="bg-white/90 p-2 mb-2 rounded text-gray-800 cursor-pointer border-l-4 border-blue-400 shadow-sm transition hover:bg-white">
+                                            <div v-else-if="msg.service" @click="router.visit(route('service.show', msg.service))" class="bg-white/90 p-2 mb-2 rounded text-gray-800 cursor-pointer border-l-4 border-blue-400 shadow-sm transition hover:bg-white">
                                                 <p class="font-bold text-[10px] text-gray-500 uppercase">Jasa</p>
                                                 <p class="text-xs font-bold truncate">{{ msg.service.title }}</p>
                                             </div>
@@ -480,9 +523,9 @@ const deleteMessage = (msgId) => {
                                             <p class="leading-relaxed whitespace-pre-wrap">{{ msg.message }}</p>
                                         </div>
                                         
-                                        <div class="text-[10px] mt-0.5 text-right opacity-70 flex justify-end items-center gap-1">
+                                        <div class="text-[10px] mt-0.5 text-right flex justify-end items-center gap-1">
                                             {{ formatTime(msg.created_at) }}
-                                            <i v-if="msg.sender_id === auth_id" class="fas fa-check-double text-[10px]" :class="msg.is_read ? 'text-blue-200' : 'opacity-50'"></i>
+                                            <i v-if="msg.sender_id === auth_id" class="fas fa-check text-[10px]" :class="msg.is_read ? 'text-white' : 'opacity-50'"></i>
                                         </div>
                                     </div>
                                 </div>

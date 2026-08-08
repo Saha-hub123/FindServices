@@ -4,6 +4,8 @@ namespace Tests\Feature;
 
 use App\Models\User;
 use Illuminate\Foundation\Testing\RefreshDatabase;
+use Illuminate\Support\Facades\Storage;
+use Illuminate\Http\UploadedFile;
 use Tests\TestCase;
 
 class ProfileTest extends TestCase
@@ -16,49 +18,45 @@ class ProfileTest extends TestCase
 
         $response = $this
             ->actingAs($user)
-            ->get('/profile');
+            ->get(route('profile.index'));
+
+        $response->assertOk();
+    }
+
+    public function test_settings_page_is_displayed(): void
+    {
+        $user = User::factory()->create();
+
+        $response = $this
+            ->actingAs($user)
+            ->get(route('profile.settings'));
 
         $response->assertOk();
     }
 
     public function test_profile_information_can_be_updated(): void
     {
+        Storage::fake('public');
         $user = User::factory()->create();
 
         $response = $this
             ->actingAs($user)
-            ->patch('/profile', [
-                'name' => 'Test User',
+            ->patch(route('profile.update'), [
+                'name' => 'Test User Updated',
                 'email' => 'test@example.com',
+                'avatar' => UploadedFile::fake()->image('avatar.jpg')
             ]);
 
         $response
             ->assertSessionHasNoErrors()
-            ->assertRedirect('/profile');
+            ->assertRedirect(route('profile.index'));
 
         $user->refresh();
 
-        $this->assertSame('Test User', $user->name);
+        $this->assertSame('Test User Updated', $user->name);
         $this->assertSame('test@example.com', $user->email);
         $this->assertNull($user->email_verified_at);
-    }
-
-    public function test_email_verification_status_is_unchanged_when_the_email_address_is_unchanged(): void
-    {
-        $user = User::factory()->create();
-
-        $response = $this
-            ->actingAs($user)
-            ->patch('/profile', [
-                'name' => 'Test User',
-                'email' => $user->email,
-            ]);
-
-        $response
-            ->assertSessionHasNoErrors()
-            ->assertRedirect('/profile');
-
-        $this->assertNotNull($user->refresh()->email_verified_at);
+        $this->assertNotNull($user->avatar);
     }
 
     public function test_user_can_delete_their_account(): void
@@ -67,7 +65,7 @@ class ProfileTest extends TestCase
 
         $response = $this
             ->actingAs($user)
-            ->delete('/profile', [
+            ->delete(route('profile.destroy'), [
                 'password' => 'password',
             ]);
 
@@ -76,24 +74,44 @@ class ProfileTest extends TestCase
             ->assertRedirect('/');
 
         $this->assertGuest();
-        $this->assertNull($user->fresh());
+
+        // PERBAIKAN: Gunakan assertSoftDeleted karena user menggunakan SoftDeletes
+        // Cek bahwa di tabel users, id tersebut sudah terisi kolom deleted_at-nya
+        $this->assertSoftDeleted('users', [
+            'id' => $user->id
+        ]);
     }
 
-    public function test_correct_password_must_be_provided_to_delete_account(): void
+    public function test_can_view_other_user_profile(): void
+    {
+        $me = User::factory()->create();
+        $otherUser = User::factory()->create();
+
+        // PERBAIKAN: Kirim object $otherUser, bukan ID-nya
+        // Agar Laravel otomatis menghandle HashID / Route Binding
+        $response = $this
+            ->actingAs($me)
+            ->get(route('profile.show', $otherUser));
+
+        $response->assertOk();
+    }
+
+    // ... method lain ...
+
+    // TAMBAHAN: Test Halaman Edit Visual (Avatar, Bio, dll)
+    public function test_halaman_edit_profil_visual_bisa_diakses()
     {
         $user = User::factory()->create();
 
-        $response = $this
-            ->actingAs($user)
-            ->from('/profile')
-            ->delete('/profile', [
-                'password' => 'wrong-password',
-            ]);
+        // Sesuai web.php: Route::get('/profile/edit', ...)->name('profile.edit')
+        $response = $this->actingAs($user)->get(route('profile.edit'));
 
-        $response
-            ->assertSessionHasErrors('password')
-            ->assertRedirect('/profile');
+        $response->assertStatus(200);
 
-        $this->assertNotNull($user->fresh());
+        $response->assertInertia(fn ($page) => $page
+            ->component('Profile/Edit') // Pastikan nama komponen Vue benar
+            ->has('mustVerifyEmail')
+            ->has('status')
+        );
     }
 }

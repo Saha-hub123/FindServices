@@ -13,8 +13,8 @@ return new class extends Migration
     {
         Schema::create('services', function (Blueprint $table) {
             $table->increments('id');
-            $table->unsignedBigInteger('user_id')->index('user_id');
-            $table->unsignedInteger('category_id')->index('category_id');
+            $table->unsignedBigInteger('user_id')->index();
+            $table->unsignedInteger('category_id')->index();
             $table->string('title', 150);
             $table->text('description')->nullable();
             $table->decimal('price_min', 12);

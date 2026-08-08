@@ -12,6 +12,11 @@ class Review extends Model
 
     protected $guarded = ['id'];
 
+    // [BARU] Auto-convert JSON ke Array
+    protected $casts = [
+        'images' => 'array',
+    ];
+
     // Relasi ke Booking asal review ini
     public function booking()
     {

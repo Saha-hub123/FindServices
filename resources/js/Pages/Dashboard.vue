@@ -3,6 +3,7 @@ import AuthenticatedLayout from '@/Layouts/AuthenticatedLayout.vue';
 import ServiceCard from '@/Components/ServiceCard.vue';
 import { Head, Link, router, usePage } from '@inertiajs/vue3'; // Tambah usePage
 import { ref, watch } from 'vue'; // Tambah watch
+import axios from 'axios';
 
 const props = defineProps({
     services: Object,
@@ -16,6 +17,43 @@ const props = defineProps({
 
 // State Filter: Default ambil dari props (agar tombol tetap aktif saat reload)
 const activeFilter = ref(props.filters.filter || 'latest');
+
+// 1. State Lokal untuk menampung semua data yang tampil
+// Kita inisialisasi dengan data dari halaman pertama (props)
+const allServices = ref([...props.services.data]);
+const nextPageUrl = ref(props.services.next_page_url);
+const isLoadingMore = ref(false);
+
+// 2. Watcher: Penting untuk Filter!
+// Jika props.services berubah (misal user search/filter), 
+// kita harus reset allServices kembali ke data baru tersebut.
+watch(() => props.services, (newVal) => {
+    allServices.value = [...newVal.data];
+    nextPageUrl.value = newVal.next_page_url;
+});
+
+// 3. Fungsi Load More
+const loadMore = async () => {
+    if (!nextPageUrl.value || isLoadingMore.value) return;
+
+    isLoadingMore.value = true;
+
+    try {
+        // Request ke URL halaman selanjutnya (misal: /dashboard?page=2)
+        const response = await axios.get(nextPageUrl.value);
+        
+        // Gabungkan data lama + data baru
+        const newServices = response.data.data;
+        allServices.value = [...allServices.value, ...newServices];
+
+        // Update link halaman selanjutnya
+        nextPageUrl.value = response.data.next_page_url;
+    } catch (error) {
+        console.error("Gagal memuat data:", error);
+    } finally {
+        isLoadingMore.value = false;
+    }
+};
 
 // Fungsi Filter: Reload halaman dengan parameter baru
 const applyQuickFilter = (filter) => {
@@ -40,10 +78,7 @@ const formatCurrency = (val) => new Intl.NumberFormat('id-ID', { style: 'currenc
     <Head title="Beranda Marketplace" />
 
     <AuthenticatedLayout>
-        <div class="py-6 bg-gray-100 min-h-screen" 
-             @click.capture="is_guest ? redirectToLogin($event) : null"
-             :class="{ 'cursor-pointer': is_guest }"
-             :title="is_guest ? 'Klik untuk Login' : ''">
+        <div class="py-6 bg-gray-100 min-h-screen" >
             
             <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
                 <div class="grid grid-cols-1 lg:grid-cols-12 gap-6">
@@ -69,15 +104,30 @@ const formatCurrency = (val) => new Intl.NumberFormat('id-ID', { style: 'currenc
                                     <Link :href="route('marketplace.index')" class="text-xs text-blue-600 hover:underline">Lihat Semua</Link>
                                 </div>
                                 <div class="bg-white p-3 rounded-xl shadow-sm border border-gray-200 space-y-2">
-                                    <Link v-for="(cat, index) in (trendingCategories || categories.slice(0, 5))" :key="cat.id" 
-                                          :href="route('marketplace.index', { category: cat.slug })"
-                                          class="flex items-center p-2 rounded-lg hover:bg-gray-50 transition group cursor-pointer">
-                                        <div class="w-8 h-8 rounded-full bg-blue-50 text-blue-600 flex items-center justify-center mr-3 group-hover:bg-blue-600 group-hover:text-white transition">
-                                            <i :class="cat.icon_class || 'fas fa-hashtag'"></i>
+                                    <Link v-for="(cat, index) in (trendingCategories || categories.slice(0, 5))"
+                                        :key="cat.id" :href="route('marketplace.index', { category: cat.slug })"
+                                        class="flex items-center p-2 rounded-lg hover:bg-gray-50 transition group cursor-pointer justify-between">
+
+                                        <div class="flex items-center flex-1">
+                                            <div
+                                                class="w-8 h-8 rounded-full bg-blue-50 text-blue-600 flex items-center justify-center mr-3 group-hover:bg-blue-600 group-hover:text-white transition shrink-0">
+                                                <i :class="cat.icon_class || 'fas fa-hashtag'"></i>
+                                            </div>
+
+                                            <div>
+                                                <p
+                                                    class="text-sm font-bold text-gray-700 group-hover:text-blue-700 line-clamp-1">
+                                                    {{ cat.name }}
+                                                </p>
+                                                <p class="text-[10px] text-gray-500 mt-0.5">
+                                                    <span class="font-bold text-gray-900">{{ cat.services_count || 0
+                                                        }}</span> Jasa Tersedia
+                                                </p>
+                                            </div>
                                         </div>
-                                        <div class="flex-1">
-                                            <p class="text-sm font-bold text-gray-700 group-hover:text-blue-700">{{ cat.name }}</p>
-                                            <p class="text-[10px] text-gray-400">Sedang naik daun 🔥</p>
+
+                                        <div class="text-gray-300 group-hover:text-blue-400 transition">
+                                            <i class="fas fa-chevron-right text-xs"></i>
                                         </div>
                                     </Link>
                                 </div>
@@ -86,11 +136,11 @@ const formatCurrency = (val) => new Intl.NumberFormat('id-ID', { style: 'currenc
                         </div>
                     </div>
 
-                    <div class="lg:col-span-6">
+                    <div class="lg:col-span-6 lg:mb-0 mb-12">
                         
                         <div v-if="$page.props.auth.user" class="bg-white p-4 rounded-xl shadow-sm border border-gray-200 mb-6 flex items-center gap-4">
                             <img :src="$page.props.auth.user.avatar ? '/storage/' + $page.props.auth.user.avatar : 'https://ui-avatars.com/api/?name=' + $page.props.auth.user.name" class="h-10 w-10 rounded-full object-cover border border-gray-100">
-                            <Link :href="route('services.create')" class="flex-1 bg-gray-100 hover:bg-gray-200 text-gray-500 py-2.5 px-4 rounded-full text-left cursor-pointer transition text-sm">
+                            <Link :href="route('services.create')" class="flex-1 bg-gray-100 hover:bg-gray-200 text-gray-500 py-2.5 px-4 rounded-full text-left cursor-pointer transition text-xs lg:text-sm">
                                 Apa keahlian baru Anda hari ini, {{ $page.props.auth.user.name }}?
                             </Link>
                         </div>
@@ -118,14 +168,41 @@ const formatCurrency = (val) => new Intl.NumberFormat('id-ID', { style: 'currenc
                             </button>
                         </div>
 
-                        <div v-if="services.data.length > 0" class="space-y-6">
-                            <ServiceCard v-for="service in services.data" :key="service.id" :service="service" />
-                        </div>
-                        <div v-else class="bg-white p-12 rounded-xl shadow-sm text-center border border-gray-200">
-                            <div class="h-16 w-16 bg-gray-100 rounded-full flex items-center justify-center mx-auto mb-4 text-gray-400 text-2xl">
-                                <i class="fas fa-search"></i>
+                        <div>
+                            <div v-if="allServices.length > 0" class="space-y-6">
+                                <ServiceCard 
+                                    v-for="service in allServices" 
+                                    :key="service.id" 
+                                    :service="service" 
+                                />
                             </div>
-                            <p class="text-gray-500 font-medium">Belum ada jasa yang tersedia.</p>
+
+                            <div v-else class="bg-white p-12 rounded-xl shadow-sm text-center border border-gray-200">
+                                <div class="h-16 w-16 bg-gray-100 rounded-full flex items-center justify-center mx-auto mb-4 text-gray-400 text-2xl">
+                                    <i class="fas fa-search"></i>
+                                </div>
+                                <p class="text-gray-500 font-medium">Belum ada jasa yang tersedia.</p>
+                            </div>
+
+                            <div v-if="nextPageUrl" class="mt-6 text-center">
+                                <button 
+                                    @click="loadMore" 
+                                    :disabled="isLoadingMore"
+                                    class="px-6 py-2.5 bg-white border border-gray-300 text-gray-700 font-semibold rounded-full shadow-sm hover:bg-gray-50 focus:outline-none focus:ring-2 focus:ring-blue-500 disabled:opacity-50 transition-all flex items-center justify-center mx-auto gap-2"
+                                >
+                                    <span v-if="isLoadingMore">
+                                        <i class="fas fa-spinner fa-spin"></i> Memuat...
+                                    </span>
+                                    <span v-else>
+                                        Muat Lebih Banyak <i class="fas fa-chevron-down ml-1 text-xs"></i>
+                                    </span>
+                                </button>
+                            </div>
+                            
+                            <div v-else-if="allServices.length > 0" class="mt-8 text-center text-xs text-gray-400">
+                                - Anda sudah melihat semua jasa -
+                            </div>
+
                         </div>
                     </div>
 
@@ -156,7 +233,7 @@ const formatCurrency = (val) => new Intl.NumberFormat('id-ID', { style: 'currenc
                                 <div class="space-y-4">
                                     <div v-for="provider in topProviders" :key="provider.id" class="flex items-center justify-between">
                                         
-                                        <Link :href="route('profile.show', provider.id)" class="flex items-center gap-2 group min-w-0">
+                                        <Link :href="route('profile.show', provider.hash_id)" class="flex items-center gap-2 group min-w-0">
                                             <img :src="provider.avatar ? '/storage/' + provider.avatar : 'https://ui-avatars.com/api/?name=' + provider.name + '&background=random'" 
                                                  class="h-9 w-9 rounded-full border border-gray-100 object-cover group-hover:opacity-80 transition">
                                             <div class="min-w-0">
@@ -169,7 +246,7 @@ const formatCurrency = (val) => new Intl.NumberFormat('id-ID', { style: 'currenc
                                             </div>
                                         </Link>
 
-                                        <Link :href="route('profile.show', provider.id)" 
+                                        <Link :href="route('profile.show', provider.hash_id)" 
                                               class="text-[10px] bg-gray-50 text-gray-600 border border-gray-200 px-3 py-1.5 rounded-full font-bold hover:bg-blue-50 hover:text-blue-600 hover:border-blue-200 transition whitespace-nowrap">
                                             Lihat
                                         </Link>
@@ -183,7 +260,7 @@ const formatCurrency = (val) => new Intl.NumberFormat('id-ID', { style: 'currenc
 
                             <div class="text-[10px] text-gray-400 px-2 leading-relaxed">
                                 <a href="#" class="hover:underline">Tentang Kami</a> &bull; 
-                                <a href="#" class="hover:underline">Bantuan</a> &bull; 
+                                <a :href="route('user.reports.index')" class="hover:underline">Bantuan</a> &bull; 
                                 <a href="#" class="hover:underline">Privasi</a> &bull; 
                                 <span>FindServices © 2025</span>
                             </div>

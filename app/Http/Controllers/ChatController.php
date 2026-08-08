@@ -13,6 +13,7 @@ use Illuminate\Support\Facades\DB;
 use App\Events\MessageSent;
 use App\Events\MessageRead; // <--- Import Event di atas
 use App\Events\MessageDeleted;
+use Vinkla\Hashids\Facades\Hashids; // <--- JANGAN LUPA IMPORT INI
 
 class ChatController extends Controller
 {
@@ -21,6 +22,7 @@ class ChatController extends Controller
         $userId = Auth::id();
 
         // 1. Sidebar List (User yang pernah chat)
+        // (Bagian ini tidak berubah, logic-nya sudah benar)
         $chatPartners = Chat::where('sender_id', $userId)
             ->orWhere('receiver_id', $userId)
             ->get()
@@ -38,7 +40,6 @@ class ChatController extends Controller
             })->latest()->first();
 
             $user->last_message = $lastMessage;
-
             $user->unread_count = Chat::where('sender_id', $user->id)
                 ->where('receiver_id', $userId)
                 ->where('is_read', false)
@@ -48,24 +49,43 @@ class ChatController extends Controller
         })->sortByDesc('last_message.created_at')->values();
 
 
-        // 2. Load Chat Aktif
+        // 2. Load Chat Aktif & Konteks
         $activeChat = null;
         $messages = [];
         $targetService = null;
         $targetBooking = null;
 
+        // Cek apakah ada user_id di URL (Hash ID)
         if ($request->user_id) {
-            $partnerId = $request->user_id;
+            
+            // [A] DECODE USER ID
+            $decoded = Hashids::decode($request->user_id);
+            $partnerId = $decoded[0] ?? null; 
+
+            if (!$partnerId) {
+                abort(404, 'User tidak ditemukan'); 
+            }
+
             $activeChat = User::find($partnerId);
 
-            // AMBIL PESAN (FULL RELASI)
+            // [TAMBAHAN WAJIB] 
+            // Pastikan hash_id terkirim ke frontend
+            if ($activeChat) {
+                // Opsi 1: Jika di Model User sudah ada getHashIdAttribute / appends
+                // $activeChat->append('hash_id'); 
+
+                // Opsi 2: Manual encode di sini (Paling aman jika Model belum disetup)
+                $activeChat->hash_id = Hashids::encode($activeChat->id);
+            }
+
+            // [B] AMBIL PESAN
             $messages = Chat::with([
                 'sender', 
                 'replyTo',          
-                'service.galleries', // Service langsung
-                'booking.service.galleries' // [PENTING] Service di dalam Booking
+                'service.galleries', 
+                'booking.service.galleries'
             ])
-            ->withTrashed() // <--- TAMBAHKAN INI (Agar pesan terhapus tetap terambil)
+            ->withTrashed()
             ->where(function($q) use ($userId, $partnerId) {
                 $q->where('sender_id', $userId)->where('receiver_id', $partnerId);
             })->orWhere(function($q) use ($userId, $partnerId) {
@@ -73,29 +93,38 @@ class ChatController extends Controller
             })
             ->orderBy('created_at', 'asc')
             ->orderBy('id', 'asc')
-            ->get();
+            ->get(); // Gunakan get() agar jadi Collection
 
-            // LOGIKA DETEKTIF KONTEKS (Agar header muncul otomatis)
+            // [C] LOGIKA KONTEKS (BOOKING / SERVICE)
             
-            // A. Cek URL (Prioritas 1)
+            // PRIORITAS 1: Cek URL Parameter
+            
+            // Cek Booking ID (Hash Encrypted)
             if ($request->booking_id) {
-                $targetBooking = Booking::with(['service.galleries'])->withTrashed()->find($request->booking_id);
-                if ($targetBooking) $targetService = $targetBooking->service;
+                $decodedBooking = \Vinkla\Hashids\Facades\Hashids::decode($request->booking_id);
+                $bookingIdInt = $decodedBooking[0] ?? null;
+                
+                if ($bookingIdInt) {
+                    $targetBooking = Booking::with(['service.galleries'])->withTrashed()->find($bookingIdInt);
+                    if ($targetBooking) $targetService = $targetBooking->service;
+                }
             } 
+            // Cek Service ID (Integer / Tidak Dienkripsi)
             elseif ($request->service_id) {
+                // Langsung pakai request->service_id karena integer
                 $targetService = Service::with('galleries')->withTrashed()->find($request->service_id);
             }
             
-            // B. Cek History Chat Terakhir (Prioritas 2)
-            else {
-                $latestMessage = $messages->last(); // Ambil dari collection yg sudah di-load
+            // PRIORITAS 2: Jika URL Kosong, Cek History Chat Terakhir
+            if (!$targetBooking && !$targetService) {
+                // Pastikan messages adalah collection
+                $latestMessage = collect($messages)->last(); 
 
                 if ($latestMessage) {
                     if ($latestMessage->booking_id) {
-                        // Ambil dari relasi yang sudah ada di message (agar cepat)
                         $targetBooking = $latestMessage->booking;
                         
-                        // Jika null (mungkin relasi tidak ke-load sempurna), query ulang dengan safe mode
+                        // Safety check jika relasi null
                         if (!$targetBooking) {
                             $targetBooking = Booking::with(['service.galleries'])->withTrashed()->find($latestMessage->booking_id);
                         }
@@ -111,20 +140,17 @@ class ChatController extends Controller
                 }
             }
 
+            // [D] UPDATE STATUS READ
             $updatedRows = Chat::where('sender_id', $partnerId)
                 ->where('receiver_id', $userId)
                 ->where('is_read', false)
                 ->update(['is_read' => true]);
 
-            // --- LOGIC REALTIME READ ---
-            // Jika ada setidaknya 1 pesan yang baru saja di-update jadi Read
             if ($updatedRows > 0) {
-                // Beritahu Partner (Pengirim) bahwa "Saya (UserId) sudah baca pesanmu"
-                broadcast(new MessageRead($userId, $partnerId));
+                broadcast(new \App\Events\MessageRead($userId, $partnerId));
             }
         }
         
-
         return Inertia::render('Chats/Index', [
             'conversations' => $conversations ?? [],
             'activeChat' => $activeChat,
@@ -137,36 +163,57 @@ class ChatController extends Controller
 
     public function store(Request $request)
     {
+        // 1. VALIDASI INPUT UMUM (Kecuali ID yang di-hash)
         $request->validate([
-            'receiver_id' => 'required|exists:users,id',
             'message' => 'required|string',
-            'service_id' => 'nullable|exists:services,id',
-            'booking_id' => 'nullable|exists:bookings,id',
-            'reply_to_id' => 'nullable|exists:chats,id'
+            'service_id' => 'nullable|integer', // Service ID tidak dienkripsi (sesuai request)
+            'reply_to_id' => 'nullable|integer',
         ]);
 
+        // 2. DECODE HASH ID
+        
+        // A. Decode Receiver ID
+        $receiverId = null;
+        if ($request->receiver_id) {
+            // Coba decode string hash
+            $decoded = Hashids::decode($request->receiver_id);
+            $receiverId = $decoded[0] ?? null;
+        }
+
+        // Validasi Manual: Pastikan Receiver valid
+        if (!$receiverId) {
+            return back()->withErrors(['receiver_id' => 'User penerima tidak valid.']);
+        }
+
+        // B. Decode Booking ID (Jika ada)
+        $bookingId = null;
+        if ($request->booking_id) {
+            $decodedBooking = Hashids::decode($request->booking_id);
+            $bookingId = $decodedBooking[0] ?? null;
+        }
+
+        // 3. SIMPAN KE DATABASE (Gunakan ID Integer hasil decode)
         $chat = Chat::create([
-            'sender_id' => Auth::id(),
-            'receiver_id' => $request->receiver_id,
-            'service_id' => $request->service_id,
-            'booking_id' => $request->booking_id,
+            'sender_id'   => Auth::id(),
+            'receiver_id' => $receiverId,       // <--- Pakai Integer
+            'service_id'  => $request->service_id, // <--- Langsung dari request (Integer)
+            'booking_id'  => $bookingId,        // <--- Pakai Integer
             'reply_to_id' => $request->reply_to_id,
-            'message' => $request->message,
-            'is_read' => false
+            'message'     => $request->message,
+            'is_read'     => false
         ]);
 
-        // [PERBAIKAN UTAMA DISINI]
-        // Load relasi HARUS SAMA PERSIS dengan method index
-        // Agar struktur JSON yang dikirim ke Frontend (Realtime/Redirect) lengkap
+        // 4. LOAD RELASI (PENTING UNTUK REALTIME)
+        // Struktur ini harus sama persis dengan index() agar Vue tidak error saat terima data baru
         $chat->load([
             'sender', 
             'replyTo', 
             'service.galleries', 
-            'booking.service.galleries' // <-- INI YANG SEBELUMNYA KURANG
+            'booking.service.galleries' // <-- Relasi dalam untuk konteks booking
         ]);
 
-        // Trigger Realtime
-        broadcast(new MessageSent($chat))->toOthers(); 
+        // 5. BROADCAST EVENT
+        broadcast(new \App\Events\MessageSent($chat))->toOthers(); 
 
         return redirect()->back();
     }

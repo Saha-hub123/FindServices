@@ -13,11 +13,13 @@ const form = useForm({
     _method: 'PATCH' // Trik untuk upload file di Laravel via Inertia
 });
 
-const avatarPreview = ref(
-    user.avatar 
-    ? '/storage/' + user.avatar 
-    : `https://ui-avatars.com/api/?name=${user.name}&background=random`
-);
+// 2. Setup Preview Awal
+// Jika user punya avatar, pakai itu. Jika tidak, pakai UI Avatars.
+const initialAvatar = user.avatar 
+    ? `/storage/${user.avatar}` 
+    : `https://ui-avatars.com/api/?name=${user.name}&background=random`;
+
+const avatarPreview = ref(initialAvatar);
 
 const handleAvatarChange = (e) => {
     const file = e.target.files[0];
@@ -62,7 +64,7 @@ const submit = () => {
                         </div>
                     </div>
 
-                    <div class="w-full md:w-3/4">
+                    <div class="w-full md:w-3/4 lg:mb-0 mb-12">
                         <div class="bg-white rounded-xl shadow-sm border border-gray-200 p-6 md:p-8">
                             <h2 class="text-xl font-bold text-gray-900 mb-6">Edit Profil Publik</h2>
                             
@@ -77,7 +79,7 @@ const submit = () => {
                                     </div>
                                     <div>
                                         <label class="block text-sm font-medium text-gray-700 mb-1">Foto Profil</label>
-                                        <p class="text-xs text-gray-500 mb-3">Format JPG/PNG, maks 2MB.</p>
+                                        <p class="text-xs text-gray-500 mb-3">Format JPG/PNG/WEBP, maks 10MB.</p>
                                         <input type="file" id="avatarInput" @change="handleAvatarChange" class="block w-full text-sm text-gray-500 file:mr-4 file:py-2 file:px-4 file:rounded-full file:border-0 file:text-sm file:font-semibold file:bg-blue-50 file:text-blue-700 hover:file:bg-blue-100 transition"/>
                                         <div v-if="form.errors.avatar" class="text-red-500 text-xs mt-1">{{ form.errors.avatar }}</div>
                                     </div>

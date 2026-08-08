@@ -43,7 +43,7 @@ const submitInfo = () => {
                         </div>
                     </div>
 
-                    <div class="w-full md:w-3/4 space-y-6">
+                    <div class="w-full md:w-3/4 space-y-6 lg:mb-0 mb-12">
                         
                         <div class="bg-white rounded-xl shadow-sm border border-gray-200 p-6 md:p-8">
                             <h2 class="text-lg font-bold text-gray-900 mb-4">Informasi Kontak</h2>

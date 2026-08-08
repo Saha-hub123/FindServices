@@ -1,112 +1,110 @@
 <script setup>
 import AuthenticatedLayout from '@/Layouts/AuthenticatedLayout.vue';
-import { onMounted, onUnmounted, computed, ref } from 'vue'; // Tambah onUnmounted
-import { Head, Link, useForm, router, usePage } from '@inertiajs/vue3';
+import BookingCard from '@/Components/BookingCard.vue'; // Import Component Baru
+import { onMounted, onUnmounted, computed, ref, watch } from 'vue';
+import { Head, Link, usePage, router } from '@inertiajs/vue3';
+import axios from 'axios';
 
 const props = defineProps({
-    myBookings: Array,
-    incomingOrders: Array,
-    history: Array // Data baru
+    myBookings: Object,     // Ubah Array -> Object
+    incomingOrders: Object, // Ubah Array -> Object
+    history: Object         // Ubah Array -> Object
 });
 
-// State untuk Tab Aktif (Default: Booking Saya)
 const activeTab = ref('my_bookings'); 
 
-// Helper Format Rupiah
-const formatCurrency = (value) => {
-    return new Intl.NumberFormat('id-ID', { style: 'currency', currency: 'IDR', minimumFractionDigits: 0 }).format(value);
+// --- 1. LOAD MORE: MY BOOKINGS ---
+const allMyBookings = ref([...props.myBookings.data]);
+const nextMyBookingsUrl = ref(props.myBookings.next_page_url);
+const isLoadingMyBookings = ref(false);
+
+const loadMoreMyBookings = async () => {
+    if (!nextMyBookingsUrl.value || isLoadingMyBookings.value) return;
+    isLoadingMyBookings.value = true;
+    try {
+        const res = await axios.get(nextMyBookingsUrl.value);
+        const newData = res.data.myBookings.data;
+        allMyBookings.value = [...allMyBookings.value, ...newData];
+        nextMyBookingsUrl.value = res.data.myBookings.next_page_url;
+    } catch (e) { console.error(e); } 
+    finally { isLoadingMyBookings.value = false; }
 };
 
-// Helper Format Tanggal: "Senin, 01 Jan 2025"
-const formatDate = (dateString) => {
-    if (!dateString) return '-';
-    return new Date(dateString).toLocaleDateString('id-ID', {
-        weekday: 'long',  // Senin
-        day: '2-digit',   // 01
-        month: 'short',   // Jan
-        year: 'numeric'   // 2025
-    });
+// --- 2. LOAD MORE: INCOMING ORDERS ---
+const allIncomingOrders = ref([...props.incomingOrders.data]);
+const nextIncomingOrdersUrl = ref(props.incomingOrders.next_page_url);
+const isLoadingIncomingOrders = ref(false);
+
+const loadMoreIncomingOrders = async () => {
+    if (!nextIncomingOrdersUrl.value || isLoadingIncomingOrders.value) return;
+    isLoadingIncomingOrders.value = true;
+    try {
+        const res = await axios.get(nextIncomingOrdersUrl.value);
+        const newData = res.data.incomingOrders.data;
+        allIncomingOrders.value = [...allIncomingOrders.value, ...newData];
+        nextIncomingOrdersUrl.value = res.data.incomingOrders.next_page_url;
+    } catch (e) { console.error(e); } 
+    finally { isLoadingIncomingOrders.value = false; }
 };
 
-// Helper Format Waktu: Hapus detik (14:30:00 -> 14:30)
-const formatTime = (timeString) => {
-    if (!timeString) return '-';
-    // Ambil 5 karakter pertama saja (HH:mm)
-    return timeString.substring(0, 5);
+// --- 3. LOAD MORE: HISTORY ---
+const allHistory = ref([...props.history.data]);
+const nextHistoryUrl = ref(props.history.next_page_url);
+const isLoadingHistory = ref(false);
+
+const loadMoreHistory = async () => {
+    if (!nextHistoryUrl.value || isLoadingHistory.value) return;
+    isLoadingHistory.value = true;
+    try {
+        const res = await axios.get(nextHistoryUrl.value);
+        const newData = res.data.history.data;
+        allHistory.value = [...allHistory.value, ...newData];
+        nextHistoryUrl.value = res.data.history.next_page_url;
+    } catch (e) { console.error(e); } 
+    finally { isLoadingHistory.value = false; }
 };
 
-// Contoh implementasi di Index.vue
+// --- FILTER HISTORY (CLIENT SIDE) ---
+const historyFilter = ref('all'); // 'all', 'buy', 'sell'
 
-onMounted(() => {
-    // Gabungkan array booking saya & pesanan masuk
-    const allBookings = [...props.myBookings, ...props.incomingOrders];
-
-    allBookings.forEach(booking => {
-        window.Echo.private(`booking.${booking.id}`)
-            .listen('BookingStatusUpdated', (e) => {
-                // Reload halaman index (partial) untuk update status
-                router.reload({ only: ['myBookings', 'incomingOrders'] });
-            });
-    });
-});
-
-onUnmounted(() => {
-    // Loop lagi untuk leave channel (cleanup)
-    const allBookings = [...props.myBookings, ...props.incomingOrders];
-    allBookings.forEach(booking => {
-        window.Echo.leave(`booking.${booking.id}`);
-    });
-});
-
-const getStatusClass = (status) => {
-    switch(status) {
-        case 'unpaid': return 'bg-gray-200 text-gray-800'; // Abu-abu
-        case 'pending': return 'bg-yellow-100 text-yellow-800'; // Kuning
-        case 'paid': return 'bg-green-100 text-green-600'; // Hijau Muda (Sudah bayar, tunggu konfirmasi)
-        case 'confirmed': return 'bg-blue-100 text-blue-800'; // Biru
-        case 'waiting_completion': return 'bg-orange-100 text-orange-800';
-        case 'in_progress': return 'bg-purple-100 text-purple-800'; // Ungu (Sedang kerja)
-        case 'completed': return 'bg-green-600 text-white'; // Hijau Tua
-        case 'cancelled': return 'bg-red-100 text-red-800'; // Merah
-        case 'rejected': return 'bg-red-200 text-red-900 line-through'; // Merah Coret
-        default: return 'bg-gray-100 text-gray-800';
-    }
-};
-
-const getStatusLabel = (status) => {
-    switch(status) {
-        case 'unpaid': return 'Belum Bayar';
-        case 'pending': return 'Menunggu Konfirmasi';
-        case 'paid': return 'Sudah Dibayar';
-        case 'waiting_completion': return 'menunggu Penyelesaian';
-        case 'confirmed': return 'Diterima';
-        case 'in_progress': return 'Sedang Dikerjakan';
-        case 'completed': return 'Selesai';
-        case 'cancelled': return 'Dibatalkan';
-        case 'rejected': return 'Ditolak';
-        default: return status;
-    }
-};
-
-// 1. STATE FILTER HISTORY
-const historyFilter = ref('all'); // Opsi: 'all', 'buy', 'sell'
-
-// 2. COMPUTED PROPERTY
-// Memfilter data props.history berdasarkan tombol yang dipilih
 const filteredHistory = computed(() => {
     const userId = usePage().props.auth.user.id;
-    
+    let data = allHistory.value; // Gunakan allHistory, bukan props
+
     if (historyFilter.value === 'buy') {
-        // Tampilkan hanya jika saya sebagai customer
-        return props.history.filter(b => b.customer_id === userId);
-    } 
-    else if (historyFilter.value === 'sell') {
-        // Tampilkan hanya jika saya sebagai provider
-        return props.history.filter(b => b.provider_id === userId);
+        return data.filter(b => b.customer_id === userId);
+    } else if (historyFilter.value === 'sell') {
+        return data.filter(b => b.provider_id === userId);
     }
-    
-    // Default: Tampilkan semua
-    return props.history;
+    return data;
+});
+
+// --- WATCHERS UNTUK REALTIME ---
+// Jika ada update dari Echo atau Inertia reload, sync data lokal
+watch(() => props.myBookings, (newVal) => {
+    allMyBookings.value = [...newVal.data];
+    nextMyBookingsUrl.value = newVal.next_page_url;
+});
+watch(() => props.incomingOrders, (newVal) => {
+    allIncomingOrders.value = [...newVal.data];
+    nextIncomingOrdersUrl.value = newVal.next_page_url;
+});
+watch(() => props.history, (newVal) => {
+    allHistory.value = [...newVal.data];
+    nextHistoryUrl.value = newVal.next_page_url;
+});
+
+// --- REALTIME ECHO ---
+onMounted(() => {
+    const all = [...props.myBookings.data, ...props.incomingOrders.data];
+    all.forEach(booking => {
+        if(window.Echo) {
+            window.Echo.private(`booking.${booking.hash_id}`)
+                .listen('BookingStatusUpdated', (e) => {
+                    router.reload({ only: ['myBookings', 'incomingOrders', 'history'] });
+                });
+        }
+    });
 });
 </script>
 
@@ -116,415 +114,178 @@ const filteredHistory = computed(() => {
     <AuthenticatedLayout>
         <div class="py-6 bg-gray-100 min-h-screen">
             <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-                
 
                 <div class="flex flex-col md:flex-row gap-6">
                     
-                    <div class="w-full md:w-1/4">
+                    <div class="w-full md:w-1/4 hidden lg:block">
                         <div class="bg-white rounded-xl shadow-sm border border-gray-200 overflow-hidden sticky top-24">
                             <div class="p-4 border-b border-gray-100">
                                 <h2 class="font-bold text-lg text-gray-800">Menu Booking</h2>
                             </div>
                             <nav class="flex flex-col p-2 space-y-1">
-                                <button 
-                                    @click="activeTab = 'my_bookings'"
-                                    class="flex items-center w-full px-4 py-3 text-left rounded-lg transition-colors duration-200"
-                                    :class="activeTab === 'my_bookings' ? 'bg-blue-50 text-blue-700 font-semibold' : 'text-gray-600 hover:bg-gray-50'"
-                                >
+                                <button @click="activeTab = 'my_bookings'" class="flex items-center w-full px-4 py-3 text-left rounded-lg transition-colors duration-200" :class="activeTab === 'my_bookings' ? 'bg-blue-50 text-blue-700 font-semibold' : 'text-gray-600 hover:bg-gray-50'">
                                     <div class="p-2 rounded-full mr-3" :class="activeTab === 'my_bookings' ? 'bg-blue-200' : 'bg-gray-200'">
                                         <i class="fas fa-shopping-bag text-sm" :class="activeTab === 'my_bookings' ? 'text-blue-700' : 'text-gray-600'"></i>
                                     </div>
                                     <div>
                                         <span class="block">Jasa yang Dipesan</span>
-                                        <span class="text-xs text-gray-500">Pesanan Saya ({{ myBookings.length }})</span>
+                                        <span class="text-xs text-gray-500">Pesanan Saya ({{ myBookings.total }})</span>
                                     </div>
                                 </button>
 
-                                <button 
-                                    @click="activeTab = 'incoming_orders'"
-                                    class="flex items-center w-full px-4 py-3 text-left rounded-lg transition-colors duration-200"
-                                    :class="activeTab === 'incoming_orders' ? 'bg-blue-50 text-blue-700 font-semibold' : 'text-gray-600 hover:bg-gray-50'"
-                                >
+                                <button @click="activeTab = 'incoming_orders'" class="flex items-center w-full px-4 py-3 text-left rounded-lg transition-colors duration-200" :class="activeTab === 'incoming_orders' ? 'bg-blue-50 text-blue-700 font-semibold' : 'text-gray-600 hover:bg-gray-50'">
                                     <div class="p-2 rounded-full mr-3" :class="activeTab === 'incoming_orders' ? 'bg-blue-200' : 'bg-gray-200'">
                                         <i class="fas fa-store text-sm" :class="activeTab === 'incoming_orders' ? 'text-blue-700' : 'text-gray-600'"></i>
                                     </div>
                                     <div>
                                         <span class="block">Pesanan Masuk</span>
-                                        <span class="text-xs text-gray-500">Orderan Saya ({{ incomingOrders.length }})</span>
+                                        <span class="text-xs text-gray-500">Orderan Saya ({{ incomingOrders.total }})</span>
                                     </div>
                                 </button>
 
-                                <button 
-                                    @click="activeTab = 'history'"
-                                    class="flex items-center w-full px-4 py-3 text-left rounded-lg transition-colors duration-200"
-                                    :class="activeTab === 'history' ? 'bg-blue-50 text-blue-700 font-semibold' : 'text-gray-600 hover:bg-gray-50'"
-                                >
+                                <button @click="activeTab = 'history'" class="flex items-center w-full px-4 py-3 text-left rounded-lg transition-colors duration-200" :class="activeTab === 'history' ? 'bg-blue-50 text-blue-700 font-semibold' : 'text-gray-600 hover:bg-gray-50'">
                                     <div class="p-2 rounded-full mr-3" :class="activeTab === 'history' ? 'bg-blue-200' : 'bg-gray-200'">
                                         <i class="fas fa-history text-sm" :class="activeTab === 'history' ? 'text-blue-700' : 'text-gray-600'"></i>
                                     </div>
                                     <div>
                                         <span class="block">Riwayat Transaksi</span>
-                                        <span class="text-xs text-gray-500">Selesai & Dibatalkan</span>
+                                        <span class="text-xs text-gray-500">Arsip ({{ history.total }})</span>
                                     </div>
                                 </button>
                             </nav>
                         </div>
                     </div>
 
-                    <div class="w-full md:w-3/4">
+                    <div class="w-full md:w-3/4 lg:mb-0 mb-12">
                         <h1 class="text-2xl font-bold text-gray-900 mb-6">Aktivitas Booking</h1>
+                        
+                        <div class="lg:hidden mb-4 sticky top-16 z-20 bg-gray-100/95 backdrop-blur-sm py-2 -mx-4 px-4 md:mx-0 md:px-0 overflow-hidden">
+
+                            <div class="flex overflow-x-auto gap-3 pb-2 hide-scrollbar">
+
+                                <button @click="activeTab = 'my_bookings'"
+                                    class="flex-shrink-0 flex items-center gap-2 px-4 py-2.5 rounded-full border text-sm font-medium transition-all shadow-sm"
+                                    :class="activeTab === 'my_bookings'
+                                        ? 'bg-blue-600 text-white border-blue-600'
+                                        : 'bg-white text-gray-600 border-gray-200 hover:bg-gray-50'">
+
+                                    <i class="fas fa-shopping-bag text-xs"></i>
+                                    <span>Dipesan</span>
+                                    <span class="ml-1 text-[10px] font-bold px-1.5 py-0.5 rounded-full"
+                                        :class="activeTab === 'my_bookings' ? 'bg-white/20 text-white' : 'bg-gray-100 text-gray-600'">
+                                        {{ myBookings.total }}
+                                    </span>
+                                </button>
+
+                                <button @click="activeTab = 'incoming_orders'"
+                                    class="flex-shrink-0 flex items-center gap-2 px-4 py-2.5 rounded-full border text-sm font-medium transition-all shadow-sm"
+                                    :class="activeTab === 'incoming_orders'
+                                        ? 'bg-blue-600 text-white border-blue-600'
+                                        : 'bg-white text-gray-600 border-gray-200 hover:bg-gray-50'">
+
+                                    <i class="fas fa-store text-xs"></i>
+                                    <span>Masuk</span>
+                                    <span class="ml-1 text-[10px] font-bold px-1.5 py-0.5 rounded-full"
+                                        :class="activeTab === 'incoming_orders' ? 'bg-white/20 text-white' : 'bg-gray-100 text-gray-600'">
+                                        {{ incomingOrders.total }}
+                                    </span>
+                                </button>
+
+                                <button @click="activeTab = 'history'"
+                                    class="flex-shrink-0 flex items-center gap-2 px-4 py-2.5 rounded-full border text-sm font-medium transition-all shadow-sm"
+                                    :class="activeTab === 'history'
+                                        ? 'bg-blue-600 text-white border-blue-600'
+                                        : 'bg-white text-gray-600 border-gray-200 hover:bg-gray-50'">
+
+                                    <i class="fas fa-history text-xs"></i>
+                                    <span>Riwayat</span>
+                                    <span class="ml-1 text-[10px] font-bold px-1.5 py-0.5 rounded-full"
+                                        :class="activeTab === 'history' ? 'bg-white/20 text-white' : 'bg-gray-100 text-gray-600'">
+                                        {{ history.total }}
+                                    </span>
+                                </button>
+
+                            </div>
+                        </div>
                         <div v-if="activeTab === 'my_bookings'">
-                            <div v-if="myBookings.length === 0" class="bg-white rounded-xl p-8 text-center shadow-sm">
+                            <div v-if="allMyBookings.length === 0" class="bg-white rounded-xl p-8 text-center shadow-sm">
                                 <i class="fas fa-shopping-basket text-4xl text-gray-300 mb-4"></i>
                                 <p class="text-gray-500">Anda belum membooking jasa apapun.</p>
                                 <Link :href="route('marketplace.index')" class="text-blue-600 font-semibold mt-2 inline-block hover:underline">Cari Jasa Sekarang</Link>
                             </div>
-
                             <div v-else class="space-y-4">
-                                <div v-for="booking in myBookings" :key="booking.id" class="bg-white rounded-xl shadow-sm border border-gray-200 p-4 md:p-5 flex flex-col md:flex-row md:items-center gap-4 transition hover:shadow-md">
-                                    
-                                    <div class="shrink-0">
-                                        <img v-if="booking.service.galleries && booking.service.galleries.length > 0" 
-                                             :src="'/storage/' + booking.service.galleries[0].image" 
-                                             class="h-24 w-24 object-cover rounded-lg border border-gray-200" alt="Service">
-                                        <div v-else class="h-24 w-24 bg-gray-100 rounded-lg flex items-center justify-center text-gray-400">
-                                            <i class="fas fa-image text-2xl"></i>
-                                        </div>
-                                    </div>
-
-                                    <div class="flex-1">
-                                        <div class="flex justify-between items-start">
-                                            <div>
-                                                <div class="flex items-center gap-2 mb-1">
-                                                    <span class="text-xs font-bold text-gray-400 font-mono">#CD{{ booking.id }}</span>
-                                                    <span class="px-2.5 py-0.5 rounded-full text-[10px] font-bold uppercase tracking-wide" :class="getStatusClass(booking.status)">
-                                                        {{ getStatusLabel(booking.status) }}
-                                                    </span>
-                                                </div>
-
-                                                <h3 class="font-bold text-lg text-gray-900 leading-tight">{{ booking.service.title }}</h3>
-                                                
-                                                <div class="mt-2 space-y-0.5">
-                                                    <p class="text-sm text-gray-500">
-                                                        <i class="far fa-calendar-alt mr-1 w-4 text-center"></i> 
-                                                        <span class="font-medium text-gray-700">{{ formatDate(booking.booking_date) }}</span>
-                                                        
-                                                        <span class="mx-1 text-gray-300">•</span>
-                                                        
-                                                        <i class="far fa-clock mr-1"></i>
-                                                        <span class="font-medium text-gray-700">{{ formatTime(booking.booking_time) }}</span>
-                                                    </p>
-                                                    
-                                                    <div class="flex items-center mt-1.5">
-                                                        <p class="text-sm text-gray-600 mr-1">Provider:</p>
-                                                        
-                                                        <Link :href="route('profile.show', booking.provider.id)" class="flex items-center group">
-                                                            <img :src="booking.provider.avatar ? '/storage/' + booking.provider.avatar : 'https://ui-avatars.com/api/?name=' + booking.provider.name + '&background=random'" 
-                                                                class="h-6 w-6 rounded-full object-cover border border-gray-200 mr-1 group-hover:opacity-80 transition group-hover:ring-2 group-hover:ring-blue-100" 
-                                                                alt="Provider">
-                                                            
-                                                            <span class="text-sm font-medium text-gray-700 truncate group-hover:underline transition">
-                                                                {{ booking.provider.name }}
-                                                            </span>
-                                                        </Link>
-                                                    </div>
-                                                </div>
-                                            </div>
-
-                                            <div class="text-right hidden md:block min-w-[120px]">
-                                                
-                                                <div v-if="booking.final_price">
-                                                    <span class="block text-xs text-gray-400 line-through decoration-red-300 decoration-2 mb-0.5">
-                                                        {{ formatCurrency(booking.initial_price) }}
-                                                    </span>
-                                                    <div class="font-bold text-xl text-blue-600">
-                                                        {{ formatCurrency(booking.final_price) }}
-                                                    </div>
-                                                    <span class="text-[10px] text-green-600 font-bold bg-green-50 px-1.5 py-0.5 rounded">
-                                                        Fixed Price
-                                                    </span>
-                                                </div>
-
-                                                <div v-else>
-                                                    <span class="block text-xs text-gray-400 mb-0.5">Estimasi Awal</span>
-                                                    <div class="font-bold text-lg text-gray-800">
-                                                        {{ formatCurrency(booking.initial_price) }}
-                                                    </div>
-                                                </div>
-
-                                            </div>
-                                        </div>
-                                    </div>
-
-                                    <div class="flex md:flex-col gap-2 shrink-0 border-t md:border-t-0 md:border-l border-gray-100 pt-3 md:pt-0 md:pl-4 mt-2 md:mt-0">
-                                        
-                                        <Link :href="route('bookings.show', booking.id)" class="flex-1 md:w-32 inline-flex justify-center items-center px-4 py-2 bg-gray-100 border border-transparent rounded-md font-semibold text-xs text-gray-700 uppercase tracking-widest hover:bg-gray-200 focus:outline-none transition">
-                                            <i class="fas fa-eye mr-2"></i> Detail
-                                        </Link>
-
-                                        <Link :href="route('chats.index', { user_id: booking.provider_id, booking_id: booking.id })" class="flex-1 md:w-32 inline-flex justify-center items-center px-4 py-2 bg-blue-600 border border-transparent rounded-md font-semibold text-xs text-white uppercase tracking-widest hover:bg-blue-700 focus:outline-none transition">
-                                            <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 mr-2 text-white" viewBox="0 0 20 20" fill="currentColor">
-                                                <path fill-rule="evenodd" d="M18 10c0 3.866-3.582 7-8 7a8.841 8.841 0 01-4.083-.98L2 17l1.338-3.123C2.493 12.767 2 11.434 2 10c0-3.866 3.582-7 8-7s8 3.134 8 7zM7 9H5v2h2V9zm8 0h-2v2h2V9zM9 9h2v2H9V9z" clip-rule="evenodd" />
-                                            </svg> Chat
-                                        </Link>
-                                    </div>
-
+                                <BookingCard v-for="booking in allMyBookings" :key="booking.id" :booking="booking" type="customer" />
+                                
+                                <div v-if="nextMyBookingsUrl" class="flex justify-center mt-6">
+                                    <button @click="loadMoreMyBookings" :disabled="isLoadingMyBookings" class="px-6 py-2 bg-white border border-gray-300 text-gray-700 rounded-full font-bold shadow-sm hover:bg-gray-50 disabled:opacity-70 text-sm">
+                                        {{ isLoadingMyBookings ? 'Memuat...' : 'Muat Lebih Banyak' }}
+                                    </button>
                                 </div>
                             </div>
                         </div>
 
                         <div v-if="activeTab === 'incoming_orders'">
-                            <div v-if="incomingOrders.length === 0" class="bg-white rounded-xl p-8 text-center shadow-sm">
+                            <div v-if="allIncomingOrders.length === 0" class="bg-white rounded-xl p-8 text-center shadow-sm">
                                 <i class="fas fa-inbox text-4xl text-gray-300 mb-4"></i>
                                 <p class="text-gray-500">Belum ada pesanan masuk untuk jasa Anda.</p>
                             </div>
-
                             <div v-else class="space-y-4">
-                                <div v-for="booking in incomingOrders" :key="booking.id" class="bg-white rounded-xl shadow-sm border border-gray-200 p-4 md:p-5 flex flex-col md:flex-row md:items-center gap-4 transition hover:shadow-md">
-                                    
-                                    <div class="shrink-0">
-                                        <img v-if="booking.service.galleries && booking.service.galleries.length > 0" 
-                                             :src="'/storage/' + booking.service.galleries[0].image" 
-                                             class="h-24 w-24 object-cover rounded-lg border border-gray-200" alt="Service">
-                                        <div v-else class="h-24 w-24 bg-gray-100 rounded-lg flex items-center justify-center text-gray-400">
-                                            <i class="fas fa-image text-2xl"></i>
-                                        </div>
-                                    </div>
-
-                                    <div class="flex-1">
-                                        <div class="flex justify-between items-start">
-                                            <div>
-                                                <div class="flex items-center gap-2 mb-1">
-                                                    <span class="text-xs font-bold text-gray-400 font-mono">#CD{{ booking.id }}</span>
-                                                    <span class="px-2.5 py-0.5 rounded-full text-[10px] font-bold uppercase tracking-wide" :class="getStatusClass(booking.status)">
-                                                        {{ getStatusLabel(booking.status) }}
-                                                    </span>
-                                                </div>
-
-                                                <h3 class="font-bold text-lg text-gray-900 leading-tight">{{ booking.service.title }}</h3>
-                                                
-                                                <div class="mt-2 space-y-0.5">
-                                                    <p class="text-sm text-gray-500">
-                                                        <i class="far fa-calendar-alt mr-1 w-4 text-center"></i> 
-                                                        <span class="font-medium text-gray-700">{{ formatDate(booking.booking_date) }}</span>
-                                                        
-                                                        <span class="mx-1 text-gray-300">•</span>
-                                                        
-                                                        <i class="far fa-clock mr-1"></i>
-                                                        <span class="font-medium text-gray-700">{{ formatTime(booking.booking_time) }}</span>
-                                                    </p>
-                                                    
-                                                    <div class="flex items-center mt-1.5">
-                                                        <p class="text-sm text-gray-600 mr-1">Customer:</p>
-                                                        
-                                                        <Link :href="route('profile.show', booking.customer.id)" class="flex items-center group">
-                                                            <img :src="booking.customer.avatar ? '/storage/' + booking.customer.avatar : 'https://ui-avatars.com/api/?name=' + booking.customer.name + '&background=random'" 
-                                                                class="h-6 w-6 rounded-full object-cover border border-gray-200 mr-1 group-hover:opacity-80 transition group-hover:ring-2 group-hover:ring-blue-100" 
-                                                                alt="customer">
-                                                            
-                                                            <span class="text-sm font-medium text-gray-700 truncate group-hover:underline transition">
-                                                                {{ booking.customer.name }}
-                                                            </span>
-                                                        </Link>
-                                                    </div>
-                                                </div>
-                                            </div>
-
-                                            <div class="text-right hidden md:block min-w-[120px]">
-                                                
-                                                <div v-if="booking.final_price">
-                                                    <span class="block text-xs text-gray-400 line-through decoration-red-300 decoration-2 mb-0.5">
-                                                        {{ formatCurrency(booking.initial_price) }}
-                                                    </span>
-                                                    <div class="font-bold text-xl text-blue-600">
-                                                        {{ formatCurrency(booking.final_price) }}
-                                                    </div>
-                                                    <span class="text-[10px] text-green-600 font-bold bg-green-50 px-1.5 py-0.5 rounded">
-                                                        Fixed Price
-                                                    </span>
-                                                </div>
-
-                                                <div v-else>
-                                                    <span class="block text-xs text-gray-400 mb-0.5">Estimasi Awal</span>
-                                                    <div class="font-bold text-lg text-gray-800">
-                                                        {{ formatCurrency(booking.initial_price) }}
-                                                    </div>
-                                                </div>
-
-                                            </div>
-                                        </div>
-                                    </div>
-
-                                    <div class="flex md:flex-col gap-2 shrink-0 mt-3 md:mt-0 md:border-l border-gray-100 md:pl-4 pt-3 md:pt-0">
-                                        <Link :href="route('bookings.show', booking.id)" class="flex-1 md:w-32 inline-flex justify-center items-center px-4 py-2 bg-gray-100 rounded-md font-semibold text-xs text-gray-700 uppercase tracking-widest hover:bg-gray-200">
-                                            <i class="fas fa-tasks mr-2"></i> Kelola
-                                        </Link>
-                                        
-                                        <Link :href="route('chats.index', { user_id: booking.customer_id, booking_id: booking.id })" class="flex-1 md:w-32 inline-flex justify-center items-center px-4 py-2 bg-blue-600 border border-transparent rounded-md font-semibold text-xs text-white uppercase tracking-widest hover:bg-blue-700">
-                                            <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 mr-2 text-white" viewBox="0 0 20 20" fill="currentColor">
-                                                <path fill-rule="evenodd" d="M18 10c0 3.866-3.582 7-8 7a8.841 8.841 0 01-4.083-.98L2 17l1.338-3.123C2.493 12.767 2 11.434 2 10c0-3.866 3.582-7 8-7s8 3.134 8 7zM7 9H5v2h2V9zm8 0h-2v2h2V9zM9 9h2v2H9V9z" clip-rule="evenodd" />
-                                            </svg> Chat
-                                        </Link>
-                                    </div>
+                                <BookingCard v-for="booking in allIncomingOrders" :key="booking.id" :booking="booking" type="provider" />
+                                
+                                <div v-if="nextIncomingOrdersUrl" class="flex justify-center mt-6">
+                                    <button @click="loadMoreIncomingOrders" :disabled="isLoadingIncomingOrders" class="px-6 py-2 bg-white border border-gray-300 text-gray-700 rounded-full font-bold shadow-sm hover:bg-gray-50 disabled:opacity-70 text-sm">
+                                        {{ isLoadingIncomingOrders ? 'Memuat...' : 'Muat Lebih Banyak' }}
+                                    </button>
                                 </div>
                             </div>
                         </div>
 
                         <div v-if="activeTab === 'history'">
-    
-                            <div class="flex flex-col md:flex-row justify-between items-center mb-6 gap-4">
-                                <h2 class="text-lg font-bold text-gray-800">Arsip Transaksi</h2>
-                                
-                                <div class="bg-white p-1 rounded-lg border border-gray-200 flex shadow-sm">
-                                    <button 
-                                        @click="historyFilter = 'all'"
-                                        class="px-4 py-1.5 text-xs font-bold rounded-md transition-all"
-                                        :class="historyFilter === 'all' ? 'bg-gray-800 text-white shadow' : 'text-gray-500 hover:bg-gray-50'"
-                                    >
+                            <div class="flex flex-col sm:flex-row sm:items-center justify-between gap-4 mb-6">
+
+                                <h2 class="hidden sm:block text-lg font-bold text-gray-800">
+                                    <i class="fas fa-history text-gray-400 mr-2"></i> Arsip Transaksi
+                                </h2>
+
+                                <div
+                                    class="w-full sm:w-auto bg-white p-1 rounded-lg border border-gray-200 flex shadow-sm overflow-x-auto">
+
+                                    <button @click="historyFilter = 'all'"
+                                        class="flex-1 sm:flex-none px-4 py-2 text-[10px] sm:text-xs font-bold rounded-md transition-all whitespace-nowrap text-center"
+                                        :class="historyFilter === 'all' ? 'bg-gray-800 text-white shadow-sm' : 'text-gray-500 hover:bg-gray-50'">
                                         Semua
                                     </button>
-                                    <button 
-                                        @click="historyFilter = 'buy'"
-                                        class="px-4 py-1.5 text-xs font-bold rounded-md transition-all flex items-center"
-                                        :class="historyFilter === 'buy' ? 'bg-blue-600 text-white shadow' : 'text-gray-500 hover:bg-gray-50'"
-                                    >
-                                        <i class="fas fa-shopping-bag mr-1.5"></i> Pembelian
+
+                                    <button @click="historyFilter = 'buy'"
+                                        class="flex-1 sm:flex-none px-4 py-2 text-[10px] sm:text-xs font-bold rounded-md transition-all flex items-center justify-center whitespace-nowrap"
+                                        :class="historyFilter === 'buy' ? 'bg-blue-600 text-white shadow-sm' : 'text-gray-500 hover:bg-gray-50'">
+                                        <i class="fas fa-shopping-bag mr-1.5"
+                                            :class="historyFilter === 'buy' ? 'text-white' : 'text-blue-500'"></i>
+                                        Pembelian
                                     </button>
-                                    <button 
-                                        @click="historyFilter = 'sell'"
-                                        class="px-4 py-1.5 text-xs font-bold rounded-md transition-all flex items-center"
-                                        :class="historyFilter === 'sell' ? 'bg-green-600 text-white shadow' : 'text-gray-500 hover:bg-gray-50'"
-                                    >
-                                        <i class="fas fa-store mr-1.5"></i> Penjualan
+
+                                    <button @click="historyFilter = 'sell'"
+                                        class="flex-1 sm:flex-none px-4 py-2 text-[10px] sm:text-xs font-bold rounded-md transition-all flex items-center justify-center whitespace-nowrap"
+                                        :class="historyFilter === 'sell' ? 'bg-green-600 text-white shadow-sm' : 'text-gray-500 hover:bg-gray-50'">
+                                        <i class="fas fa-store mr-1.5"
+                                            :class="historyFilter === 'sell' ? 'text-white' : 'text-green-500'"></i>
+                                        Penjualan
                                     </button>
+
                                 </div>
                             </div>
 
                             <div v-if="filteredHistory.length === 0" class="bg-white rounded-xl p-12 text-center shadow-sm border border-dashed border-gray-300">
-                                <div class="h-16 w-16 bg-gray-100 rounded-full flex items-center justify-center mx-auto mb-4">
-                                    <i class="fas fa-history text-3xl text-gray-400"></i>
-                                </div>
+                                <i class="fas fa-history text-3xl text-gray-400 mb-4"></i>
                                 <p class="text-gray-500 font-medium">Tidak ada riwayat untuk filter ini.</p>
-                                <button v-if="historyFilter !== 'all'" @click="historyFilter = 'all'" class="text-sm text-blue-600 hover:underline mt-2">
-                                    Lihat Semua Riwayat
-                                </button>
                             </div>
-
                             <div v-else class="space-y-4">
-                                <div v-for="booking in filteredHistory" :key="booking.id" class="bg-white rounded-xl shadow-sm border border-gray-200 p-4 md:p-5 flex flex-col gap-3 transition hover:shadow-md opacity-80 hover:opacity-100 group">
-                                    <div class="flex justify-between items-center pb-2 border-b border-gray-50">
-                                        <span class="text-[10px] font-bold uppercase tracking-wider px-2 py-1 rounded"
-                                            :class="booking.customer_id === $page.props.auth.user.id ? 'bg-blue-50 text-blue-600' : 'bg-green-50 text-green-600'">
-                                            {{ booking.customer_id === $page.props.auth.user.id ? 'PEMBELIAN' : 'PENJUALAN' }}
-                                        </span>
-                                        <span class="text-xs text-gray-400 italic">Arsip</span>
-                                    </div>
+                                <BookingCard v-for="booking in filteredHistory" :key="booking.id" :booking="booking" type="history" />
 
-                                    <div class="flex flex-col md:flex-row md:items-center gap-4">
-                                        
-                                        <div class="shrink-0">
-                                            <img v-if="booking.service.galleries && booking.service.galleries.length > 0" 
-                                                :src="'/storage/' + booking.service.galleries[0].image" 
-                                                class="h-24 w-24 object-cover rounded-lg border border-gray-200 grayscale group-hover:grayscale-0 transition duration-300" alt="Service">
-                                            <div v-else class="h-24 w-24 bg-gray-100 rounded-lg flex items-center justify-center text-gray-400 group-hover:text-gray-600 transition duration-300">
-                                                <i class="fas fa-image text-2xl"></i>
-                                            </div>
-                                        </div>
-
-                                        <div class="flex-1">
-                                            <div class="flex justify-between items-start">
-                                                <div>
-                                                    <div class="flex items-center gap-2 mb-1">
-                                                        <span class="text-xs font-bold text-gray-400 font-mono">#CD{{ booking.id }}</span>
-                                                        <span class="px-2.5 py-0.5 rounded-full text-[10px] font-bold uppercase tracking-wide" :class="getStatusClass(booking.status)">
-                                                            {{ getStatusLabel(booking.status) }}
-                                                        </span>
-                                                    </div>
-
-                                                    <h3 class="font-bold text-lg text-gray-900 leading-tight">{{ booking.service.title }}</h3>
-                                                    
-                                                    <div class="mt-2 space-y-0.5">
-                                                        <p class="text-sm text-gray-500">
-                                                            <i class="far fa-calendar-alt mr-1 w-4 text-center"></i> 
-                                                            <span class="font-medium text-gray-700">{{ formatDate(booking.booking_date) }}</span>
-                                                            <span class="mx-1 text-gray-300">•</span>
-                                                            <i class="far fa-clock mr-1"></i>
-                                                            <span class="font-medium text-gray-700">{{ formatTime(booking.booking_time) }}</span>
-                                                        </p>
-                                                        
-                                                        <div class="flex items-center mt-1.5">
-    
-                                                            <template v-if="booking.customer_id === $page.props.auth.user.id">
-                                                                <p class="text-sm text-gray-600 mr-1">Provider:</p>
-                                                                
-                                                                <Link :href="route('profile.show', booking.provider.id)" class="flex items-center group/profile relative z-20">
-                                                                    
-                                                                    <img :src="booking.provider.avatar ? '/storage/' + booking.provider.avatar : 'https://ui-avatars.com/api/?name=' + booking.provider.name + '&background=random&color=fff'" 
-                                                                        class="h-6 w-6 rounded-full object-cover border border-gray-200 mr-2 transition 
-                                                                                group-hover/profile:opacity-80 
-                                                                                group-hover/profile:ring-2 group-hover/profile:ring-blue-100"
-                                                                        alt="Provider">
-                                                                    
-                                                                    <span class="text-sm font-medium text-gray-700 truncate transition 
-                                                                                group-hover/profile:text-gray-600 
-                                                                                group-hover/profile:underline">
-                                                                        {{ booking.provider.name }}
-                                                                    </span>
-                                                                </Link>
-                                                            </template>
-                                                            
-                                                            <template v-else>
-                                                                <p class="text-sm text-gray-600 mr-1">Customer:</p>
-                                                                
-                                                                <Link :href="route('profile.show', booking.customer.id)" class="flex items-center group/profile relative z-20">
-                                                                    
-                                                                    <img :src="booking.customer.avatar ? '/storage/' + booking.customer.avatar : 'https://ui-avatars.com/api/?name=' + booking.customer.name + '&background=random&color=fff'" 
-                                                                        class="h-6 w-6 rounded-full object-cover border border-gray-200 mr-2 transition 
-                                                                                group-hover/profile:opacity-80 
-                                                                                group-hover/profile:ring-2 group-hover/profile:ring-blue-100"
-                                                                        alt="Customer">
-                                                                    
-                                                                    <span class="text-sm font-medium text-gray-700 truncate transition 
-                                                                                group-hover/profile:text-gray-600 
-                                                                                group-hover/profile:underline">
-                                                                        {{ booking.customer.name }}
-                                                                    </span>
-                                                                </Link>
-                                                            </template>
-
-                                                        </div>
-                                                    </div>
-                                                </div>
-
-                                                <div class="text-right hidden md:block min-w-[120px]">
-                                                    <div v-if="booking.final_price">
-                                                        <span class="block text-xs text-gray-400 line-through decoration-red-300 decoration-2 mb-0.5">
-                                                            {{ formatCurrency(booking.initial_price) }}
-                                                        </span>
-                                                        <div class="font-bold text-xl text-gray-700">
-                                                            {{ formatCurrency(booking.final_price) }}
-                                                        </div>
-                                                        <span class="text-[10px] text-gray-500 font-bold bg-gray-100 px-1.5 py-0.5 rounded">
-                                                            Final
-                                                        </span>
-                                                    </div>
-                                                    <div v-else>
-                                                        <span class="block text-xs text-gray-400 mb-0.5">Estimasi</span>
-                                                        <div class="font-bold text-lg text-gray-700">
-                                                            {{ formatCurrency(booking.initial_price) }}
-                                                        </div>
-                                                    </div>
-                                                </div>
-                                            </div>
-                                        </div>
-
-                                        <div class="flex md:flex-col gap-2 shrink-0 mt-3 md:mt-0 md:border-l border-gray-100 md:pl-4 pt-3 md:pt-0 justify-center">
-                                            <Link :href="route('bookings.show', booking.id)" class="flex-1 md:w-32 inline-flex justify-center items-center px-4 py-2 bg-white border border-gray-300 rounded-md font-semibold text-xs text-gray-700 uppercase tracking-widest hover:bg-gray-50 transition">
-                                                Lihat Detail
-                                            </Link>
-                                        </div>
-
-                                    </div>
+                                <div v-if="nextHistoryUrl" class="flex justify-center mt-6">
+                                    <button @click="loadMoreHistory" :disabled="isLoadingHistory" class="px-6 py-2 bg-white border border-gray-300 text-gray-700 rounded-full font-bold shadow-sm hover:bg-gray-50 disabled:opacity-70 text-sm">
+                                        {{ isLoadingHistory ? 'Memuat...' : 'Muat Lebih Banyak' }}
+                                    </button>
                                 </div>
                             </div>
                         </div>
@@ -535,3 +296,13 @@ const filteredHistory = computed(() => {
         </div>
     </AuthenticatedLayout>
 </template>
+<style scoped>
+/* Sembunyikan Scrollbar tapi tetap bisa di-scroll */
+.hide-scrollbar::-webkit-scrollbar {
+    display: none;
+}
+.hide-scrollbar {
+    -ms-overflow-style: none;
+    scrollbar-width: none;
+}
+</style>

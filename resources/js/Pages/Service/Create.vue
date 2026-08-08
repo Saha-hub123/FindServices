@@ -22,32 +22,36 @@ const form = useForm({
     images: []    // File Asli
 });
 
-// --- LOGIC GAMBAR ---
 const handleImageUpload = (event) => {
-    const files = Array.from(event.target.files);
-    
-    // Reset jika mau replace, atau push jika mau append (disini replace logic)
-    imagePreviews.value = [];
-    form.images = files;
+    // 1. Ambil file baru yang dipilih user
+    const newFiles = Array.from(event.target.files);
 
-    files.forEach(file => {
+    // 2. Gabungkan file lama dengan file baru (APPEND)
+    // Jika form.images null/undefined, anggap array kosong
+    form.images = [...(form.images || []), ...newFiles];
+
+    // 3. Generate preview hanya untuk file-file BARU
+    newFiles.forEach(file => {
         const reader = new FileReader();
         reader.onload = (e) => {
+            // Push ke array preview yang sudah ada (jangan di-reset)
             imagePreviews.value.push(e.target.result);
         };
         reader.readAsDataURL(file);
     });
+
+    // 4. [PENTING] Reset value input file
+    // Agar jika user menghapus foto A, lalu ingin upload foto A lagi, event @change tetap ter-trigger
+    event.target.value = null; 
 };
 
 const removeImage = (index) => {
-    // Hapus dari preview dan form
+    // Hapus dari preview
     imagePreviews.value.splice(index, 1);
-    // Note: Menghapus FileList dari input file itu tricky, 
-    // jadi simplenya kita reset form.images menjadi array baru (namun input file asli tidak berubah visualnya)
-    // Untuk production yang proper, gunakan library file upload seperti FilePond
-    const newImages = Array.from(form.images);
-    newImages.splice(index, 1);
-    form.images = newImages;
+    
+    // Hapus dari form.images
+    // Karena form.images sekarang sudah pasti Array (bukan FileList lagi), kita bisa langsung splice
+    form.images.splice(index, 1);
 };
 
 // --- LOGIC MAP (LEAFLET) ---
@@ -193,6 +197,29 @@ const closeSearch = () => {
         searchResults.value = [];
     }, 200);
 };
+
+// Helper: Mengubah angka mentah (10000) menjadi format tampilan (10.000)
+const formatInputCurrency = (value) => {
+    if (!value && value !== 0) return '';
+    // Hapus karakter selain angka, lalu tambahkan titik
+    return value.toString().replace(/\D/g, '').replace(/\B(?=(\d{3})+(?!\d))/g, ".");
+};
+
+// Helper: Mengubah format tampilan (10.000) kembali menjadi angka mentah (10000) untuk disimpan ke form
+const parseInputCurrency = (event, field) => {
+    // Ambil value dari input
+    let displayValue = event.target.value;
+    
+    // Hapus semua karakter selain angka (termasuk titik)
+    let rawValue = displayValue.replace(/\./g, '').replace(/\D/g, '');
+    
+    // Update data form (simpan sebagai angka murni)
+    form[field] = rawValue ? parseInt(rawValue) : '';
+
+    // Paksa update tampilan input agar user tidak bisa ketik huruf
+    // (Opsional: kadang diperlukan jika Vue tidak merender ulang cukup cepat)
+    event.target.value = formatInputCurrency(rawValue);
+};
 </script>
 
 <template>
@@ -213,7 +240,7 @@ const closeSearch = () => {
                 </div>
 
                 <div class="bg-white rounded-xl shadow-sm border border-gray-200">
-                    <form @submit.prevent="submit" class="p-6 md:p-8 space-y-6">
+                    <form @submit.prevent="submit" class="p-6 md:p-8 space-y-6  lg:mb-0 mb-12">
 
                         <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
                             <div class="md:col-span-2">
@@ -236,15 +263,26 @@ const closeSearch = () => {
                         <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
                             <div>
                                 <label class="block text-sm font-medium text-gray-700 mb-1">Harga Minimum (Rp)</label>
-                                <input v-model="form.price_min" type="number" placeholder="50000" 
-                                       class="w-full rounded-lg border-gray-300 focus:border-blue-500 focus:ring-blue-500">
-                                <div v-if="form.errors.price_min" class="text-red-500 text-xs mt-1">{{ form.errors.price_min }}</div>
+                                <div class="relative">
+                                    <span class="absolute left-3 top-2 text-gray-500 text-sm">Rp</span>
+                                    <input type="text" inputmode="numeric" :value="formatInputCurrency(form.price_min)"
+                                        @input="(e) => parseInputCurrency(e, 'price_min')" placeholder="50.000"
+                                        class="w-full pl-10 rounded-lg border-gray-300 focus:border-blue-500 focus:ring-blue-500 transition">
+                                </div>
+                                <div v-if="form.errors.price_min" class="text-red-500 text-xs mt-1">{{
+                                    form.errors.price_min }}</div>
                             </div>
+
                             <div>
                                 <label class="block text-sm font-medium text-gray-700 mb-1">Harga Maksimum (Rp)</label>
-                                <input v-model="form.price_max" type="number" placeholder="150000" 
-                                       class="w-full rounded-lg border-gray-300 focus:border-blue-500 focus:ring-blue-500">
-                                <div v-if="form.errors.price_max" class="text-red-500 text-xs mt-1">{{ form.errors.price_max }}</div>
+                                <div class="relative">
+                                    <span class="absolute left-3 top-2 text-gray-500 text-sm">Rp</span>
+                                    <input type="text" inputmode="numeric" :value="formatInputCurrency(form.price_max)"
+                                        @input="(e) => parseInputCurrency(e, 'price_max')" placeholder="150.000"
+                                        class="w-full pl-10 rounded-lg border-gray-300 focus:border-blue-500 focus:ring-blue-500 transition">
+                                </div>
+                                <div v-if="form.errors.price_max" class="text-red-500 text-xs mt-1">{{
+                                    form.errors.price_max }}</div>
                             </div>
                         </div>
 
@@ -261,7 +299,7 @@ const closeSearch = () => {
                             <div class="border-2 border-dashed border-gray-300 rounded-lg p-6 text-center hover:bg-gray-50 transition cursor-pointer relative">
                                 <input type="file" multiple @change="handleImageUpload" class="absolute inset-0 opacity-0 cursor-pointer w-full h-full">
                                 <i class="fas fa-cloud-upload-alt text-3xl text-gray-400 mb-2"></i>
-                                <p class="text-sm text-gray-500">Klik atau geser foto ke sini (max.size 2mb)</p>
+                                <p class="text-sm text-gray-500">Klik atau geser foto ke sini (maxs 10MB)</p>
                             </div>
 
                             <div v-if="imagePreviews.length > 0" class="grid grid-cols-3 md:grid-cols-5 gap-4 mt-4">

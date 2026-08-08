@@ -31,13 +31,24 @@ class SearchController extends Controller
             ->with(['user', 'category', 'galleries'])
             ->withCount('reviews')
             ->latest()
-            ->get();
+            ->paginate(12, ['*'], 'services_page') // <--- Named Pagination
+            ->withQueryString();
 
         // 2. Cari User (Provider)
         $users = User::where('name', 'like', "%{$query}%")
             ->orWhere('email', 'like', "%{$query}%")
             ->withCount('services') // Hitung punya jasa berapa
-            ->get();
+            ->paginate(12, ['*'], 'users_page') // <--- Named Pagination
+            ->withQueryString();
+
+        // [LOGIKA LOAD MORE]
+        // Jika request JSON (dari Axios), kirim data array
+        if ($request->wantsJson()) {
+            return response()->json([
+                'services' => $services,
+                'users' => $users
+            ]);
+        }
 
         return Inertia::render('Search/Index', [
             'services' => $services,

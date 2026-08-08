@@ -5,12 +5,13 @@ import { ref, onMounted, computed, nextTick } from 'vue';
 
 const props = defineProps({
     service: Object,
-    bookedDates: Object
+    bookedDates: Object,
+    adminFee: Number, // <--- Ini data kiriman dari Controller (misal: 4000)
 });
 
 const form = useForm({
     service_id: props.service.id,
-    booking_date: '',
+    booking_date: null,
     booking_time: '',
     location: '',
     latitude: '',
@@ -208,39 +209,66 @@ const monthNames = ["Januari", "Februari", "Maret", "April", "Mei", "Juni", "Jul
 
 const daysInMonth = computed(() => {
     const days = [];
+    // 1. Setup tanggal awal bulan untuk loop
     const date = new Date(currentYear.value, currentMonth.value, 1);
+    
+    // 2. AMBIL TANGGAL HARI INI (VERSI LOKAL, BUKAN UTC)
+    // Teknik ini memastikan tanggal mengikuti jam di laptop user
+    const now = new Date();
+    const todayStr = [
+        now.getFullYear(),
+        String(now.getMonth() + 1).padStart(2, '0'),
+        String(now.getDate()).padStart(2, '0')
+    ].join('-');
+
+    // 3. Padding kosong untuk hari sebelum tanggal 1
     for (let i = 0; i < date.getDay(); i++) days.push({ day: '', fullDate: null });
 
+    // 4. Loop tanggal dalam bulan ini
     while (date.getMonth() === currentMonth.value) {
-        const dateObj = new Date(date); 
-        dateObj.setHours(12,0,0,0);
-        const dateString = dateObj.toISOString().split('T')[0];
-        const todayStr = new Date().toISOString().split('T')[0];
+        
+        // Format tanggal loop menjadi YYYY-MM-DD (Lokal)
+        const y = date.getFullYear();
+        const m = String(date.getMonth() + 1).padStart(2, '0');
+        const d = String(date.getDate()).padStart(2, '0');
+        const dateString = `${y}-${m}-${d}`;
 
-        // Ambil jumlah booking dari props (0 jika tidak ada)
+        // Ambil data booking
         const count = props.bookedDates[dateString] || 0;
 
         days.push({
             day: date.getDate(),
             fullDate: dateString,
-            count: count, // Simpan jumlah booking
-            isFull: count >= 5, // Status Penuh (Merah)
-            isBusy: count > 0 && count < 5, // Status Ramai (Oranye)
-            isPast: dateString < todayStr,
+            count: count,
+            isFull: count >= 5,
+            isBusy: count > 0 && count < 5,
+            
+            // LOGIKA: Tanggal di kalender < Tanggal hari ini
+            isPast: dateString < todayStr, 
+            
             isSelected: form.booking_date === dateString
         });
+        
         date.setDate(date.getDate() + 1);
     }
     return days;
 });
 
 const selectDate = (day) => {
-    // Cek isFull (bukan isBooked lagi)
-    if (day.isFull || day.isPast || !day.fullDate) return;
+    // 1. Jangan biarkan klik jika tanggal kosong (padding bulan)
+    if (!day.fullDate) return;
 
+    // 2. Jangan biarkan klik jika tanggal sudah lewat (masa lalu)
+    if (day.isPast) return;
+
+    // 3. Jangan biarkan klik jika SLOT PENUH (Merah)
+    if (day.isFull) {
+        alert("Maaf, jadwal penyedia jasa penuh pada tanggal ini. Silakan pilih tanggal lain.");
+        return;
+    }
+
+    // Set tanggal
     form.booking_date = day.fullDate;
-    form.booking_time = ''; 
-    validateTime();
 };
 
 const changeMonth = (step) => {
@@ -260,6 +288,21 @@ const submit = () => {
     form.post(route('bookings.store'));
 };
 
+
+// 2. GUNAKAN PROPS DALAM PERHITUNGAN
+const pricingSummary = computed(() => {
+    const basePrice = parseFloat(props.service.price_min) || 0;
+    
+    // Gunakan props.adminFee menggantikan hardcode
+    const fee = form.payment_method === 'gateway' ? props.adminFee : 0;
+    
+    return {
+        base: basePrice,
+        fee: fee,
+        total: basePrice + fee
+    };
+});
+
 const formatCurrency = (val) => new Intl.NumberFormat('id-ID', { style: 'currency', currency: 'IDR', minimumFractionDigits: 0 }).format(val);
 </script>
 
@@ -268,7 +311,7 @@ const formatCurrency = (val) => new Intl.NumberFormat('id-ID', { style: 'currenc
 
     <AuthenticatedLayout>
         <div class="py-6 bg-gray-100 min-h-screen">
-            <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 lg:mb-0 mb-12">
                 
                 
                 <form @submit.prevent="submit" class="flex flex-col lg:flex-row gap-6">
@@ -276,7 +319,7 @@ const formatCurrency = (val) => new Intl.NumberFormat('id-ID', { style: 'currenc
                     
                     <div class="w-full lg:w-3/4 space-y-6">
                         <div>
-                           <Link :href="route('service.show',service.id)" class="text-sm text-gray-500 hover:text-blue-600">&larr; Kembali ke Detail Jasa</Link>
+                           <Link :href="route('service.show',service)" class="text-sm text-gray-500 hover:text-blue-600">&larr; Kembali ke Detail Jasa</Link>
                             <h1 class="text-2xl font-bold text-gray-900">Form Pemesanan Jasa</h1>
                         </div>
                         
@@ -294,48 +337,46 @@ const formatCurrency = (val) => new Intl.NumberFormat('id-ID', { style: 'currenc
                                         <span class="font-bold text-gray-700">{{ monthNames[currentMonth] }} {{ currentYear }}</span>
                                         <button type="button" @click="changeMonth(1)" class="p-1 hover:bg-gray-100 rounded"><i class="fas fa-chevron-right"></i></button>
                                     </div>
-                                    <div class="grid grid-cols-7 gap-1 text-center text-sm mb-2 font-medium text-gray-500">
-                                        <span>Min</span><span>Sen</span><span>Sel</span><span>Rab</span><span>Kam</span><span>Jum</span><span>Sab</span>
-                                    </div>
                                     <div class="grid grid-cols-7 gap-1 text-center text-sm">
+                                        <div v-for="h in ['Min','Sen','Sel','Rab','Kam','Jum','Sab']" :key="h" class="font-bold text-gray-500 text-xs py-2">
+                                            {{ h }}
+                                        </div>
+
                                         <div v-for="(day, index) in daysInMonth" :key="index" 
-                                            class="h-10 flex items-center justify-center rounded cursor-pointer transition relative border border-transparent"
+                                            class="h-10 flex items-center justify-center rounded transition relative border"
                                             :class="{
+                                                'border-transparent': !day.isSelected, // Border default transparan
+                                                
+                                                // 1. TANGGAL TERPILIH (Biru Solid)
                                                 'bg-blue-600 text-white shadow-md border-blue-600': day.isSelected,
 
-                                                // KONDISI PENUH (>= 5): Merah Mati
-                                                'bg-red-50 text-red-300 cursor-not-allowed': day.isFull && !day.isSelected,
+                                                // 2. TANGGAL PENUH (Merah - Disable)
+                                                'bg-red-50 text-red-300 cursor-not-allowed border-red-50': day.isFull && !day.isSelected,
 
-                                                // KONDISI RAMAI (1-4): Oranye
-                                                'bg-orange-50 text-orange-600 border-orange-100 hover:bg-orange-100 hover:border-orange-300': day.isBusy && !day.isSelected && !day.isPast,
+                                                // 3. TANGGAL RAMAI (Oranye - Warning)
+                                                'bg-orange-50 text-orange-600 border-orange-200 hover:bg-orange-100 cursor-pointer': day.isBusy && !day.isSelected && !day.isPast,
 
-                                                // KONDISI KOSONG (0): Putih/Hover Biru
-                                                'hover:bg-blue-50 text-gray-700': !day.isFull && !day.isBusy && !day.isPast && !day.isSelected,
+                                                // 4. TANGGAL KOSONG (Putih - Available)
+                                                'hover:bg-blue-50 text-gray-700 cursor-pointer border-gray-100': !day.isFull && !day.isBusy && !day.isPast && !day.isSelected && day.day,
 
-                                                // KONDISI LEWAT: Abu
-                                                'text-gray-300 cursor-not-allowed': day.isPast
+                                                // 5. MASA LALU (Abu - Disable)
+                                                'text-gray-300 cursor-not-allowed bg-gray-50': day.isPast,
+
+                                                // 6. Padding Kosong (Bukan tanggal)
+                                                'invisible': !day.day
                                             }"
-                                            @click="selectDate(day)"
+                                            @click="day.day ? selectDate(day) : null"
                                         >
-                                            {{ day.day }}
+                                            <span v-if="day.day">{{ day.day }}</span>
 
-                                            <span v-if="day.isFull" class="absolute bottom-1 w-1 h-1 bg-red-400 rounded-full"></span>
-                                            <span v-if="day.isBusy" class="absolute bottom-1 w-1 h-1 bg-orange-400 rounded-full"></span>
+                                            <span v-if="day.isFull && !day.isSelected" class="absolute bottom-1 w-1.5 h-1.5 bg-red-400 rounded-full"></span>
+                                            <span v-if="day.isBusy && !day.isSelected" class="absolute bottom-1 w-1.5 h-1.5 bg-orange-400 rounded-full"></span>
                                         </div>
                                     </div>
-                                    <div class="mt-4 flex flex-wrap gap-3 text-[10px] text-gray-500 justify-center">
-                                        <span class="flex items-center">
-                                            <span class="w-2.5 h-2.5 bg-blue-600 rounded-full mr-1.5"></span> Dipilih
-                                        </span>
-                                        <span class="flex items-center">
-                                            <span class="w-2.5 h-2.5 bg-red-100 border border-red-200 rounded-full mr-1.5 relative"><span class="absolute inset-0 m-auto w-1 h-1 bg-red-400 rounded-full"></span></span> Penuh (5/5)
-                                        </span>
-                                        <span class="flex items-center">
-                                            <span class="w-2.5 h-2.5 bg-orange-100 border border-orange-200 rounded-full mr-1.5 relative"><span class="absolute inset-0 m-auto w-1 h-1 bg-orange-400 rounded-full"></span></span> Terisi (1-4)
-                                        </span>
-                                        <span class="flex items-center">
-                                            <span class="w-2.5 h-2.5 bg-white border border-gray-300 rounded-full mr-1.5"></span> Kosong
-                                        </span>
+                                    <div class="flex gap-4 mt-4 text-xs justify-center">
+                                        <div class="flex items-center gap-1"><span class="w-3 h-3 bg-red-50 border border-red-200 rounded"></span> Penuh</div>
+                                        <div class="flex items-center gap-1"><span class="w-3 h-3 bg-orange-50 border border-orange-200 rounded"></span> Terisi Sebagian</div>
+                                        <div class="flex items-center gap-1"><span class="w-3 h-3 border border-gray-200 rounded"></span> Kosong</div>
                                     </div>
                                 </div>
 
@@ -353,18 +394,23 @@ const formatCurrency = (val) => new Intl.NumberFormat('id-ID', { style: 'currenc
                                             <p>Pilih tanggal terlebih dahulu untuk melihat jam tersedia.</p>
                                         </div>
 
-                                        <div v-else class="grid grid-cols-3 gap-2 p-2">
+                                        <div v-else class="grid grid-cols-3 sm:grid-cols-4 gap-2 p-2">
                                             <button 
                                                 v-for="time in availableTimeSlots" 
                                                 :key="time"
                                                 type="button"
                                                 @click="selectTimeSlot(time)"
                                                 :disabled="isSlotDisabled(time)"
-                                                class="py-2 px-1 rounded-lg text-sm font-medium transition-all duration-200 border"
+                                                class="py-2 px-1 rounded-lg text-sm font-medium transition-all duration-200 border relative"
                                                 :class="{
-                                                    'bg-blue-600 text-white border-blue-600 shadow-md transform scale-105': form.booking_time === time,
+                                                    // KONDISI TERPILIH
+                                                    'bg-blue-600 text-white border-blue-600 shadow-md transform scale-105 time-slot-active': form.booking_time === time,
+                                                    
+                                                    // KONDISI AVAILABLE (Bisa dipilih)
                                                     'bg-white text-gray-700 border-gray-200 hover:border-blue-400 hover:text-blue-600': form.booking_time !== time && !isSlotDisabled(time),
-                                                    'bg-gray-100 text-gray-300 border-transparent cursor-not-allowed': isSlotDisabled(time)
+                                                    
+                                                    // KONDISI DISABLED (Penuh/Lewat)
+                                                    'bg-gray-100 text-gray-300 border-transparent cursor-not-allowed opacity-60': isSlotDisabled(time)
                                                 }"
                                             >
                                                 {{ time }}
@@ -436,6 +482,7 @@ const formatCurrency = (val) => new Intl.NumberFormat('id-ID', { style: 'currenc
                                 Metode Pembayaran
                             </h2>
                             <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+    
                                 <label class="relative flex items-center justify-between p-4 border rounded-xl cursor-pointer transition-all"
                                     :class="form.payment_method === 'manual' ? 'border-blue-600 bg-blue-50 ring-1 ring-blue-600' : 'border-gray-200 hover:border-gray-300'">
                                     <div class="flex items-center">
@@ -447,17 +494,22 @@ const formatCurrency = (val) => new Intl.NumberFormat('id-ID', { style: 'currenc
                                     </div>
                                     <i class="fas fa-hand-holding-usd text-2xl text-gray-400"></i>
                                 </label>
-                                <div class="relative flex items-center justify-between p-4 border border-gray-200 rounded-xl bg-gray-50 opacity-60 cursor-not-allowed" title="Segera Hadir">
+
+                                <label class="relative flex items-center justify-between p-4 border rounded-xl cursor-pointer transition-all"
+                                    :class="form.payment_method === 'gateway' ? 'border-blue-600 bg-blue-50 ring-1 ring-blue-600' : 'border-gray-200 hover:border-gray-300'">
                                     <div class="flex items-center">
-                                        <input type="radio" disabled class="h-4 w-4 text-gray-400 border-gray-300">
+                                        <input type="radio" v-model="form.payment_method" value="gateway" class="h-4 w-4 text-blue-600 border-gray-300 focus:ring-blue-500">
                                         <div class="ml-3">
-                                            <span class="block text-sm font-bold text-gray-500">Pembayaran Otomatis</span>
-                                            <span class="block text-xs text-gray-400">E-Wallet, Virtual Account</span>
+                                            <span class="block text-sm font-bold text-gray-900">Pembayaran Otomatis</span>
+                                            <span class="block text-xs text-gray-500">QRIS, E-Wallet, Virtual Account (Midtrans)</span>
                                         </div>
                                     </div>
-                                    <div class="flex gap-1"><i class="fas fa-wallet text-gray-400"></i><i class="fas fa-university text-gray-400"></i></div>
-                                    <span class="absolute top-2 right-2 bg-yellow-100 text-yellow-800 text-[9px] font-bold px-1.5 py-0.5 rounded">SOON</span>
-                                </div>
+                                    <div class="flex gap-2 text-xl">
+                                        <i class="fas fa-wallet text-blue-500"></i>
+                                        <i class="fas fa-university text-green-500"></i>
+                                    </div>
+                                </label>
+
                             </div>
                         </div>
 
@@ -497,21 +549,30 @@ const formatCurrency = (val) => new Intl.NumberFormat('id-ID', { style: 'currenc
                                 <div class="p-4">
                                     <div class="space-y-2">
                                         <div class="flex justify-between items-center text-sm">
-                                            <span class="text-gray-600">Estimasi Awal</span>
+                                            <span class="text-gray-600">Estimasi Jasa</span>
                                             <span class="font-bold text-gray-800">{{ formatCurrency(service.price_min) }}</span>
                                         </div>
+
                                         <div class="flex justify-between items-center text-sm">
                                             <span class="text-gray-600">Biaya Layanan</span>
-                                            <span class="text-green-600 font-medium">Gratis</span>
+                                            
+                                            <span v-if="form.payment_method === 'gateway'" class="text-gray-800 font-medium">
+                                                {{ formatCurrency(adminFee) }}
+                                            </span>
+                                            <span v-else class="text-green-600 font-medium">Gratis</span>
                                         </div>
                                     </div>
+
                                     <div class="mt-3 p-3 bg-yellow-50 border border-yellow-100 text-[11px] text-yellow-800 rounded-lg leading-tight flex gap-2 items-start">
                                         <i class="fas fa-info-circle mt-0.5 shrink-0"></i> 
-                                        <span>Harga final mungkin berubah setelah konfirmasi penyedia.</span>
+                                        <span>Harga jasa mungkin berubah setelah negosiasi dengan penyedia. Biaya layanan tetap.</span>
                                     </div>
-                                    <div class="flex justify-between items-center mt-4 pt-3 border-t border-dashed border-gray-200">
+
+                                    <div class="flex justify-between items-center mt-4 pt-3 border-t border-dashed border-gray-300">
                                         <div><span class="block text-xs text-gray-500 font-medium">Total Estimasi</span></div>
-                                        <span class="font-bold text-xl text-blue-600">{{ formatCurrency(service.price_min) }}</span>
+                                        <span class="font-bold text-xl text-blue-600">
+                                            {{ formatCurrency(pricingSummary.total) }}
+                                        </span>
                                     </div>
                                 </div>
                             </div>
