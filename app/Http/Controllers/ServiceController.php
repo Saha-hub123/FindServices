@@ -9,6 +9,7 @@ use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB; 
 use Illuminate\Support\Facades\Storage;
 use Illuminate\Support\Str; // Jangan lupa import
+use Intervention\Image\Laravel\Facades\Image;
 
 class ServiceController extends Controller
 {
@@ -59,7 +60,7 @@ class ServiceController extends Controller
             'latitude' => 'required|numeric',
             'longitude' => 'required|numeric',
             'images' => 'required|array|min:1', // Wajib minimal 1 foto
-            'images.*' => 'image|mimes:jpeg,png,jpg|max:2048'
+            'images.*' => 'image|mimes:jpeg,png,jpg,webp|max:10240'
         ]);
 
         DB::transaction(function () use ($request, $validated) {
@@ -83,8 +84,21 @@ class ServiceController extends Controller
             // 2. Simpan Gambar ke Storage & Database
             if ($request->hasFile('images')) {
                 foreach ($request->file('images') as $image) {
-                    $path = $image->store('services', 'public');
-                    $service->galleries()->create(['image' => $path]);
+                    
+                    // A. Generate Nama File Unik
+                    $filename = 'services/' . Str::random(40) . '.webp';
+
+                    // B. Proses Kompresi
+                    // Resize lebar max 1000px, tinggi menyesuaikan (aspect ratio aman)
+                    $manager = Image::read($image);
+                    $encoded = $manager->scaleDown(width: 1000)
+                                    ->toWebp(quality: 80);
+
+                    // C. Simpan File
+                    Storage::disk('public')->put($filename, (string) $encoded);
+
+                    // D. Simpan ke Database
+                    $service->galleries()->create(['image' => $filename]);
                 }
             }
         });
@@ -125,7 +139,7 @@ class ServiceController extends Controller
             'latitude' => 'required|numeric',
             'longitude' => 'required|numeric',
             // Gambar baru opsional saat edit
-            'new_images.*' => 'nullable|image|mimes:jpeg,png,jpg|max:2048',
+            'new_images.*' => 'nullable|image|mimes:jpeg,png,jpg,webp|max:10240',
             // Array ID gambar lama yang ingin dihapus
             'deleted_gallery_ids' => 'nullable|array' 
         ]);
@@ -163,11 +177,23 @@ class ServiceController extends Controller
                 }
             }
 
-            // 3. Tambah Gambar Baru (Jika ada)
+            // 3. Tambah Gambar Baru (LOGIKA KOMPRESI)
             if ($request->hasFile('new_images')) {
                 foreach ($request->file('new_images') as $image) {
-                    $path = $image->store('services', 'public');
-                    $service->galleries()->create(['image' => $path]);
+                    
+                    // A. Generate Nama File
+                    $filename = 'services/' . Str::random(40) . '.webp';
+
+                    // B. Proses Kompresi (Sama seperti store)
+                    $manager = Image::read($image);
+                    $encoded = $manager->scaleDown(width: 1000)
+                                    ->toWebp(quality: 80);
+
+                    // C. Simpan File
+                    Storage::disk('public')->put($filename, (string) $encoded);
+
+                    // D. Simpan ke Database
+                    $service->galleries()->create(['image' => $filename]);
                 }
             }
         });
@@ -228,5 +254,19 @@ class ServiceController extends Controller
         $service->forceDelete(); // HILANG SELAMANYA
 
         return redirect()->back()->with('message', 'Jasa dihapus permanen.');
+    }
+
+    public function toggleStatus(Service $service)
+    {
+        // Pastikan yang mengubah adalah pemilik
+        if ($service->user_id !== auth()->id()) {
+            abort(403);
+        }
+
+        $newStatus = $service->status === 'active' ? 'inactive' : 'active';
+        
+        $service->update(['status' => $newStatus]);
+
+        return back()->with('message', 'Status jasa berhasil diperbarui.');
     }
 }

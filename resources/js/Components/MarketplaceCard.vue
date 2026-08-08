@@ -46,7 +46,11 @@ const formatCurrency = (value) => {
                 </div>
                 <div class="flex items-center text-yellow-500 font-bold">
                     <i class="fas fa-star mr-1"></i>
-                    <span>{{ service.rating_avg > 0 ? service.rating_avg : 'New' }}</span>
+                    <span>{{ service.rating_avg > 0 ? Number(service.rating_avg).toFixed(1) : 'New' }}</span>
+                    
+                    <span v-if="service.reviews_count > 0" class="ml-1 text-gray-400 text-xs font-normal">
+                        ({{ service.reviews_count }})
+                    </span>
                 </div>
             </div>
         </div>
@@ -54,7 +58,7 @@ const formatCurrency = (value) => {
         <div class="px-3 py-2 border-t border-gray-100 bg-gray-50 flex items-center justify-between">
     
             <div class="flex items-center space-x-2 relative z-20">
-                <Link :href="route('profile.show', service.user.id)" class="flex items-center group/user">
+                <Link :href="route('profile.show', service.user.hash_id)" class="flex items-center group/user">
                     
                     <img :src="service.user.avatar ? '/storage/' + service.user.avatar : 'https://ui-avatars.com/api/?name=' + service.user.name + '&background=random'" 
                         class="h-6 w-6 rounded-full border border-white shadow-sm object-cover group-hover/user:opacity-80 transition group-hover:ring-2 group-hover:ring-blue-100" 

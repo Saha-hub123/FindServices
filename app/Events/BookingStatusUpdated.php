@@ -33,7 +33,7 @@ class BookingStatusUpdated implements ShouldBroadcastNow
         // Channel Privat khusus untuk ID Booking ini
         // Contoh: booking.8
         return [
-            new PrivateChannel('booking.' . $this->booking->id),
+            new PrivateChannel('booking.' . $this->booking->hash_id),
         ];
     }
 }

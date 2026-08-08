@@ -37,9 +37,22 @@ class DashboardController extends Controller
 
         $services = $servicesQuery->paginate(10)->withQueryString(); // withQueryString agar pagination tidak mereset filter
 
+        // [LOGIKA TAMBAHAN]
+        // Jika request datang dari tombol "Load More" (Axios), kirim JSON saja
+        if ($request->wantsJson()) {
+            return response()->json($services);
+        }
+
         // 2. DATA PENDUKUNG
         $categories = Category::all();
-        $trendingCategories = $categories->take(5); // Bisa diubah logicnya nanti
+        $trendingCategories = Category::withCount(['services' => function ($query) {
+            // Opsional: Hanya hitung jasa yang statusnya 'active'
+            // Agar jasa yang di-banned/inactive tidak ikut menyumbang popularitas
+            $query->where('status', 'active'); 
+        }])
+        ->orderBy('services_count', 'desc') // Urutkan dari jumlah terbanyak
+        ->take(5) // Ambil 5 besar
+        ->get();
         
         // Jasa Populer (Sidebar Kanan)
         $popularServices = Service::with('galleries')

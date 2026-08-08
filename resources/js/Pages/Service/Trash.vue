@@ -38,7 +38,7 @@ const forceDeleteService = (id) => {
                 <div class="flex items-center justify-between mb-6">
                     <div>
                         <h1 class="text-2xl font-bold text-gray-800">Tong Sampah</h1>
-                        <p class="text-sm text-gray-500">Jasa yang dihapus sementara. Bisa dikembalikan atau dihapus selamanya.</p>
+                        <p class="text-sm text-gray-500 mr-2">Jasa yang dihapus sementara. Bisa dikembalikan atau dihapus selamanya.</p>
                     </div>
                     <Link :href="route('profile.index')" class="text-sm text-gray-600 hover:text-blue-600 font-medium">
                         &larr; Kembali ke Profil
@@ -67,7 +67,7 @@ const forceDeleteService = (id) => {
                             <p class="text-blue-600 font-bold text-sm">{{ formatCurrency(service.price_min) }}</p>
                         </div>
 
-                        <div class="p-3 bg-gray-50 border-t border-gray-100 grid grid-cols-2 gap-2">
+                        <div class="p-3 bg-gray-50 border-t border-gray-100 grid gap-2"> <!-- grid-cols-2 -->
                             
                             <button @click="restoreService(service.id)" 
                                     class="flex items-center justify-center px-3 py-2 bg-green-100 text-green-700 text-xs font-bold rounded hover:bg-green-200 transition">
@@ -78,11 +78,6 @@ const forceDeleteService = (id) => {
                                     class="flex items-center justify-center px-3 py-2 bg-red-100 text-red-700 text-xs font-bold rounded hover:bg-red-200 transition">
                                 <i class="fas fa-times mr-1.5"></i> Hapus
                             </button> -->
-                            <button 
-                                    class="flex items-center justify-center px-3 py-2 bg-red-100 text-red-700 text-xs font-bold rounded hover:bg-red-200 transition">
-                                <i class="fas fa-times mr-1.5"></i> Hapus
-                            </button>
-
                         </div>
                     </div>
 

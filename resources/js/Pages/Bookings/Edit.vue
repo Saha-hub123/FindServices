@@ -6,21 +6,30 @@ import { ref, onMounted, computed, nextTick } from 'vue';
 // Props menerima data Booking yang sudah ada (termasuk relasi service didalamnya)
 const props = defineProps({
     booking: Object,
-    bookedDates: Object
+    bookedDates: Object,
+    adminFee: Number, // <--- Ini data kiriman dari Controller (misal: 4000)
 });
 
 // Shortcut untuk akses data service
 const service = props.booking.service;
 
+// Helper untuk hitung harga jasa saat ini (sebelum diedit di form ini)
+// Jika final_price ada, berarti Revised Price = Final - Admin.
+// Jika belum ada final_price, berarti masih pakai Initial.
+const currentServicePrice = props.booking.final_price 
+    ? (parseFloat(props.booking.final_price) - parseFloat(props.booking.admin_fee || 0))
+    : parseFloat(props.booking.initial_price);
+
 // Inisialisasi Form dengan Data Existing
 const form = useForm({
-    booking_date: props.booking.booking_date, // Format YYYY-MM-DD dari DB
-    booking_time: props.booking.booking_time.substring(0, 5), // Ambil HH:mm saja
+    booking_date: props.booking.booking_date ? props.booking.booking_date.split('T')[0] : '', // Pastikan format YYYY-MM-DD
+    booking_time: props.booking.booking_time ? props.booking.booking_time.substring(0, 5) : '',
     location: props.booking.location,
     latitude: parseFloat(props.booking.latitude),
     longitude: parseFloat(props.booking.longitude),
     notes: props.booking.notes,
-    offer_price: parseFloat(props.booking.final_price || props.booking.initial_price),
+    // UBAH DISINI: revised_price
+    revised_price: currentServicePrice,
     payment_method: props.booking.payment_method || 'manual',
 });
 
@@ -112,68 +121,98 @@ onMounted(() => {
         form.longitude = e.latlng.lng;
         fetchAddress(e.latlng.lat, e.latlng.lng);
     });
+
+    // Scroll ke jam
+    if (form.booking_time) {
+        scrollToSelectedTime();
+    }
 });
 
 // --- 2. LOGIC TIME & VALIDATION ---
 const timeError = ref('');
 
+// Generate Slot Waktu (00:00 - 23:30)
+const availableTimeSlots = computed(() => {
+    const slots = [];
+    for (let h = 0; h < 24; h++) {
+        slots.push(`${String(h).padStart(2, '0')}:00`);
+        slots.push(`${String(h).padStart(2, '0')}:30`);
+    }
+    return slots;
+});
+
+// Cek apakah slot waktu harus didisable
+const isSlotDisabled = (timeStr) => {
+    if (!form.booking_date) return true;
+
+    // 1. Setup Tanggal yang dipilih (Reset jam ke 00:00)
+    const selectedDate = new Date(form.booking_date);
+    selectedDate.setHours(0, 0, 0, 0);
+
+    // 2. Setup Hari Ini (Reset jam ke 00:00)
+    const today = new Date();
+    today.setHours(0, 0, 0, 0);
+
+    // KONDISI A: Jika tanggal yang dipilih adalah MASA LALU -> Disable Semua
+    if (selectedDate < today) return true;
+
+    // KONDISI B: Jika tanggal adalah HARI INI -> Cek Jam
+    if (selectedDate.getTime() === today.getTime()) {
+        
+        // Pengecualian UX: 
+        // Jika tanggal & jam sama persis dengan DATA ASLI (Existing Booking), 
+        // JANGAN disable (biarkan user tetap di jam itu kecuali dia mau ubah).
+        const originalDate = props.booking.booking_date.split('T')[0];
+        const originalTime = props.booking.booking_time.substring(0, 5); // Ambil HH:mm
+        
+        if (form.booking_date === originalDate && timeStr === originalTime) {
+            return false; // Biarkan aktif
+        }
+
+        // Logic normal: Minimal 15 menit dari sekarang
+        const [h, m] = timeStr.split(':').map(Number);
+        const slotTime = new Date();
+        slotTime.setHours(h, m, 0, 0);
+
+        const nowPlus15 = new Date();
+        nowPlus15.setMinutes(nowPlus15.getMinutes() + 15);
+
+        return slotTime < nowPlus15;
+    }
+
+    // KONDISI C: Tanggal masa depan -> Enable Semua
+    return false;
+};
+
+// Validasi saat submit/pilih
 const validateTime = () => {
     if (!form.booking_date || !form.booking_time) {
         timeError.value = '';
         return;
     }
-
-    const selectedDate = new Date(form.booking_date);
-    const today = new Date();
-    const isToday = selectedDate.toDateString() === today.toDateString();
-
-    if (isToday) {
-        const [hours, minutes] = form.booking_time.split(':').map(Number);
-        const selectedTime = new Date();
-        selectedTime.setHours(hours, minutes, 0, 0);
-
-        const nowPlus15 = new Date();
-        nowPlus15.setMinutes(nowPlus15.getMinutes() + 15);
-
-        if (selectedTime < nowPlus15) {
-            timeError.value = 'Waktu minimal 15 menit dari sekarang.';
-            form.booking_time = ''; 
-        } else {
-            timeError.value = '';
-        }
+    // Jika user memilih waktu yang disabled (misal lewat inspect element)
+    if (isSlotDisabled(form.booking_time)) {
+        timeError.value = 'Waktu tidak valid atau sudah terlewat.';
+        // Opsional: Reset form.booking_time = '' jika ingin strict
     } else {
         timeError.value = '';
     }
 };
 
-const availableTimeSlots = computed(() => {
-    const slots = [];
-    const startHour = 8; 
-    const endHour = 20;  
-    for (let h = startHour; h <= endHour; h++) {
-        slots.push(`${h.toString().padStart(2, '0')}:00`);
-        if (h !== endHour) slots.push(`${h.toString().padStart(2, '0')}:30`);
-    }
-    return slots;
-});
-
-const isSlotDisabled = (timeStr) => {
-    if (!form.booking_date) return true;
-    const selectedDate = new Date(form.booking_date);
-    const today = new Date();
-    if (selectedDate.toDateString() !== today.toDateString()) return false;
-    const [hours, minutes] = timeStr.split(':').map(Number);
-    const slotTime = new Date();
-    slotTime.setHours(hours, minutes, 0, 0);
-    const nowPlus15 = new Date();
-    nowPlus15.setMinutes(nowPlus15.getMinutes() + 15);
-    return slotTime < nowPlus15;
-};
-
 const selectTimeSlot = (time) => {
     if (isSlotDisabled(time)) return;
     form.booking_time = time;
-    validateTime(); 
+    validateTime();
+};
+
+// AUTO SCROLL KE JAM TERPILIH SAAT LOAD
+const scrollToSelectedTime = () => {
+    nextTick(() => {
+        const activeBtn = document.querySelector('.time-slot-active');
+        if (activeBtn) {
+            activeBtn.scrollIntoView({ block: 'center', behavior: 'smooth' });
+        }
+    });
 };
 
 // --- 3. LOGIC CALENDAR (Start from Booking Date) ---
@@ -181,48 +220,81 @@ const currentDate = new Date(form.booking_date); // Mulai dari tanggal booking, 
 const currentMonth = ref(currentDate.getMonth());
 const currentYear = ref(currentDate.getFullYear());
 const monthNames = ["Januari", "Februari", "Maret", "April", "Mei", "Juni", "Juli", "Agustus", "September", "Oktober", "November", "Desember"];
+const startFromDate = form.booking_date ? new Date(form.booking_date) : new Date();
 
 const daysInMonth = computed(() => {
     const days = [];
     const date = new Date(currentYear.value, currentMonth.value, 1);
+    
+    // SETUP TANGGAL HARI INI (LOKAL)
+    const now = new Date();
+    const todayStr = [
+        now.getFullYear(),
+        String(now.getMonth() + 1).padStart(2, '0'),
+        String(now.getDate()).padStart(2, '0')
+    ].join('-');
+
+    // Padding kosong awal bulan
     for (let i = 0; i < date.getDay(); i++) days.push({ day: '', fullDate: null });
 
+    // Loop tanggal
     while (date.getMonth() === currentMonth.value) {
-        const dateObj = new Date(date);
-        dateObj.setHours(12,0,0,0);
-        const dateString = dateObj.toISOString().split('T')[0];
-        const todayStr = new Date().toISOString().split('T')[0];
         
-        // Cek Count, TAPI kecualikan booking ini sendiri (agar slot sendiri tidak dihitung penuh)
-        // Logika ini idealnya dihandle backend di 'bookedDates', tapi untuk frontend:
+        // FORMAT MANUAL YYYY-MM-DD (Supaya tidak kena bug Timezone)
+        const y = date.getFullYear();
+        const m = String(date.getMonth() + 1).padStart(2, '0');
+        const d = String(date.getDate()).padStart(2, '0');
+        const dateString = `${y}-${m}-${d}`;
+
+        // Ambil data booking dari props (booking ini sendiri sudah di-exclude dari controller)
         const count = props.bookedDates[dateString] || 0;
 
         days.push({
             day: date.getDate(),
             fullDate: dateString,
             count: count,
-            isFull: count >= 5, 
+            isFull: count >= 5, // Batas 5 Slot
             isBusy: count > 0 && count < 5,
-            isPast: dateString < todayStr,
+            
+            // Logika Past: Tanggal kalender < Hari ini
+            isPast: dateString < todayStr, 
+            
+            // Logika Selected: Tanggal kalender === Tanggal di Form
             isSelected: form.booking_date === dateString
         });
+        
         date.setDate(date.getDate() + 1);
     }
     return days;
 });
 
 const selectDate = (day) => {
-    if (day.isFull || day.isPast || !day.fullDate) return;
+    if (!day.fullDate) return;
+    if (day.isPast) return; 
+    
+    if (day.isFull) {
+        alert("Maaf, jadwal penuh pada tanggal ini.");
+        return;
+    }
+
     form.booking_date = day.fullDate;
-    // form.booking_time = ''; // Jangan reset jam saat edit, user mungkin cuma geser hari
-    validateTime();
+    // validateTime(); // Panggil validasi waktu jika ada functionnya
 };
 
 const changeMonth = (step) => {
     let newMonth = currentMonth.value + step;
-    if (newMonth > 11) { currentMonth.value = 0; currentYear.value++; }
-    else if (newMonth < 0) { currentMonth.value = 11; currentYear.value--; }
-    else { currentMonth.value = newMonth; }
+    let newYear = currentYear.value;
+
+    if (newMonth > 11) {
+        newMonth = 0;
+        newYear++;
+    } else if (newMonth < 0) {
+        newMonth = 11;
+        newYear--;
+    }
+
+    currentMonth.value = newMonth;
+    currentYear.value = newYear;
 };
 
 // --- 4. SUBMIT (PUT) ---
@@ -233,10 +305,64 @@ const submit = () => {
         return;
     }
     // Gunakan PUT untuk update
-    form.put(route('bookings.update', props.booking.id));
+    form.put(route('bookings.update', props.booking.hash_id));
 };
 
+// 2. LOGIKA PERHITUNGAN 4 HARGA (SINKRON DENGAN KONSEP BARU)
+const pricingSummary = computed(() => {
+    // 1. Harga Awal (Tetap/History)
+    const initialPrice = parseFloat(props.booking.initial_price) || 0;
+    
+    // 2. Harga Revisi (Dari Input Slider/Form)
+    const revisedPrice = parseFloat(form.revised_price) || 0;
+    
+    // 3. Admin Fee
+    let fee = 0;
+    if (form.payment_method === 'gateway') {
+        if (props.booking.payment_method === 'gateway') {
+            fee = parseFloat(props.booking.admin_fee);
+        } else {
+            fee = props.adminFee;
+        }
+    } else {
+        fee = 0;
+    }
+    
+    // 4. Total Akhir
+    const total = revisedPrice + fee;
+
+    return {
+        initial: initialPrice,
+        revised: revisedPrice,
+        fee: fee,
+        total: total,
+        // Cek apakah ada kenaikan/penurunan
+        diff: revisedPrice - initialPrice
+    };
+});
+
 const formatCurrency = (val) => new Intl.NumberFormat('id-ID', { style: 'currency', currency: 'IDR', minimumFractionDigits: 0 }).format(val);
+
+// Helper 1: Format angka ke tampilan (10000 -> 10.000)
+// Menggunakan parseInt untuk membuang desimal (.00) dari database
+const formatInputCurrency = (value) => {
+    if (value === null || value === undefined || value === '') return '';
+    const integerValue = parseInt(value);
+    if (isNaN(integerValue)) return '';
+    return integerValue.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ".");
+};
+
+// Helper 2: Parse tampilan ke angka murni (10.000 -> 10000)
+const parseInputCurrency = (event, field) => {
+    let displayValue = event.target.value;
+    let rawValue = displayValue.replace(/\./g, '').replace(/\D/g, '');
+    
+    // Simpan ke form sebagai angka
+    form[field] = rawValue ? parseInt(rawValue) : '';
+    
+    // Update tampilan input agar user melihat titik saat mengetik
+    event.target.value = formatInputCurrency(rawValue);
+};
 </script>
 
 <template>
@@ -244,7 +370,7 @@ const formatCurrency = (val) => new Intl.NumberFormat('id-ID', { style: 'currenc
 
     <AuthenticatedLayout>
         <div class="py-6 bg-gray-100 min-h-screen">
-            <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 lg:mb-0 mb-12">
                 
                 <form @submit.prevent="submit" class="flex flex-col lg:flex-row gap-6">
                     
@@ -252,8 +378,8 @@ const formatCurrency = (val) => new Intl.NumberFormat('id-ID', { style: 'currenc
                         
                         <div class="flex items-center justify-between">
                             <div>
-                                <Link :href="route('bookings.show', booking.id)" class="text-sm text-gray-500 hover:text-blue-600">&larr; Kembali ke Detail</Link>
-                                <h1 class="text-2xl font-bold text-gray-900">Edit Pesanan #{{ booking.id }}</h1>
+                                <Link :href="route('bookings.show', booking.hash_id)" class="text-sm text-gray-500 hover:text-blue-600">&larr; Kembali ke Detail</Link>
+                                <h1 class="text-2xl font-bold text-gray-900">Edit Pesanan #{{ booking.hash_id }}</h1>
                             </div>
                         </div>
                         
@@ -270,25 +396,45 @@ const formatCurrency = (val) => new Intl.NumberFormat('id-ID', { style: 'currenc
                                         <span class="font-bold text-gray-700">{{ monthNames[currentMonth] }} {{ currentYear }}</span>
                                         <button type="button" @click="changeMonth(1)" class="p-1 hover:bg-gray-100 rounded"><i class="fas fa-chevron-right"></i></button>
                                     </div>
-                                    <div class="grid grid-cols-7 gap-1 text-center text-sm mb-2 font-medium text-gray-500">
-                                        <span>Min</span><span>Sen</span><span>Sel</span><span>Rab</span><span>Kam</span><span>Jum</span><span>Sab</span>
-                                    </div>
                                     <div class="grid grid-cols-7 gap-1 text-center text-sm">
-                                        <div v-for="(day, index) in daysInMonth" :key="index" 
-                                             class="h-10 flex items-center justify-center rounded cursor-pointer transition relative border border-transparent"
-                                             :class="{
-                                                 'bg-blue-600 text-white shadow-md border-blue-600': day.isSelected,
-                                                 'bg-red-50 text-red-300 cursor-not-allowed': day.isFull && !day.isSelected,
-                                                 'bg-orange-50 text-orange-600 border-orange-100': day.isBusy && !day.isSelected,
-                                                 'hover:bg-blue-50 text-gray-700': !day.isFull && !day.isPast && !day.isSelected,
-                                                 'text-gray-300 cursor-not-allowed': day.isPast
-                                             }"
-                                             @click="selectDate(day)"
-                                        >
-                                            {{ day.day }}
-                                            <span v-if="day.isFull" class="absolute bottom-1 w-1 h-1 bg-red-400 rounded-full"></span>
-                                            <span v-if="day.isBusy" class="absolute bottom-1 w-1 h-1 bg-orange-400 rounded-full"></span>
+                                        <div v-for="h in ['Min','Sen','Sel','Rab','Kam','Jum','Sab']" :key="h" class="font-bold text-gray-500 text-xs py-2">
+                                            {{ h }}
                                         </div>
+
+                                        <div v-for="(day, index) in daysInMonth" :key="index" 
+                                            class="h-10 flex items-center justify-center rounded cursor-pointer transition relative border"
+                                            :class="{
+                                                'border-transparent': !day.isSelected,
+
+                                                // 1. TERPILIH (Biru Solid)
+                                                'bg-blue-600 text-white shadow-md border-blue-600': day.isSelected,
+
+                                                // 2. PENUH (Merah - Disable)
+                                                'bg-red-50 text-red-300 cursor-not-allowed border-red-50': day.isFull && !day.isSelected,
+
+                                                // 3. RAMAI (Oranye)
+                                                'bg-orange-50 text-orange-600 border-orange-200 hover:bg-orange-100': day.isBusy && !day.isSelected && !day.isPast,
+
+                                                // 4. AVAILABLE (Putih)
+                                                'hover:bg-blue-50 text-gray-700 border-gray-100': !day.isFull && !day.isBusy && !day.isPast && !day.isSelected && day.day,
+
+                                                // 5. MASA LALU (Abu)
+                                                'text-gray-300 cursor-not-allowed bg-gray-50': day.isPast,
+                                                
+                                                'invisible': !day.day
+                                            }"
+                                            @click="day.day ? selectDate(day) : null"
+                                        >
+                                            <span v-if="day.day">{{ day.day }}</span>
+
+                                            <span v-if="day.isFull && !day.isSelected" class="absolute bottom-1 w-1.5 h-1.5 bg-red-400 rounded-full"></span>
+                                            <span v-if="day.isBusy && !day.isSelected" class="absolute bottom-1 w-1.5 h-1.5 bg-orange-400 rounded-full"></span>
+                                        </div>
+                                    </div>
+                                    <div class="flex gap-4 mt-4 text-xs justify-center">
+                                        <div class="flex items-center gap-1"><span class="w-3 h-3 bg-red-50 border border-red-200 rounded"></span> Penuh</div>
+                                        <div class="flex items-center gap-1"><span class="w-3 h-3 bg-orange-50 border border-orange-200 rounded"></span> Terisi Sebagian</div>
+                                        <div class="flex items-center gap-1"><span class="w-3 h-3 border border-gray-200 rounded"></span> Kosong</div>
                                     </div>
                                 </div>
 
@@ -301,29 +447,43 @@ const formatCurrency = (val) => new Intl.NumberFormat('id-ID', { style: 'currenc
                                     </div>
 
                                     <div class="border border-gray-200 rounded-xl p-1 bg-gray-50 h-[280px] overflow-y-auto custom-scrollbar">
+        
                                         <div v-if="!form.booking_date" class="h-full flex flex-col items-center justify-center text-gray-400 text-sm p-4 text-center">
                                             <i class="far fa-calendar-times text-2xl mb-2"></i>
                                             <p>Pilih tanggal terlebih dahulu untuk melihat jam tersedia.</p>
                                         </div>
 
-                                        <div v-else class="grid grid-cols-3 gap-2 p-2">
+                                        <div v-else class="grid grid-cols-3 sm:grid-cols-4 gap-2 p-2">
                                             <button 
                                                 v-for="time in availableTimeSlots" 
                                                 :key="time"
                                                 type="button"
                                                 @click="selectTimeSlot(time)"
                                                 :disabled="isSlotDisabled(time)"
-                                                class="py-2 px-1 rounded-lg text-sm font-medium transition-all duration-200 border"
+                                                class="py-2 px-1 rounded-lg text-sm font-medium transition-all duration-200 border relative"
                                                 :class="{
-                                                    'bg-blue-600 text-white border-blue-600 shadow-md transform scale-105': form.booking_time === time,
+                                                    // KONDISI TERPILIH (Tambahkan class 'time-slot-active' untuk scroll)
+                                                    'bg-blue-600 text-white border-blue-600 shadow-md transform scale-105 time-slot-active': form.booking_time === time,
+                                                    
+                                                    // KONDISI AVAILABLE (Tidak dipilih & Tidak Disabled)
                                                     'bg-white text-gray-700 border-gray-200 hover:border-blue-400 hover:text-blue-600': form.booking_time !== time && !isSlotDisabled(time),
-                                                    'bg-gray-100 text-gray-300 border-transparent cursor-not-allowed': isSlotDisabled(time)
+                                                    
+                                                    // KONDISI DISABLED
+                                                    'bg-gray-100 text-gray-300 border-transparent cursor-not-allowed opacity-60': isSlotDisabled(time)
                                                 }"
                                             >
                                                 {{ time }}
+                                                
+                                                <span v-if="form.booking_date === booking.booking_date.split('T')[0] && time === booking.booking_time.substring(0, 5)" 
+                                                    class="absolute -top-1 -right-1 flex h-2 w-2" title="Jadwal Saat Ini">
+                                                    <span class="animate-ping absolute inline-flex h-full w-full rounded-full bg-blue-400 opacity-75"></span>
+                                                    <span class="relative inline-flex rounded-full h-2 w-2 bg-blue-500"></span>
+                                                </span>
                                             </button>
                                         </div>
                                     </div>
+                                    <div v-if="timeError" class="text-red-500 text-xs mt-1">{{ timeError }}</div>
+                                    <div v-if="form.errors.booking_time" class="text-red-500 text-xs mt-1">{{ form.errors.booking_time }}</div>
 
                                     <div class="mt-3 text-center">
                                         <div v-if="form.booking_time" class="text-xs text-gray-600 animate-fade-in">
@@ -383,12 +543,14 @@ const formatCurrency = (val) => new Intl.NumberFormat('id-ID', { style: 'currenc
                             <textarea v-model="form.notes" rows="3" placeholder="Keluhan atau detail khusus..." class="w-full rounded-lg border-gray-300 focus:border-blue-500 focus:ring-blue-500"></textarea>
                         </div>
 
-                        <div class="bg-white rounded-xl shadow-sm border border-gray-200 p-6">
+                        <div class="bg-white rounded-xl shadow-sm border border-gray-200 p-6 mb-6">
                             <h2 class="text-lg font-bold text-gray-800 mb-4 flex items-center">
                                 <span class="bg-blue-100 text-blue-600 w-8 h-8 rounded-full flex items-center justify-center mr-3 text-sm">4</span>
                                 Metode Pembayaran
                             </h2>
+                            
                             <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+                                
                                 <label class="relative flex items-center justify-between p-4 border rounded-xl cursor-pointer transition-all"
                                     :class="form.payment_method === 'manual' ? 'border-blue-600 bg-blue-50 ring-1 ring-blue-600' : 'border-gray-200 hover:border-gray-300'">
                                     <div class="flex items-center">
@@ -400,56 +562,70 @@ const formatCurrency = (val) => new Intl.NumberFormat('id-ID', { style: 'currenc
                                     </div>
                                     <i class="fas fa-hand-holding-usd text-2xl text-gray-400"></i>
                                 </label>
-                                <div class="relative flex items-center justify-between p-4 border border-gray-200 rounded-xl bg-gray-50 opacity-60 cursor-not-allowed">
+
+                                <label class="relative flex items-center justify-between p-4 border rounded-xl cursor-pointer transition-all"
+                                    :class="form.payment_method === 'gateway' ? 'border-blue-600 bg-blue-50 ring-1 ring-blue-600' : 'border-gray-200 hover:border-gray-300'">
                                     <div class="flex items-center">
-                                        <input type="radio" disabled class="h-4 w-4 text-gray-400 border-gray-300">
+                                        <input type="radio" v-model="form.payment_method" value="gateway" class="h-4 w-4 text-blue-600 border-gray-300 focus:ring-blue-500">
                                         <div class="ml-3">
-                                            <span class="block text-sm font-bold text-gray-500">Pembayaran Otomatis</span>
-                                            <span class="block text-xs text-gray-400">E-Wallet, Virtual Account</span>
+                                            <span class="block text-sm font-bold text-gray-900">Pembayaran Otomatis</span>
+                                            <span class="block text-xs text-gray-500">QRIS, E-Wallet, Virtual Account</span>
                                         </div>
                                     </div>
-                                    <div class="flex gap-1"><i class="fas fa-wallet text-gray-400"></i><i class="fas fa-university text-gray-400"></i></div>
-                                    <span class="absolute top-2 right-2 bg-yellow-100 text-yellow-800 text-[9px] font-bold px-1.5 py-0.5 rounded">SOON</span>
-                                </div>
+                                    <div class="flex gap-2 text-xl">
+                                        <i class="fas fa-wallet text-blue-500"></i>
+                                        <i class="fas fa-university text-green-500"></i>
+                                    </div>
+                                </label>
+
                             </div>
+                            <div v-if="form.errors.payment_method" class="text-red-500 text-xs mt-1">{{ form.errors.payment_method }}</div>
                         </div>
 
                         <div class="bg-white rounded-xl shadow-sm border border-gray-200 p-6">
                             <h2 class="text-lg font-bold text-gray-800 mb-4 flex items-center">
                                 <span class="bg-blue-100 text-blue-600 w-8 h-8 rounded-full flex items-center justify-center mr-3 text-sm">5</span>
-                                Negosiasi Harga Awal
+                                Negosiasi Harga
                             </h2>
-                            <p class="text-sm text-gray-500 mb-4">Anda dapat mengubah penawaran harga sesuai budget atau kesepakatan.</p>
+                            <p class="text-sm text-gray-500 mb-4">Anda dapat mengubah harga penawaran sesuai budget atau kesepakatan baru.</p>
 
                             <div class="bg-gray-50 p-6 rounded-xl border border-gray-200">
                                 <div class="flex justify-between text-sm mb-4 font-medium text-gray-600">
-                                    <span>Min: {{ formatCurrency(service.price_min) }}</span>
-                                    <span>Max: {{ formatCurrency(service.price_max) }}</span>
+                                    <span>Min: {{ formatCurrency(booking.service.price_min) }}</span>
+                                    <span>Max: {{ formatCurrency(booking.service.price_max) }}</span>
                                 </div>
                                 
                                 <input 
                                     type="range" 
-                                    v-model.number="form.offer_price" 
-                                    :min="service.price_min" 
-                                    :max="service.price_max" 
+                                    v-model.number="form.revised_price" 
+                                    :min="booking.service.price_min" 
+                                    :max="booking.service.price_max" 
                                     step="5000"
                                     class="w-full h-2 bg-gray-300 rounded-lg appearance-none cursor-pointer accent-blue-600 mb-6"
                                 >
 
                                 <div class="flex items-center gap-4">
                                     <div class="flex-1">
-                                        <label class="block text-xs font-bold text-gray-500 uppercase mb-1">Tawaran Anda</label>
+                                        <label class="block text-xs font-bold text-gray-500 uppercase mb-1">Harga Penawaran Baru</label>
                                         <div class="relative">
                                             <span class="absolute left-3 top-2.5 text-gray-500 font-bold">Rp</span>
+                                            
                                             <input 
-                                                type="number" 
-                                                v-model="form.offer_price" 
-                                                class="w-full rounded-lg border-blue-300 pl-10 focus:border-blue-500 focus:ring-blue-500 font-bold text-gray-900 text-lg"
+                                                type="text" 
+                                                inputmode="numeric"
+                                                :value="formatInputCurrency(form.revised_price)"
+                                                @input="(e) => parseInputCurrency(e, 'revised_price')"
+                                                class="w-full rounded-lg border-blue-300 pl-10 focus:border-blue-500 focus:ring-blue-500 font-bold text-gray-900 text-lg transition"
+                                                placeholder="0"
                                             >
                                         </div>
                                     </div>
+                                    
                                     <div class="text-xs text-gray-500 max-w-[50%] leading-tight">
-                                        * Geser slider atau ketik harga manual. Harga ini adalah estimasi awal sebelum survei lokasi.
+                                        * Geser slider atau ketik harga manual. 
+                                        <span v-if="form.revised_price < booking.service.price_min" class="text-red-500 block mt-1 font-bold">
+                                            <i class="fas fa-exclamation-circle"></i> Di bawah harga minimum!
+                                        </span>
                                     </div>
                                 </div>
                             </div>
@@ -487,23 +663,42 @@ const formatCurrency = (val) => new Intl.NumberFormat('id-ID', { style: 'currenc
 
                             <div class="bg-white rounded-xl shadow-sm border border-gray-200 overflow-hidden">
                                 <div class="p-4 border-b border-gray-50">
-                                    <h4 class="font-bold text-gray-800 text-sm">Ringkasan Baru</h4>
+                                    <h4 class="font-bold text-gray-800 text-sm">Rincian Biaya Baru</h4>
                                 </div>
-                                <div class="p-4">
-                                    <div class="space-y-2">
-                                        <div class="flex justify-between items-center text-sm">
-                                            <span class="text-gray-600">Harga Awal (Asli)</span>
-                                            <span class="font-semibold text-gray-500 line-through">{{ formatCurrency(booking.initial_price) }}</span>
-                                        </div>
-                                    </div>
+                                <div class="p-4 space-y-3">
+                                    
                                     <div class="flex justify-between items-center text-sm">
-                                        <span class="text-gray-600">Biaya Layanan</span>
-                                        <span class="text-green-600 font-medium">Gratis</span>
+                                        <span class="text-gray-500 text-xs">Harga Awal</span>
+                                        <span class="font-medium text-gray-400 line-through decoration-red-400">
+                                            {{ formatCurrency(pricingSummary.initial) }}
+                                        </span>
+                                    </div>
+
+                                    <div class="flex justify-between items-center text-sm">
+                                        <span class="text-gray-600">Harga Revisi</span>
+                                        <span class="font-bold text-gray-800">
+                                            {{ formatCurrency(pricingSummary.revised) }}
+                                        </span>
                                     </div>
                                     
-                                    <div class="flex justify-between items-center mt-4 pt-3 border-t border-dashed border-gray-200">
-                                        <div><span class="block text-xs text-gray-500 font-medium">Tawaran Baru</span></div>
-                                        <span class="font-bold text-xl text-blue-600">{{ formatCurrency(form.offer_price) }}</span>
+                                    <div v-if="pricingSummary.diff !== 0" class="text-right text-[10px] italic mb-1" 
+                                        :class="pricingSummary.diff > 0 ? 'text-red-500' : 'text-green-600'">
+                                        ({{ pricingSummary.diff > 0 ? 'Naik' : 'Turun' }} {{ formatCurrency(Math.abs(pricingSummary.diff)) }})
+                                    </div>
+
+                                    <div class="flex justify-between items-center text-sm">
+                                        <span class="text-gray-600">Biaya Layanan</span>
+                                        <span v-if="pricingSummary.fee > 0" class="text-gray-800 font-medium">
+                                            {{ formatCurrency(pricingSummary.fee) }}
+                                        </span>
+                                        <span v-else class="text-green-600 font-medium">Gratis</span>
+                                    </div>
+
+                                    <div class="flex justify-between items-center mt-4 pt-3 border-t border-dashed border-gray-300">
+                                        <div><span class="block text-xs text-gray-500 font-medium">Total Akhir</span></div>
+                                        <span class="font-bold text-xl text-blue-600">
+                                            {{ formatCurrency(pricingSummary.total) }}
+                                        </span>
                                     </div>
                                 </div>
                             </div>
@@ -515,7 +710,7 @@ const formatCurrency = (val) => new Intl.NumberFormat('id-ID', { style: 'currenc
                                 <span v-if="form.processing">Menyimpan...</span>
                                 <span v-else>Simpan Perubahan</span>
                             </button>
-                            <Link :href="route('bookings.show', booking.id)" class="block w-full text-center py-2 text-sm text-gray-500 hover:text-gray-800">
+                            <Link :href="route('bookings.show', booking.hash_id)" class="block w-full text-center py-2 text-sm text-gray-500 hover:text-gray-800">
                                 Batal
                             </Link>
 

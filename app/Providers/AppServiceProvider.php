@@ -25,14 +25,12 @@ class AppServiceProvider extends ServiceProvider
      */
     public function boot(): void
     {
-        Vite::prefetch(concurrency: 3);
+        // Vite::prefetch(concurrency: 3);
 
         // nyalakan ini dan coment yang vite diatas
-        // if (config('app.env') !== 'local') { 
-        //     URL::forceScheme('https');
-        // }
-        
-        // URL::forceScheme('https');
+        if (str_contains(config('app.url'), 'https')) {
+            URL::forceScheme('https');
+        }
 
         // 2. Daftarkan di sini
         Review::observe(ReviewObserver::class);

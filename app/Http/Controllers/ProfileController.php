@@ -15,6 +15,8 @@ use App\Models\Booking;
 use App\Models\User;
 use Illuminate\Support\Facades\Storage; // Jangan lupa import
 use App\Models\Review; // Import Review
+use Intervention\Image\Laravel\Facades\Image;
+use Illuminate\Support\Str;
 
 class ProfileController extends Controller
 {
@@ -40,20 +42,32 @@ class ProfileController extends Controller
 
         // 1. Handle Avatar Upload
         if ($request->hasFile('avatar')) {
-            // Hapus avatar lama jika ada (dan bukan default/ui-avatar)
+            // A. Hapus avatar lama jika ada
             if ($user->avatar) {
                 Storage::disk('public')->delete($user->avatar);
             }
-            // Simpan avatar baru
-            $data['avatar'] = $request->file('avatar')->store('avatars', 'public');
+
+            // B. Proses Kompresi (LOGIKA BARU)
+            $file = $request->file('avatar');
+            $filename = 'avatars/' . Str::random(40) . '.webp'; // Paksa ekstensi .webp
+
+            // Baca file -> Resize Max 400px -> Convert WebP 80%
+            $manager = Image::read($file);
+            $encoded = $manager->scaleDown(width: 400)
+                               ->toWebp(quality: 80);
+
+            // Simpan stream data ke storage
+            Storage::disk('public')->put($filename, (string) $encoded);
+
+            // Masukkan nama file baru ke array data
+            $data['avatar'] = $filename;
         } 
         else {
-            // [PENTING] Jika tidak ada file baru, HAPUS key 'avatar' dari array $data
-            // Agar data lama di database TIDAK tertimpa dengan NULL
+            // Hapus key avatar agar tidak menimpa data lama dengan null
             unset($data['avatar']);
         }
 
-        // 2. Isi Model dengan Data Baru (Tanpa merusak avatar lama)
+        // 2. Isi Model dengan Data Baru
         $user->fill($data);
 
         // 3. Cek Perubahan Email
@@ -96,7 +110,8 @@ class ProfileController extends Controller
             ->with(['user','category', 'galleries']) // Load relasi gambar & kategori
             ->withCount('reviews') // Load jumlah review
             ->latest()
-            ->get();
+            ->paginate(11, ['*'], 'services_page') // Named Pagination
+            ->withQueryString();
         
         // 2. Ambil Review yang DITERIMA (Untuk evaluasi)
         $reviews = \App\Models\Review::whereHas('service', function($q) use ($user) {
@@ -104,7 +119,8 @@ class ProfileController extends Controller
             })
             ->with(['user', 'service']) // Load pembeli & nama jasa
             ->latest()
-            ->get();
+            ->paginate(12, ['*'], 'reviews_page') // Named Pagination
+            ->withQueryString();
 
         // 2. Hitung Statistik untuk Header Profile
         $stats = [
@@ -122,8 +138,18 @@ class ProfileController extends Controller
         $givenReviews = \App\Models\Review::where('user_id', $user->id)
             ->with(['service.user', 'service.galleries']) // Load Service & Providernya
             ->latest()
-            ->get();
+            ->paginate(12, ['*'], 'given_reviews_page') // Named Pagination
+            ->withQueryString();
 
+        // [LOGIKA LOAD MORE]
+        if ($request->wantsJson()) {
+            return response()->json([
+                'services' => $services,
+                'reviews' => $reviews,
+                'givenReviews' => $givenReviews
+            ]);
+        }
+        
         return Inertia::render('Profile/Index', [
             'mustVerifyEmail' => $user instanceof MustVerifyEmail,
             'status' => session('status'),
@@ -135,7 +161,7 @@ class ProfileController extends Controller
         ]);
     }
 
-    public function show(User $user)
+    public function show(User $user, Request $request)
     {
         if (Auth::id() === $user->id) {
             return redirect()->route('profile.index');
@@ -147,7 +173,8 @@ class ProfileController extends Controller
             ->with(['category', 'galleries', 'user'])
             ->withCount('reviews')
             ->latest()
-            ->get();
+            ->paginate(12, ['*'], 'services_page') // <--- Nama page custom
+            ->withQueryString();
 
         // 2. [BARU] Ambil Review yang DITERIMA user ini
         // Caranya: Cari review dimana service_id-nya adalah milik user ini
@@ -156,17 +183,25 @@ class ProfileController extends Controller
             })
             ->with(['user', 'service']) // Load siapa yang komen & jasa apa
             ->latest()
-            ->take(20) // Ambil 20 review terakhir saja agar tidak berat
-            ->get();
+            ->paginate(12, ['*'], 'reviews_page') // <--- Nama page custom
+            ->withQueryString();
 
+        // [LOGIKA LOAD MORE - AXIOS]
+        if ($request->wantsJson()) {
+            return response()->json([
+                'services' => $services,
+                'reviews' => $reviews
+            ]);
+        }
+        
         // 3. Statistik (Existing)
         $stats = [
-            'services_count' => $services->count(),
+            'services_count' => $user->services()->where('status', 'active')->count(),
             'orders_completed' => \App\Models\Booking::where('provider_id', $user->id)
                                         ->where('status', 'completed')
                                         ->count(),
             'rating_avg' => $services->avg('rating_avg') ?? 0,
-            'reviews_count' => $reviews->count() // Tambahan info jumlah review
+            'total_reviews' => $reviews->count() // Tambahan info jumlah review
         ];
 
         return Inertia::render('Profile/Show', [

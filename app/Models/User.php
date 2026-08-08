@@ -7,11 +7,12 @@ use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Notifications\Notifiable;
 use Illuminate\Database\Eloquent\SoftDeletes;
+use App\Traits\Hashidable; // <--- Import
 
 class User extends Authenticatable
 {
     /** @use HasFactory<\Database\Factories\UserFactory> */
-    use HasFactory, Notifiable, SoftDeletes;
+    use HasFactory, Notifiable, SoftDeletes, Hashidable;
 
     /**
      * The attributes that are mass assignable.
@@ -38,6 +39,9 @@ class User extends Authenticatable
         'password',
         'remember_token',
     ];
+
+    // PENTING: Agar Vue/Inertia menerima field 'hash_id' secara otomatis
+    protected $appends = ['hash_id'];
 
     /**
      * Get the attributes that should be cast.

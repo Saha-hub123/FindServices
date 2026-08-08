@@ -5,11 +5,12 @@ namespace App\Models;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\SoftDeletes;
+use App\Traits\Hashidable; // <--- Import
 
 
 class Booking extends Model
 {
-    use HasFactory, SoftDeletes;
+    use HasFactory, SoftDeletes, Hashidable;
 
     protected $fillable = [
         'service_id',
@@ -23,8 +24,11 @@ class Booking extends Model
         'notes',
         'initial_price', // Harga Awal (Estimasi saat booking)
         'final_price',   // Harga Akhir (Deal/Setelah pengerjaan)
+        'admin_fee',
         'payment_method',// Metode Pembayaran
-        'status'
+        'status',
+        'payment_status',
+        'snap_token',
     ];
 
 
@@ -36,6 +40,9 @@ class Booking extends Model
         // 'booking_time' => 'datetime',
     ];
 
+    // PENTING: Agar Vue/Inertia menerima field 'hash_id' secara otomatis
+    protected $appends = ['hash_id'];
+    
     // Relasi ke Service yang dipesan
     public function service()
     {

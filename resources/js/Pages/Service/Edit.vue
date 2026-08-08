@@ -27,17 +27,30 @@ const form = useForm({
     deleted_gallery_ids: [] // ID Gambar lama yang mau dihapus
 });
 
-// --- LOGIC GAMBAR ---
+// --- LOGIC 1: HANDLE FOTO BARU (APPEND SYSTEM) ---
 const handleNewImageUpload = (event) => {
     const files = Array.from(event.target.files);
-    newImagePreviews.value = [];
-    form.new_images = files;
 
+    // 1. Gabungkan file baru ke form (Append)
+    form.new_images = [...form.new_images, ...files];
+
+    // 2. Generate Preview
     files.forEach(file => {
         const reader = new FileReader();
-        reader.onload = (e) => newImagePreviews.value.push(e.target.result);
+        reader.onload = (e) => {
+            newImagePreviews.value.push(e.target.result);
+        };
         reader.readAsDataURL(file);
     });
+
+    // 3. Reset input agar bisa pilih file yang sama lagi
+    event.target.value = null;
+};
+
+// Hapus Foto BARU (Belum tersimpan di DB)
+const removeNewImage = (index) => {
+    newImagePreviews.value.splice(index, 1);
+    form.new_images.splice(index, 1);
 };
 
 // Menandai gambar lama untuk dihapus
@@ -195,6 +208,37 @@ const closeSearch = () => {
     }, 200);
 };
 
+// Helper: Format angka ke tampilan (contoh: 2000.00 -> 2.000)
+const formatInputCurrency = (value) => {
+    // Cek jika kosong
+    if (value === null || value === undefined || value === '') return '';
+
+    // FIX: Gunakan parseInt untuk membuang desimal (.00)
+    // "2000.00" (dari DB) -> 2000 (Integer)
+    const integerValue = parseInt(value);
+    
+    // Cek jika hasil parse bukan angka valid
+    if (isNaN(integerValue)) return '';
+
+    // Format dengan pemisah ribuan titik
+    return integerValue.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ".");
+};
+
+// Helper: Parse tampilan ke angka murni untuk form (contoh: 10.000 -> 10000)
+const parseInputCurrency = (event, field) => {
+    let displayValue = event.target.value;
+    
+    // Hapus titik dan karakter non-angka
+    let rawValue = displayValue.replace(/\./g, '').replace(/\D/g, '');
+    
+    // Simpan ke form sebagai integer
+    // Jika kosong, set null atau '' agar validasi required bekerja jika ada
+    form[field] = rawValue ? parseInt(rawValue) : '';
+    
+    // Update tampilan input agar user melihat format yang benar saat mengetik
+    // Gunakan helper format yang baru
+    event.target.value = formatInputCurrency(rawValue);
+};
 </script>
 
 <template>
@@ -215,7 +259,7 @@ const closeSearch = () => {
                 </div>
 
                 <div class="bg-white rounded-xl shadow-sm border border-gray-200 overflow-hidden">
-                    <form @submit.prevent="submit" class="p-6 md:p-8 space-y-6">
+                    <form @submit.prevent="submit" class="p-6 md:p-8 space-y-6 lg:mb-0 mb-10">
 
                         <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
                             <div class="md:col-span-2">
@@ -232,14 +276,33 @@ const closeSearch = () => {
                         </div>
 
                         <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+
                             <div>
                                 <label class="block text-sm font-medium text-gray-700 mb-1">Harga Minimum (Rp)</label>
-                                <input v-model="form.price_min" type="number" class="w-full rounded-lg border-gray-300 focus:border-blue-500 focus:ring-blue-500">
+                                <div class="relative">
+                                    <span class="absolute left-3 top-2 text-gray-500 text-sm">Rp</span>
+                                    <input type="text" inputmode="numeric" :value="formatInputCurrency(form.price_min)"
+                                        @input="(e) => parseInputCurrency(e, 'price_min')"
+                                        class="w-full pl-10 rounded-lg border-gray-300 focus:border-blue-500 focus:ring-blue-500 transition"
+                                        placeholder="Contoh: 50.000">
+                                </div>
+                                <div v-if="form.errors.price_min" class="text-red-500 text-xs mt-1">{{
+                                    form.errors.price_min }}</div>
                             </div>
+
                             <div>
                                 <label class="block text-sm font-medium text-gray-700 mb-1">Harga Maksimum (Rp)</label>
-                                <input v-model="form.price_max" type="number" class="w-full rounded-lg border-gray-300 focus:border-blue-500 focus:ring-blue-500">
+                                <div class="relative">
+                                    <span class="absolute left-3 top-2 text-gray-500 text-sm">Rp</span>
+                                    <input type="text" inputmode="numeric" :value="formatInputCurrency(form.price_max)"
+                                        @input="(e) => parseInputCurrency(e, 'price_max')"
+                                        class="w-full pl-10 rounded-lg border-gray-300 focus:border-blue-500 focus:ring-blue-500 transition"
+                                        placeholder="Contoh: 150.000">
+                                </div>
+                                <div v-if="form.errors.price_max" class="text-red-500 text-xs mt-1">{{
+                                    form.errors.price_max }}</div>
                             </div>
+
                         </div>
 
                         <div>
@@ -264,12 +327,17 @@ const closeSearch = () => {
                             <div class="border-2 border-dashed border-gray-300 rounded-lg p-6 text-center hover:bg-gray-50 transition cursor-pointer relative mb-4">
                                 <input type="file" multiple @change="handleNewImageUpload" class="absolute inset-0 opacity-0 cursor-pointer w-full h-full">
                                 <i class="fas fa-cloud-upload-alt text-3xl text-gray-400 mb-2"></i>
-                                <p class="text-sm text-gray-500">Upload foto baru (max.size 2mb)</p>
+                                <p class="text-sm text-gray-500">Upload foto baru (maxs 10MB)</p>
                             </div>
 
-                            <div v-if="newImagePreviews.length > 0" class="grid grid-cols-4 gap-4">
-                                <div v-for="(img, index) in newImagePreviews" :key="index" class="relative aspect-square bg-gray-100 rounded-lg overflow-hidden border border-gray-200">
+                            <div v-if="newImagePreviews.length > 0" class="grid grid-cols-3 md:grid-cols-4 gap-4 mt-4">
+                                <div v-for="(img, index) in newImagePreviews" :key="'new-'+index" class="relative group aspect-square bg-gray-100 rounded-lg overflow-hidden border border-gray-200">
                                     <img :src="img" class="w-full h-full object-cover">
+                                    
+                                    <button type="button" @click="removeNewImage(index)" class="absolute top-1 right-1 bg-red-600 text-white rounded-full p-1 h-6 w-6 flex items-center justify-center opacity-0 group-hover:opacity-100 transition shadow-sm">
+                                        <i class="fas fa-times text-xs"></i>
+                                    </button>
+                                    
                                     <span class="absolute bottom-0 left-0 bg-green-500 text-white text-[10px] px-2 py-0.5 rounded-tr">Baru</span>
                                 </div>
                             </div>
