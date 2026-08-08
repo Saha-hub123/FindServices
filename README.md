@@ -151,6 +151,9 @@ We welcome contributions! Please follow these steps to contribute to the project
 ### Tampilan dashboard
 ![Tampilan dashboard](img/dashboard.png)
 
+### Tampilan login
+![Tampilan login](img/login.png)
+
 ### Tampilan halaman search
 ![Tampilan halaman search](img/search.png)
 
@@ -158,16 +161,22 @@ We welcome contributions! Please follow these steps to contribute to the project
 ![Tampilan marketplace](img/marketplace.png)
 
 ### Tampilan detail jasa
-![Tampilan detail jasa](img/detail_jasa.png)
+![Tampilan detail jasa](img/jasa_detail.png)
 
 ### Tampilan edit jasa
-![Tampilan edit jasa](img/edit_jasa.png)
+![Tampilan edit jasa](img/jasa_edit.png)
 
-### Tampilan halaman booking
-![Tampilan halaman booking](img/booking_index.png)
+### Tampilan halaman booking form
+![Tampilan halaman booking form](img/booking_form.png)
+
+### Tampilan halaman booking list
+![Tampilan halaman booking list](img/booking_list.png)
 
 ### Tampilan detail booking
-![Tampilan detail booking](img/detail_booking.png)
+![Tampilan detail booking](img/booking_detail.png)
+
+### Tampilan midtrans
+![Tampilan midtrans](img/midtrans.png)
 
 ### Tampilan halaman chat
 ![Tampilan halaman chat](img/chat.png)
@@ -177,6 +186,12 @@ We welcome contributions! Please follow these steps to contribute to the project
 
 ### Tampilan edit profile
 ![Tampilan edit profile](img/profile_edit.png)
+
+### Tampilan dashboard admin
+![Tampilan dashboard admin](img/admin_dashboard.png)
+
+### Tampilan report
+![Tampilan report](img/report.png)
 
 ## About Laravel
 
