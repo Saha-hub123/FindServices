@@ -299,5 +299,5 @@ digraph FindServices_DFD_TrustBoundary {
 
     // Logging flow
     PaymentProcess -> LogFileStorage [label = "DF35: Log Errors & Callback Traces"];
-    WebRouter -> LogFileStorage [label = "DF36: Error Stack Traces (APP_DEBUG)"];
+    WebRouter -> LogFileStorage [label = "DF36: Internal Error Logs (APP_DEBUG=false, User Sees Generic 500)"];
 }

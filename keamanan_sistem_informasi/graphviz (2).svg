@@ -1,0 +1,460 @@
+<svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" width="4136pt" height="1119pt" viewBox="0.00 0.00 4136.00 1119.00">
+<g id="graph0" class="graph" transform="scale(1 1) rotate(0) translate(4 1115.27)">
+<title>FindServices_DFD_TrustBoundary</title>
+<polygon fill="#f8fafc" stroke="none" points="-4,4 -4,-1115.27 4131.72,-1115.27 4131.72,4 -4,4"/>
+<g id="clust1" class="cluster">
+<title>cluster_external_untrusted</title>
+<path fill="#fef2f2" stroke="#ef4444" stroke-width="2" stroke-dasharray="5,2" d="M637,-969.67C637,-969.67 1301,-969.67 1301,-969.67 1307,-969.67 1313,-975.67 1313,-981.67 1313,-981.67 1313,-1091.27 1313,-1091.27 1313,-1097.27 1307,-1103.27 1301,-1103.27 1301,-1103.27 637,-1103.27 637,-1103.27 631,-1103.27 625,-1097.27 625,-1091.27 625,-1091.27 625,-981.67 625,-981.67 625,-975.67 631,-969.67 637,-969.67"/>
+<text xml:space="preserve" text-anchor="middle" x="969" y="-1088.47" font-family="Helvetica,Arial,sans-serif" font-size="12.00">TB 1: Zona Eksternal (Untrusted Public Zone)</text>
+<text xml:space="preserve" text-anchor="middle" x="969" y="-1074.07" font-family="Helvetica,Arial,sans-serif" font-size="12.00">[Pengguna &amp; Pihak Luar]</text>
+</g>
+<g id="clust2" class="cluster">
+<title>cluster_network_perimeter</title>
+<path fill="#fffbeb" stroke="#f59e0b" stroke-width="2" stroke-dasharray="5,2" d="M857,-619.25C857,-619.25 1474,-619.25 1474,-619.25 1480,-619.25 1486,-625.25 1486,-631.25 1486,-631.25 1486,-917.87 1486,-917.87 1486,-923.87 1480,-929.87 1474,-929.87 1474,-929.87 857,-929.87 857,-929.87 851,-929.87 845,-923.87 845,-917.87 845,-917.87 845,-631.25 845,-631.25 845,-625.25 851,-619.25 857,-619.25"/>
+<text xml:space="preserve" text-anchor="middle" x="1165.5" y="-915.07" font-family="Helvetica,Arial,sans-serif" font-size="12.00">TB 2: Perimeter Jaringan &amp; Reverse Proxy</text>
+<text xml:space="preserve" text-anchor="middle" x="1165.5" y="-900.67" font-family="Helvetica,Arial,sans-serif" font-size="12.00">[TLS Ingress / Cloudflare Tunnel / Nginx]</text>
+</g>
+<g id="clust3" class="cluster">
+<title>cluster_application_core</title>
+<path fill="#eff6ff" stroke="#3b82f6" stroke-width="2" stroke-dasharray="5,2" d="M526,-15.39C526,-15.39 2534,-15.39 2534,-15.39 2540,-15.39 2546,-21.39 2546,-27.39 2546,-27.39 2546,-556.65 2546,-556.65 2546,-562.65 2540,-568.65 2534,-568.65 2534,-568.65 526,-568.65 526,-568.65 520,-568.65 514,-562.65 514,-556.65 514,-556.65 514,-27.39 514,-27.39 514,-21.39 520,-15.39 526,-15.39"/>
+<text xml:space="preserve" text-anchor="middle" x="1530" y="-553.85" font-family="Helvetica,Arial,sans-serif" font-size="12.00">TB 3: Core Application Process Layer (Laravel 12 + Inertia/Vue)</text>
+<text xml:space="preserve" text-anchor="middle" x="1530" y="-539.45" font-family="Helvetica,Arial,sans-serif" font-size="12.00">[Trusted Host Environment - PHP 8.3 / Laragon]</text>
+</g>
+<g id="clust4" class="cluster">
+<title>cluster_realtime_daemon</title>
+<path fill="#f5f3ff" stroke="#8b5cf6" stroke-width="2" stroke-dasharray="5,2" d="M3307,-214.4C3307,-214.4 3603,-214.4 3603,-214.4 3609,-214.4 3615,-220.4 3615,-226.4 3615,-226.4 3615,-354.23 3615,-354.23 3615,-360.23 3609,-366.23 3603,-366.23 3603,-366.23 3307,-366.23 3307,-366.23 3301,-366.23 3295,-360.23 3295,-354.23 3295,-354.23 3295,-226.4 3295,-226.4 3295,-220.4 3301,-214.4 3307,-214.4"/>
+<text xml:space="preserve" text-anchor="middle" x="3455" y="-351.43" font-family="Helvetica,Arial,sans-serif" font-size="12.00">TB 4: WebSocket Real-Time Daemon</text>
+<text xml:space="preserve" text-anchor="middle" x="3455" y="-337.03" font-family="Helvetica,Arial,sans-serif" font-size="12.00">[Laravel Reverb Server - Port 8080]</text>
+</g>
+<g id="clust5" class="cluster">
+<title>cluster_data_storage</title>
+<path fill="#ecfdf5" stroke="#10b981" stroke-width="2" stroke-dasharray="5,2" d="M2566,-8C2566,-8 3150,-8 3150,-8 3156,-8 3162,-14 3162,-20 3162,-20 3162,-162.6 3162,-162.6 3162,-168.6 3156,-174.6 3150,-174.6 3150,-174.6 2566,-174.6 2566,-174.6 2560,-174.6 2554,-168.6 2554,-162.6 2554,-162.6 2554,-20 2554,-20 2554,-14 2560,-8 2566,-8"/>
+<text xml:space="preserve" text-anchor="middle" x="2858" y="-159.8" font-family="Helvetica,Arial,sans-serif" font-size="12.00">TB 5: Persistent Data &amp; File Storage Layer</text>
+<text xml:space="preserve" text-anchor="middle" x="2858" y="-145.4" font-family="Helvetica,Arial,sans-serif" font-size="12.00">[Local MySQL Database &amp; Storage Disk]</text>
+</g>
+<!-- Customer -->
+<g id="node1" class="node">
+<title>Customer</title>
+<path fill="#fee2e2" stroke="#b91c1c" stroke-width="1.5" d="M1128.76,-1021.67C1128.76,-1021.67 1011.24,-1021.67 1011.24,-1021.67 1005.24,-1021.67 999.24,-1015.67 999.24,-1009.67 999.24,-1009.67 999.24,-989.67 999.24,-989.67 999.24,-983.67 1005.24,-977.67 1011.24,-977.67 1011.24,-977.67 1128.76,-977.67 1128.76,-977.67 1134.76,-977.67 1140.76,-983.67 1140.76,-989.67 1140.76,-989.67 1140.76,-1009.67 1140.76,-1009.67 1140.76,-1015.67 1134.76,-1021.67 1128.76,-1021.67"/>
+<text xml:space="preserve" text-anchor="middle" x="1070" y="-1008.67" font-family="Helvetica,Arial,sans-serif" font-size="10.00">External Entity:</text>
+<text xml:space="preserve" text-anchor="middle" x="1070" y="-996.67" font-family="Helvetica,Arial,sans-serif" font-size="10.00">Customer / Klien</text>
+<text xml:space="preserve" text-anchor="middle" x="1070" y="-984.67" font-family="Helvetica,Arial,sans-serif" font-size="10.00">(Web Browser / Mobile Client)</text>
+</g>
+<!-- CloudflareEdge -->
+<g id="node5" class="node">
+<title>CloudflareEdge</title>
+<ellipse fill="#fef3c7" stroke="#d97706" stroke-width="1.5" cx="1112" cy="-808.67" rx="115.4" ry="39.6"/>
+<text xml:space="preserve" text-anchor="middle" x="1112" y="-823.67" font-family="Helvetica,Arial,sans-serif" font-size="10.00">Process 0.1:</text>
+<text xml:space="preserve" text-anchor="middle" x="1112" y="-811.67" font-family="Helvetica,Arial,sans-serif" font-size="10.00">Cloudflare Tunnel / Edge</text>
+<text xml:space="preserve" text-anchor="middle" x="1112" y="-799.67" font-family="Helvetica,Arial,sans-serif" font-size="10.00">(Reverse Proxy &amp; SSL Termination)</text>
+<text xml:space="preserve" text-anchor="middle" x="1112" y="-787.67" font-family="Helvetica,Arial,sans-serif" font-size="10.00">[app.cornel.my.id / ws.cornel.my.id]</text>
+</g>
+<!-- Customer&#45;&gt;CloudflareEdge -->
+<g id="edge1" class="edge">
+<title>Customer-&gt;CloudflareEdge</title>
+<path fill="none" stroke="#334155" d="M1070,-977.01C1070,-977.01 1070,-857.58 1070,-857.58"/>
+<polygon fill="#334155" stroke="#334155" points="1073.5,-857.58 1070,-847.58 1066.5,-857.58 1073.5,-857.58"/>
+<text xml:space="preserve" text-anchor="middle" x="1203.12" y="-940.57" font-family="Helvetica,Arial,sans-serif" font-size="9.00">DF1: HTTPS Requests (Browse, Book, Chat, Pay)</text>
+</g>
+<!-- Provider -->
+<g id="node2" class="node">
+<title>Provider</title>
+<path fill="#fee2e2" stroke="#b91c1c" stroke-width="1.5" d="M1292.62,-1021.67C1292.62,-1021.67 1195.38,-1021.67 1195.38,-1021.67 1189.38,-1021.67 1183.38,-1015.67 1183.38,-1009.67 1183.38,-1009.67 1183.38,-989.67 1183.38,-989.67 1183.38,-983.67 1189.38,-977.67 1195.38,-977.67 1195.38,-977.67 1292.62,-977.67 1292.62,-977.67 1298.62,-977.67 1304.62,-983.67 1304.62,-989.67 1304.62,-989.67 1304.62,-1009.67 1304.62,-1009.67 1304.62,-1015.67 1298.62,-1021.67 1292.62,-1021.67"/>
+<text xml:space="preserve" text-anchor="middle" x="1244" y="-1008.67" font-family="Helvetica,Arial,sans-serif" font-size="10.00">External Entity:</text>
+<text xml:space="preserve" text-anchor="middle" x="1244" y="-996.67" font-family="Helvetica,Arial,sans-serif" font-size="10.00">Service Provider / Tukang</text>
+<text xml:space="preserve" text-anchor="middle" x="1244" y="-984.67" font-family="Helvetica,Arial,sans-serif" font-size="10.00">(Web Browser Client)</text>
+</g>
+<!-- Provider&#45;&gt;CloudflareEdge -->
+<g id="edge2" class="edge">
+<title>Provider-&gt;CloudflareEdge</title>
+<path fill="none" stroke="#334155" d="M1205.39,-977.01C1205.39,-977.01 1205.39,-844.02 1205.39,-844.02"/>
+<polygon fill="#334155" stroke="#334155" points="1208.89,-844.02 1205.39,-834.02 1201.89,-844.02 1208.89,-844.02"/>
+<text xml:space="preserve" text-anchor="middle" x="1444.99" y="-940.57" font-family="Helvetica,Arial,sans-serif" font-size="9.00">DF2: HTTPS Requests (Manage Service, Confirm, Chat)</text>
+</g>
+<!-- AdminUser -->
+<g id="node3" class="node">
+<title>AdminUser</title>
+<path fill="#fee2e2" stroke="#b91c1c" stroke-width="1.5" d="M944.12,-1021.67C944.12,-1021.67 861.88,-1021.67 861.88,-1021.67 855.88,-1021.67 849.88,-1015.67 849.88,-1009.67 849.88,-1009.67 849.88,-989.67 849.88,-989.67 849.88,-983.67 855.88,-977.67 861.88,-977.67 861.88,-977.67 944.12,-977.67 944.12,-977.67 950.12,-977.67 956.12,-983.67 956.12,-989.67 956.12,-989.67 956.12,-1009.67 956.12,-1009.67 956.12,-1015.67 950.12,-1021.67 944.12,-1021.67"/>
+<text xml:space="preserve" text-anchor="middle" x="903" y="-1008.67" font-family="Helvetica,Arial,sans-serif" font-size="10.00">External Entity:</text>
+<text xml:space="preserve" text-anchor="middle" x="903" y="-996.67" font-family="Helvetica,Arial,sans-serif" font-size="10.00">Administrator Sistem</text>
+<text xml:space="preserve" text-anchor="middle" x="903" y="-984.67" font-family="Helvetica,Arial,sans-serif" font-size="10.00">(Browser Back-office)</text>
+</g>
+<!-- AdminUser&#45;&gt;CloudflareEdge -->
+<g id="edge3" class="edge">
+<title>AdminUser-&gt;CloudflareEdge</title>
+<path fill="none" stroke="#334155" d="M904.64,-977.17C904.64,-929.36 904.64,-822 904.64,-822 904.64,-822 991.04,-822 991.04,-822"/>
+<polygon fill="#334155" stroke="#334155" points="991.04,-825.5 1001.04,-822 991.04,-818.5 991.04,-825.5"/>
+<text xml:space="preserve" text-anchor="middle" x="983.49" y="-940.57" font-family="Helvetica,Arial,sans-serif" font-size="9.00">DF3: HTTPS Requests (Admin Back-office)</text>
+</g>
+<!-- MidtransGateway -->
+<g id="node4" class="node">
+<title>MidtransGateway</title>
+<path fill="#fed7aa" stroke="#c2410c" stroke-width="1.5" d="M795.14,-1021.67C795.14,-1021.67 644.86,-1021.67 644.86,-1021.67 638.86,-1021.67 632.86,-1015.67 632.86,-1009.67 632.86,-1009.67 632.86,-989.67 632.86,-989.67 632.86,-983.67 638.86,-977.67 644.86,-977.67 644.86,-977.67 795.14,-977.67 795.14,-977.67 801.14,-977.67 807.14,-983.67 807.14,-989.67 807.14,-989.67 807.14,-1009.67 807.14,-1009.67 807.14,-1015.67 801.14,-1021.67 795.14,-1021.67"/>
+<text xml:space="preserve" text-anchor="middle" x="720" y="-1008.67" font-family="Helvetica,Arial,sans-serif" font-size="10.00">External Entity:</text>
+<text xml:space="preserve" text-anchor="middle" x="720" y="-996.67" font-family="Helvetica,Arial,sans-serif" font-size="10.00">Midtrans Payment Gateway</text>
+<text xml:space="preserve" text-anchor="middle" x="720" y="-984.67" font-family="Helvetica,Arial,sans-serif" font-size="10.00">(Payment Service &amp; Webhook Trigger)</text>
+</g>
+<!-- MidtransGateway&#45;&gt;CloudflareEdge -->
+<g id="edge4" class="edge">
+<title>MidtransGateway-&gt;CloudflareEdge</title>
+<path fill="none" stroke="#334155" d="M795.97,-976.99C795.97,-923.7 795.97,-795 795.97,-795 795.97,-795 991.28,-795 991.28,-795"/>
+<polygon fill="#334155" stroke="#334155" points="991.28,-798.5 1001.28,-795 991.28,-791.5 991.28,-798.5"/>
+<text xml:space="preserve" text-anchor="middle" x="758.48" y="-940.57" font-family="Helvetica,Arial,sans-serif" font-size="9.00">DF4: HTTP POST Webhook (/api/midtrans/callback)</text>
+</g>
+<!-- WebRouter -->
+<g id="node6" class="node">
+<title>WebRouter</title>
+<ellipse fill="#fef3c7" stroke="#d97706" stroke-width="1.5" cx="1323" cy="-658.36" rx="155.47" ry="31.11"/>
+<text xml:space="preserve" text-anchor="middle" x="1323" y="-667.36" font-family="Helvetica,Arial,sans-serif" font-size="10.00">Process 0.2:</text>
+<text xml:space="preserve" text-anchor="middle" x="1323" y="-655.36" font-family="Helvetica,Arial,sans-serif" font-size="10.00">Laravel Web Routing &amp; Middlewares</text>
+<text xml:space="preserve" text-anchor="middle" x="1323" y="-643.36" font-family="Helvetica,Arial,sans-serif" font-size="10.00">(CSRF, Session, Authenticate, AdminMiddleware)</text>
+</g>
+<!-- CloudflareEdge&#45;&gt;WebRouter -->
+<g id="edge5" class="edge">
+<title>CloudflareEdge-&gt;WebRouter</title>
+<path fill="none" stroke="#334155" d="M1197.46,-781.45C1197.46,-781.45 1197.46,-688.81 1197.46,-688.81"/>
+<polygon fill="#334155" stroke="#334155" points="1200.96,-688.81 1197.46,-678.81 1193.96,-688.81 1200.96,-688.81"/>
+<text xml:space="preserve" text-anchor="middle" x="1334.11" y="-731.98" font-family="Helvetica,Arial,sans-serif" font-size="9.00">DF5: Forwarded Web Request</text>
+<text xml:space="preserve" text-anchor="middle" x="1334.11" y="-721.18" font-family="Helvetica,Arial,sans-serif" font-size="9.00">[Crosses TB 1 -&gt; TB 2]</text>
+</g>
+<!-- ApiRouter -->
+<g id="node7" class="node">
+<title>ApiRouter</title>
+<ellipse fill="#fef3c7" stroke="#d97706" stroke-width="1.5" cx="989" cy="-658.36" rx="135.83" ry="31.11"/>
+<text xml:space="preserve" text-anchor="middle" x="989" y="-667.36" font-family="Helvetica,Arial,sans-serif" font-size="10.00">Process 0.3:</text>
+<text xml:space="preserve" text-anchor="middle" x="989" y="-655.36" font-family="Helvetica,Arial,sans-serif" font-size="10.00">Laravel API Routing</text>
+<text xml:space="preserve" text-anchor="middle" x="989" y="-643.36" font-family="Helvetica,Arial,sans-serif" font-size="10.00">(CSRF-Exempt Webhook Route / Sanctum)</text>
+</g>
+<!-- CloudflareEdge&#45;&gt;ApiRouter -->
+<g id="edge6" class="edge">
+<title>CloudflareEdge-&gt;ApiRouter</title>
+<path fill="none" stroke="#334155" d="M1060.72,-772.67C1060.72,-772.67 1060.72,-696.64 1060.72,-696.64"/>
+<polygon fill="#334155" stroke="#334155" points="1064.22,-696.64 1060.72,-686.64 1057.22,-696.64 1064.22,-696.64"/>
+<text xml:space="preserve" text-anchor="middle" x="1088.37" y="-731.98" font-family="Helvetica,Arial,sans-serif" font-size="9.00">DF6: Forwarded API Callback</text>
+<text xml:space="preserve" text-anchor="middle" x="1088.37" y="-721.18" font-family="Helvetica,Arial,sans-serif" font-size="9.00">[Crosses TB 1 -&gt; TB 2]</text>
+</g>
+<!-- ReverbDaemon -->
+<g id="node17" class="node">
+<title>ReverbDaemon</title>
+<ellipse fill="#ede9fe" stroke="#6d28d9" cx="3455" cy="-253.51" rx="152.32" ry="31.11"/>
+<text xml:space="preserve" text-anchor="middle" x="3455" y="-262.51" font-family="Helvetica,Arial,sans-serif" font-size="10.00">Process 10.0:</text>
+<text xml:space="preserve" text-anchor="middle" x="3455" y="-250.51" font-family="Helvetica,Arial,sans-serif" font-size="10.00">Laravel Reverb WebSocket Server</text>
+<text xml:space="preserve" text-anchor="middle" x="3455" y="-238.51" font-family="Helvetica,Arial,sans-serif" font-size="10.00">(MessageSent, BookingStatusUpdated, Channels)</text>
+</g>
+<!-- CloudflareEdge&#45;&gt;ReverbDaemon -->
+<g id="edge7" class="edge">
+<title>CloudflareEdge-&gt;ReverbDaemon</title>
+<path fill="none" stroke="#334155" d="M1227.86,-809C1706.64,-809 3505.77,-809 3505.77,-809 3505.77,-809 3505.77,-294.5 3505.77,-294.5"/>
+<polygon fill="#334155" stroke="#334155" points="3509.27,-294.5 3505.77,-284.5 3502.27,-294.5 3509.27,-294.5"/>
+<text xml:space="preserve" text-anchor="middle" x="4045.36" y="-590.15" font-family="Helvetica,Arial,sans-serif" font-size="9.00">DF7: WSS / WebSocket Upgrade Connection</text>
+<text xml:space="preserve" text-anchor="middle" x="4045.36" y="-579.35" font-family="Helvetica,Arial,sans-serif" font-size="9.00">[ws.cornel.my.id:443 -&gt; localhost:8080]</text>
+</g>
+<!-- AuthProcess -->
+<g id="node8" class="node">
+<title>AuthProcess</title>
+<ellipse fill="#dbeafe" stroke="#1d4ed8" cx="1212" cy="-455.94" rx="107.94" ry="31.11"/>
+<text xml:space="preserve" text-anchor="middle" x="1212" y="-464.94" font-family="Helvetica,Arial,sans-serif" font-size="10.00">Process 1.0:</text>
+<text xml:space="preserve" text-anchor="middle" x="1212" y="-452.94" font-family="Helvetica,Arial,sans-serif" font-size="10.00">Auth &amp; Account Management</text>
+<text xml:space="preserve" text-anchor="middle" x="1212" y="-440.94" font-family="Helvetica,Arial,sans-serif" font-size="10.00">(Login, Register, Profile, Session)</text>
+</g>
+<!-- WebRouter&#45;&gt;AuthProcess -->
+<g id="edge8" class="edge">
+<title>WebRouter-&gt;AuthProcess</title>
+<path fill="none" stroke="#334155" d="M1281.84,-628.06C1281.84,-628.06 1281.84,-491.61 1281.84,-491.61"/>
+<polygon fill="#334155" stroke="#334155" points="1285.34,-491.61 1281.84,-481.61 1278.34,-491.61 1285.34,-491.61"/>
+<text xml:space="preserve" text-anchor="middle" x="1298" y="-584.75" font-family="Helvetica,Arial,sans-serif" font-size="9.00">DF8: Auth &amp; Profile Routes</text>
+</g>
+<!-- MarketplaceProcess -->
+<g id="node9" class="node">
+<title>MarketplaceProcess</title>
+<ellipse fill="#dbeafe" stroke="#1d4ed8" cx="1806" cy="-455.94" rx="118.33" ry="31.11"/>
+<text xml:space="preserve" text-anchor="middle" x="1806" y="-464.94" font-family="Helvetica,Arial,sans-serif" font-size="10.00">Process 2.0:</text>
+<text xml:space="preserve" text-anchor="middle" x="1806" y="-452.94" font-family="Helvetica,Arial,sans-serif" font-size="10.00">Marketplace &amp; Geolocation Search</text>
+<text xml:space="preserve" text-anchor="middle" x="1806" y="-440.94" font-family="Helvetica,Arial,sans-serif" font-size="10.00">(Haversine Distance, Filters, Catalog)</text>
+</g>
+<!-- WebRouter&#45;&gt;MarketplaceProcess -->
+<g id="edge9" class="edge">
+<title>WebRouter-&gt;MarketplaceProcess</title>
+<path fill="none" stroke="#334155" d="M1450.53,-640C1593.63,-640 1806,-640 1806,-640 1806,-640 1806,-498.68 1806,-498.68"/>
+<polygon fill="#334155" stroke="#334155" points="1809.5,-498.68 1806,-488.68 1802.5,-498.68 1809.5,-498.68"/>
+<text xml:space="preserve" text-anchor="middle" x="1760.49" y="-584.75" font-family="Helvetica,Arial,sans-serif" font-size="9.00">DF9: Search &amp; Catalog Queries</text>
+</g>
+<!-- ServiceProcess -->
+<g id="node10" class="node">
+<title>ServiceProcess</title>
+<ellipse fill="#dbeafe" stroke="#1d4ed8" cx="939" cy="-455.94" rx="122.25" ry="31.11"/>
+<text xml:space="preserve" text-anchor="middle" x="939" y="-464.94" font-family="Helvetica,Arial,sans-serif" font-size="10.00">Process 3.0:</text>
+<text xml:space="preserve" text-anchor="middle" x="939" y="-452.94" font-family="Helvetica,Arial,sans-serif" font-size="10.00">Service Management</text>
+<text xml:space="preserve" text-anchor="middle" x="939" y="-440.94" font-family="Helvetica,Arial,sans-serif" font-size="10.00">(Create, Update, Upload Media, Trash)</text>
+</g>
+<!-- WebRouter&#45;&gt;ServiceProcess -->
+<g id="edge10" class="edge">
+<title>WebRouter-&gt;ServiceProcess</title>
+<path fill="none" stroke="#334155" d="M1243.74,-631.07C1243.74,-594.46 1243.74,-534 1243.74,-534 1243.74,-534 957.21,-534 957.21,-534 957.21,-534 957.21,-498.3 957.21,-498.3"/>
+<polygon fill="#334155" stroke="#334155" points="960.71,-498.3 957.21,-488.3 953.71,-498.3 960.71,-498.3"/>
+<text xml:space="preserve" text-anchor="middle" x="1069.12" y="-584.75" font-family="Helvetica,Arial,sans-serif" font-size="9.00">DF10: Service CRUD Requests</text>
+</g>
+<!-- BookingProcess -->
+<g id="node11" class="node">
+<title>BookingProcess</title>
+<ellipse fill="#dbeafe" stroke="#1d4ed8" cx="648" cy="-455.94" rx="125.62" ry="31.11"/>
+<text xml:space="preserve" text-anchor="middle" x="648" y="-464.94" font-family="Helvetica,Arial,sans-serif" font-size="10.00">Process 4.0:</text>
+<text xml:space="preserve" text-anchor="middle" x="648" y="-452.94" font-family="Helvetica,Arial,sans-serif" font-size="10.00">Booking &amp; Order Workflow</text>
+<text xml:space="preserve" text-anchor="middle" x="648" y="-440.94" font-family="Helvetica,Arial,sans-serif" font-size="10.00">(Quotas, Status Transitions, Admin Fee)</text>
+</g>
+<!-- WebRouter&#45;&gt;BookingProcess -->
+<g id="edge11" class="edge">
+<title>WebRouter-&gt;BookingProcess</title>
+<path fill="none" stroke="#334155" d="M1205.63,-637.63C1205.63,-614.72 1205.63,-581 1205.63,-581 1205.63,-581 703.24,-581 703.24,-581 703.24,-581 703.24,-495.83 703.24,-495.83"/>
+<polygon fill="#334155" stroke="#334155" points="706.74,-495.83 703.24,-485.83 699.74,-495.83 706.74,-495.83"/>
+<text xml:space="preserve" text-anchor="middle" x="842.88" y="-584.75" font-family="Helvetica,Arial,sans-serif" font-size="9.00">DF11: Booking Action Requests</text>
+</g>
+<!-- PaymentProcess -->
+<g id="node12" class="node">
+<title>PaymentProcess</title>
+<ellipse fill="#dbeafe" stroke="#1d4ed8" cx="674" cy="-253.51" rx="151.53" ry="31.11"/>
+<text xml:space="preserve" text-anchor="middle" x="674" y="-262.51" font-family="Helvetica,Arial,sans-serif" font-size="10.00">Process 5.0:</text>
+<text xml:space="preserve" text-anchor="middle" x="674" y="-250.51" font-family="Helvetica,Arial,sans-serif" font-size="10.00">Payment Processing &amp; Webhook Handler</text>
+<text xml:space="preserve" text-anchor="middle" x="674" y="-238.51" font-family="Helvetica,Arial,sans-serif" font-size="10.00">(Snap Token Request, SHA512 Signature Check)</text>
+</g>
+<!-- WebRouter&#45;&gt;PaymentProcess -->
+<g id="edge12" class="edge">
+<title>WebRouter-&gt;PaymentProcess</title>
+<path fill="none" stroke="#334155" d="M1341.42,-626.76C1341.42,-533.18 1341.42,-264 1341.42,-264 1341.42,-264 828.69,-264 828.69,-264"/>
+<polygon fill="#334155" stroke="#334155" points="828.69,-260.5 818.69,-264 828.69,-267.5 828.69,-260.5"/>
+<text xml:space="preserve" text-anchor="middle" x="407.73" y="-453.24" font-family="Helvetica,Arial,sans-serif" font-size="9.00">DF12: Pay Request (Token Generation)</text>
+</g>
+<!-- ChatProcess -->
+<g id="node13" class="node">
+<title>ChatProcess</title>
+<ellipse fill="#dbeafe" stroke="#1d4ed8" cx="2403" cy="-455.94" rx="134.83" ry="31.11"/>
+<text xml:space="preserve" text-anchor="middle" x="2403" y="-464.94" font-family="Helvetica,Arial,sans-serif" font-size="10.00">Process 6.0:</text>
+<text xml:space="preserve" text-anchor="middle" x="2403" y="-452.94" font-family="Helvetica,Arial,sans-serif" font-size="10.00">Chat &amp; Messaging Controller</text>
+<text xml:space="preserve" text-anchor="middle" x="2403" y="-440.94" font-family="Helvetica,Arial,sans-serif" font-size="10.00">(Hashids Decode, Soft Delete, Read Status)</text>
+</g>
+<!-- WebRouter&#45;&gt;ChatProcess -->
+<g id="edge13" class="edge">
+<title>WebRouter-&gt;ChatProcess</title>
+<path fill="none" stroke="#334155" d="M1475.73,-665C1773.55,-665 2403,-665 2403,-665 2403,-665 2403,-498.75 2403,-498.75"/>
+<polygon fill="#334155" stroke="#334155" points="2406.5,-498.75 2403,-488.75 2399.5,-498.75 2406.5,-498.75"/>
+<text xml:space="preserve" text-anchor="middle" x="2361.74" y="-584.75" font-family="Helvetica,Arial,sans-serif" font-size="9.00">DF13: Chat Dispatch &amp; Delete</text>
+</g>
+<!-- ReviewProcess -->
+<g id="node14" class="node">
+<title>ReviewProcess</title>
+<ellipse fill="#dbeafe" stroke="#1d4ed8" cx="1504" cy="-455.94" rx="141.11" ry="31.11"/>
+<text xml:space="preserve" text-anchor="middle" x="1504" y="-464.94" font-family="Helvetica,Arial,sans-serif" font-size="10.00">Process 7.0:</text>
+<text xml:space="preserve" text-anchor="middle" x="1504" y="-452.94" font-family="Helvetica,Arial,sans-serif" font-size="10.00">Review &amp; Rating System</text>
+<text xml:space="preserve" text-anchor="middle" x="1504" y="-440.94" font-family="Helvetica,Arial,sans-serif" font-size="10.00">(Image Upload WebP, Observers, Score Avg)</text>
+</g>
+<!-- WebRouter&#45;&gt;ReviewProcess -->
+<g id="edge14" class="edge">
+<title>WebRouter-&gt;ReviewProcess</title>
+<path fill="none" stroke="#334155" d="M1420.68,-633.54C1420.68,-633.54 1420.68,-492.79 1420.68,-492.79"/>
+<polygon fill="#334155" stroke="#334155" points="1424.18,-492.79 1420.68,-482.79 1417.18,-492.79 1424.18,-492.79"/>
+<text xml:space="preserve" text-anchor="middle" x="1492.25" y="-584.75" font-family="Helvetica,Arial,sans-serif" font-size="9.00">DF14: Review Submit &amp; Update</text>
+</g>
+<!-- AdminProcess -->
+<g id="node15" class="node">
+<title>AdminProcess</title>
+<ellipse fill="#dbeafe" stroke="#1d4ed8" cx="2096" cy="-455.94" rx="129.14" ry="31.11"/>
+<text xml:space="preserve" text-anchor="middle" x="2096" y="-464.94" font-family="Helvetica,Arial,sans-serif" font-size="10.00">Process 8.0:</text>
+<text xml:space="preserve" text-anchor="middle" x="2096" y="-452.94" font-family="Helvetica,Arial,sans-serif" font-size="10.00">Admin Operations &amp; Reports</text>
+<text xml:space="preserve" text-anchor="middle" x="2096" y="-440.94" font-family="Helvetica,Arial,sans-serif" font-size="10.00">(Category CRUD, User Reports, Metrics)</text>
+</g>
+<!-- WebRouter&#45;&gt;AdminProcess -->
+<g id="edge15" class="edge">
+<title>WebRouter-&gt;AdminProcess</title>
+<path fill="none" stroke="#334155" d="M1475.72,-652C1701,-652 2096,-652 2096,-652 2096,-652 2096,-498.95 2096,-498.95"/>
+<polygon fill="#334155" stroke="#334155" points="2099.5,-498.95 2096,-488.95 2092.5,-498.95 2099.5,-498.95"/>
+<text xml:space="preserve" text-anchor="middle" x="2097" y="-584.75" font-family="Helvetica,Arial,sans-serif" font-size="9.00">DF15: Admin &amp; Report Operations</text>
+</g>
+<!-- LogFileStorage -->
+<g id="node20" class="node">
+<title>LogFileStorage</title>
+<polygon fill="#d1fae5" stroke="#047857" stroke-width="1.5" points="3153.53,-82.5 3150.53,-86.5 3129.53,-86.5 3126.53,-82.5 3006.47,-82.5 3006.47,-26.5 3153.53,-26.5 3153.53,-82.5"/>
+<text xml:space="preserve" text-anchor="middle" x="3080" y="-69.5" font-family="Helvetica,Arial,sans-serif" font-size="10.00">Data Store D3:</text>
+<text xml:space="preserve" text-anchor="middle" x="3080" y="-57.5" font-family="Helvetica,Arial,sans-serif" font-size="10.00">Laravel Logs</text>
+<text xml:space="preserve" text-anchor="middle" x="3080" y="-45.5" font-family="Helvetica,Arial,sans-serif" font-size="10.00">(storage/logs/laravel.log)</text>
+<text xml:space="preserve" text-anchor="middle" x="3080" y="-33.5" font-family="Helvetica,Arial,sans-serif" font-size="10.00">[Debug Traces, Midtrans Errors]</text>
+</g>
+<!-- WebRouter&#45;&gt;LogFileStorage -->
+<g id="edge36" class="edge">
+<title>WebRouter-&gt;LogFileStorage</title>
+<path fill="none" stroke="#334155" d="M1449.69,-677C1856.7,-677 3104.51,-677 3104.51,-677 3104.51,-677 3104.51,-94.38 3104.51,-94.38"/>
+<polygon fill="#334155" stroke="#334155" points="3108.01,-94.38 3104.51,-84.38 3101.01,-94.38 3108.01,-94.38"/>
+<text xml:space="preserve" text-anchor="middle" x="3803.88" y="-382.33" font-family="Helvetica,Arial,sans-serif" font-size="9.00">DF36: Internal Error Logs (APP_DEBUG=false, User Sees Generic 500)</text>
+</g>
+<!-- ApiRouter&#45;&gt;PaymentProcess -->
+<g id="edge16" class="edge">
+<title>ApiRouter-&gt;PaymentProcess</title>
+<path fill="none" stroke="#334155" d="M852.57,-658C829.02,-658 811.95,-658 811.95,-658 811.95,-658 811.95,-278.03 811.95,-278.03"/>
+<polygon fill="#334155" stroke="#334155" points="815.45,-278.03 811.95,-268.03 808.45,-278.03 815.45,-278.03"/>
+<text xml:space="preserve" text-anchor="middle" x="178.99" y="-458.64" font-family="Helvetica,Arial,sans-serif" font-size="9.00">DF16: Raw Midtrans Callback Payload</text>
+<text xml:space="preserve" text-anchor="middle" x="178.99" y="-447.84" font-family="Helvetica,Arial,sans-serif" font-size="9.00">[Signature Key, Status, OrderID]</text>
+</g>
+<!-- MySQLDatabase -->
+<g id="node18" class="node">
+<title>MySQLDatabase</title>
+<path fill="#d1fae5" stroke="#047857" stroke-width="1.5" d="M2963.76,-86C2963.76,-89.86 2918.6,-93 2863,-93 2807.4,-93 2762.24,-89.86 2762.24,-86 2762.24,-86 2762.24,-23 2762.24,-23 2762.24,-19.14 2807.4,-16 2863,-16 2918.6,-16 2963.76,-19.14 2963.76,-23 2963.76,-23 2963.76,-86 2963.76,-86"/>
+<path fill="none" stroke="#047857" stroke-width="1.5" d="M2963.76,-86C2963.76,-82.14 2918.6,-79 2863,-79 2807.4,-79 2762.24,-82.14 2762.24,-86"/>
+<text xml:space="preserve" text-anchor="middle" x="2863" y="-69.5" font-family="Helvetica,Arial,sans-serif" font-size="10.00">Data Store D1:</text>
+<text xml:space="preserve" text-anchor="middle" x="2863" y="-57.5" font-family="Helvetica,Arial,sans-serif" font-size="10.00">MySQL Database (findservices)</text>
+<text xml:space="preserve" text-anchor="middle" x="2863" y="-45.5" font-family="Helvetica,Arial,sans-serif" font-size="10.00">[Tables: users, services, bookings,</text>
+<text xml:space="preserve" text-anchor="middle" x="2863" y="-33.5" font-family="Helvetica,Arial,sans-serif" font-size="10.00">chats, reviews, reports, sessions, notifications]</text>
+</g>
+<!-- AuthProcess&#45;&gt;MySQLDatabase -->
+<g id="edge23" class="edge">
+<title>AuthProcess-&gt;MySQLDatabase</title>
+<path fill="none" stroke="#334155" d="M1247.98,-426.22C1247.98,-338.87 1247.98,-89 1247.98,-89 1247.98,-89 2750.15,-89 2750.15,-89"/>
+<polygon fill="#334155" stroke="#334155" points="2750.15,-92.5 2760.15,-89 2750.15,-85.5 2750.15,-92.5"/>
+<text xml:space="preserve" text-anchor="middle" x="2072.99" y="-250.81" font-family="Helvetica,Arial,sans-serif" font-size="9.00">DF23: Read/Write Users &amp; Sessions</text>
+</g>
+<!-- LocalStorage -->
+<g id="node19" class="node">
+<title>LocalStorage</title>
+<polygon fill="#d1fae5" stroke="#047857" stroke-width="1.5" points="2719.52,-82.5 2716.52,-86.5 2695.52,-86.5 2692.52,-82.5 2562.48,-82.5 2562.48,-26.5 2719.52,-26.5 2719.52,-82.5"/>
+<text xml:space="preserve" text-anchor="middle" x="2641" y="-69.5" font-family="Helvetica,Arial,sans-serif" font-size="10.00">Data Store D2:</text>
+<text xml:space="preserve" text-anchor="middle" x="2641" y="-57.5" font-family="Helvetica,Arial,sans-serif" font-size="10.00">Local File System Disk</text>
+<text xml:space="preserve" text-anchor="middle" x="2641" y="-45.5" font-family="Helvetica,Arial,sans-serif" font-size="10.00">(storage/app/public)</text>
+<text xml:space="preserve" text-anchor="middle" x="2641" y="-33.5" font-family="Helvetica,Arial,sans-serif" font-size="10.00">[avatars, services, reviews, reports]</text>
+</g>
+<!-- AuthProcess&#45;&gt;LocalStorage -->
+<g id="edge24" class="edge">
+<title>AuthProcess-&gt;LocalStorage</title>
+<path fill="none" stroke="#334155" d="M1176.02,-426.13C1176.02,-333.21 1176.02,-55 1176.02,-55 1176.02,-55 2550.46,-55 2550.46,-55"/>
+<polygon fill="#334155" stroke="#334155" points="2550.46,-58.5 2560.46,-55 2550.46,-51.5 2550.46,-58.5"/>
+<text xml:space="preserve" text-anchor="middle" x="1386.98" y="-250.81" font-family="Helvetica,Arial,sans-serif" font-size="9.00">DF24: Write Avatars (.webp)</text>
+</g>
+<!-- MarketplaceProcess&#45;&gt;MySQLDatabase -->
+<g id="edge25" class="edge">
+<title>MarketplaceProcess-&gt;MySQLDatabase</title>
+<path fill="none" stroke="#334155" d="M1806,-424.51C1806,-335.99 1806,-91 1806,-91 1806,-91 2756.29,-91 2756.29,-91"/>
+<polygon fill="#334155" stroke="#334155" points="2756.29,-94.5 2766.29,-91 2756.29,-87.5 2756.29,-94.5"/>
+<text xml:space="preserve" text-anchor="middle" x="2731.61" y="-250.81" font-family="Helvetica,Arial,sans-serif" font-size="9.00">DF25: Haversine Query &amp; Category Reads</text>
+</g>
+<!-- ServiceProcess&#45;&gt;MySQLDatabase -->
+<g id="edge26" class="edge">
+<title>ServiceProcess-&gt;MySQLDatabase</title>
+<path fill="none" stroke="#334155" d="M1004.44,-429.48C1004.44,-345.11 1004.44,-88 1004.44,-88 1004.44,-88 2750.24,-88 2750.24,-88"/>
+<polygon fill="#334155" stroke="#334155" points="2750.24,-91.5 2760.24,-88 2750.24,-84.5 2750.24,-91.5"/>
+<text xml:space="preserve" text-anchor="middle" x="1597.73" y="-250.81" font-family="Helvetica,Arial,sans-serif" font-size="9.00">DF26: Read/Write Services &amp; Galleries</text>
+</g>
+<!-- ServiceProcess&#45;&gt;LocalStorage -->
+<g id="edge27" class="edge">
+<title>ServiceProcess-&gt;LocalStorage</title>
+<path fill="none" stroke="#334155" d="M1061.55,-456C1081.09,-456 1095.02,-456 1095.02,-456 1095.02,-456 1095.02,-41 1095.02,-41 1095.02,-41 2550.43,-41 2550.43,-41"/>
+<polygon fill="#334155" stroke="#334155" points="2550.43,-44.5 2560.43,-41 2550.43,-37.5 2550.43,-44.5"/>
+<text xml:space="preserve" text-anchor="middle" x="1183.37" y="-250.81" font-family="Helvetica,Arial,sans-serif" font-size="9.00">DF27: Save Service Photos (.webp)</text>
+</g>
+<!-- BookingProcess&#45;&gt;PaymentProcess -->
+<g id="edge17" class="edge">
+<title>BookingProcess-&gt;PaymentProcess</title>
+<path fill="none" stroke="#334155" d="M572.7,-430.71C572.7,-430.71 572.7,-288.37 572.7,-288.37"/>
+<polygon fill="#334155" stroke="#334155" points="576.2,-288.37 572.7,-278.37 569.2,-288.37 576.2,-288.37"/>
+<text xml:space="preserve" text-anchor="middle" x="713.37" y="-382.33" font-family="Helvetica,Arial,sans-serif" font-size="9.00">DF17: Initiate Snap Payment</text>
+</g>
+<!-- NotificationProcess -->
+<g id="node16" class="node">
+<title>NotificationProcess</title>
+<ellipse fill="#dbeafe" stroke="#1d4ed8" cx="960" cy="-54.5" rx="125.98" ry="31.11"/>
+<text xml:space="preserve" text-anchor="middle" x="960" y="-63.5" font-family="Helvetica,Arial,sans-serif" font-size="10.00">Process 9.0:</text>
+<text xml:space="preserve" text-anchor="middle" x="960" y="-51.5" font-family="Helvetica,Arial,sans-serif" font-size="10.00">Notification Dispatcher</text>
+<text xml:space="preserve" text-anchor="middle" x="960" y="-39.5" font-family="Helvetica,Arial,sans-serif" font-size="10.00">(Database Notifications &amp; Mail Trigger)</text>
+</g>
+<!-- BookingProcess&#45;&gt;NotificationProcess -->
+<g id="edge19" class="edge">
+<title>BookingProcess-&gt;NotificationProcess</title>
+<path fill="none" stroke="#334155" d="M622.93,-425.09C622.93,-384.98 622.93,-320 622.93,-320 622.93,-320 947.63,-320 947.63,-320 947.63,-320 947.63,-97.25 947.63,-97.25"/>
+<polygon fill="#334155" stroke="#334155" points="951.13,-97.25 947.63,-87.25 944.13,-97.25 951.13,-97.25"/>
+<text xml:space="preserve" text-anchor="middle" x="972.61" y="-250.81" font-family="Helvetica,Arial,sans-serif" font-size="9.00">DF19: Trigger Order Notification</text>
+</g>
+<!-- BookingProcess&#45;&gt;ReverbDaemon -->
+<g id="edge22" class="edge">
+<title>BookingProcess-&gt;ReverbDaemon</title>
+<path fill="none" stroke="#334155" d="M723.39,-430.63C723.39,-412.04 723.39,-390 723.39,-390 723.39,-390 3404.23,-390 3404.23,-390 3404.23,-390 3404.23,-294.64 3404.23,-294.64"/>
+<polygon fill="#334155" stroke="#334155" points="3407.73,-294.64 3404.23,-284.64 3400.73,-294.64 3407.73,-294.64"/>
+<text xml:space="preserve" text-anchor="middle" x="2113.12" y="-387.73" font-family="Helvetica,Arial,sans-serif" font-size="9.00">DF22: Broadcast BookingStatusUpdated Event</text>
+<text xml:space="preserve" text-anchor="middle" x="2113.12" y="-376.93" font-family="Helvetica,Arial,sans-serif" font-size="9.00">[Crosses TB 3 -&gt; TB 4]</text>
+</g>
+<!-- BookingProcess&#45;&gt;MySQLDatabase -->
+<g id="edge28" class="edge">
+<title>BookingProcess-&gt;MySQLDatabase</title>
+<path fill="none" stroke="#334155" d="M673.16,-425.1C673.16,-395.42 673.16,-355 673.16,-355 673.16,-355 2863,-355 2863,-355 2863,-355 2863,-104.99 2863,-104.99"/>
+<polygon fill="#334155" stroke="#334155" points="2866.5,-104.99 2863,-94.99 2859.5,-104.99 2866.5,-104.99"/>
+<text xml:space="preserve" text-anchor="middle" x="1837.87" y="-250.81" font-family="Helvetica,Arial,sans-serif" font-size="9.00">DF28: Read/Write Bookings &amp; Checks Quota</text>
+</g>
+<!-- PaymentProcess&#45;&gt;MidtransGateway -->
+<g id="edge18" class="edge">
+<title>PaymentProcess-&gt;MidtransGateway</title>
+<path fill="none" stroke="#334155" d="M784.79,-275.04C784.79,-275.04 784.79,-965.46 784.79,-965.46"/>
+<polygon fill="#334155" stroke="#334155" points="781.29,-965.46 784.79,-975.46 788.29,-965.46 781.29,-965.46"/>
+<text xml:space="preserve" text-anchor="middle" x="93.62" y="-661.06" font-family="Helvetica,Arial,sans-serif" font-size="9.00">DF18: Snap API Request (Gross Amount, OrderID)</text>
+<text xml:space="preserve" text-anchor="middle" x="93.62" y="-650.26" font-family="Helvetica,Arial,sans-serif" font-size="9.00">[Crosses TB 3 -&gt; TB 1]</text>
+</g>
+<!-- PaymentProcess&#45;&gt;NotificationProcess -->
+<g id="edge20" class="edge">
+<title>PaymentProcess-&gt;NotificationProcess</title>
+<path fill="none" stroke="#334155" d="M789.4,-233C841.18,-233 890.82,-233 890.82,-233 890.82,-233 890.82,-92.35 890.82,-92.35"/>
+<polygon fill="#334155" stroke="#334155" points="894.32,-92.35 890.82,-82.35 887.32,-92.35 894.32,-92.35"/>
+<text xml:space="preserve" text-anchor="middle" x="789.86" y="-185.3" font-family="Helvetica,Arial,sans-serif" font-size="9.00">DF20: Trigger Payment Notification</text>
+</g>
+<!-- PaymentProcess&#45;&gt;MySQLDatabase -->
+<g id="edge29" class="edge">
+<title>PaymentProcess-&gt;MySQLDatabase</title>
+<path fill="none" stroke="#334155" d="M817.22,-243C1296.27,-243 2812.62,-243 2812.62,-243 2812.62,-243 2812.62,-105.07 2812.62,-105.07"/>
+<polygon fill="#334155" stroke="#334155" points="2816.12,-105.07 2812.62,-95.07 2809.12,-105.07 2816.12,-105.07"/>
+<text xml:space="preserve" text-anchor="middle" x="1041.99" y="-185.3" font-family="Helvetica,Arial,sans-serif" font-size="9.00">DF29: Update payment_status &amp; snap_token</text>
+</g>
+<!-- PaymentProcess&#45;&gt;LogFileStorage -->
+<g id="edge35" class="edge">
+<title>PaymentProcess-&gt;LogFileStorage</title>
+<path fill="none" stroke="#334155" d="M825.69,-254C1350.25,-254 3055.49,-254 3055.49,-254 3055.49,-254 3055.49,-94.6 3055.49,-94.6"/>
+<polygon fill="#334155" stroke="#334155" points="3058.99,-94.6 3055.49,-84.6 3051.99,-94.6 3058.99,-94.6"/>
+<text xml:space="preserve" text-anchor="middle" x="2577.11" y="-185.3" font-family="Helvetica,Arial,sans-serif" font-size="9.00">DF35: Log Errors &amp; Callback Traces</text>
+</g>
+<!-- ChatProcess&#45;&gt;ReverbDaemon -->
+<g id="edge21" class="edge">
+<title>ChatProcess-&gt;ReverbDaemon</title>
+<path fill="none" stroke="#334155" d="M2403,-424.66C2403,-372.64 2403,-274 2403,-274 2403,-274 3327.14,-274 3327.14,-274"/>
+<polygon fill="#334155" stroke="#334155" points="3327.14,-277.5 3337.14,-274 3327.14,-270.5 3327.14,-277.5"/>
+<text xml:space="preserve" text-anchor="middle" x="3396.11" y="-387.73" font-family="Helvetica,Arial,sans-serif" font-size="9.00">DF21: Broadcast MessageSent Event</text>
+<text xml:space="preserve" text-anchor="middle" x="3396.11" y="-376.93" font-family="Helvetica,Arial,sans-serif" font-size="9.00">[Crosses TB 3 -&gt; TB 4]</text>
+</g>
+<!-- ChatProcess&#45;&gt;MySQLDatabase -->
+<g id="edge30" class="edge">
+<title>ChatProcess-&gt;MySQLDatabase</title>
+<path fill="none" stroke="#334155" d="M2538.1,-456C2689.3,-456 2913.38,-456 2913.38,-456 2913.38,-456 2913.38,-105.24 2913.38,-105.24"/>
+<polygon fill="#334155" stroke="#334155" points="2916.88,-105.24 2913.38,-95.24 2909.88,-105.24 2916.88,-105.24"/>
+<text xml:space="preserve" text-anchor="middle" x="3196.11" y="-250.81" font-family="Helvetica,Arial,sans-serif" font-size="9.00">DF30: Insert/Soft Delete Messages</text>
+</g>
+<!-- ReviewProcess&#45;&gt;MySQLDatabase -->
+<g id="edge31" class="edge">
+<title>ReviewProcess-&gt;MySQLDatabase</title>
+<path fill="none" stroke="#334155" d="M1551.04,-426.3C1551.04,-339.18 1551.04,-90 1551.04,-90 1551.04,-90 2750.17,-90 2750.17,-90"/>
+<polygon fill="#334155" stroke="#334155" points="2750.17,-93.5 2760.17,-90 2750.17,-86.5 2750.17,-93.5"/>
+<text xml:space="preserve" text-anchor="middle" x="2504.12" y="-250.81" font-family="Helvetica,Arial,sans-serif" font-size="9.00">DF31: Save Review &amp; Image Paths</text>
+</g>
+<!-- ReviewProcess&#45;&gt;LocalStorage -->
+<g id="edge32" class="edge">
+<title>ReviewProcess-&gt;LocalStorage</title>
+<path fill="none" stroke="#334155" d="M1456.96,-426.22C1456.96,-335.61 1456.96,-69 1456.96,-69 1456.96,-69 2550.42,-69 2550.42,-69"/>
+<polygon fill="#334155" stroke="#334155" points="2550.42,-72.5 2560.42,-69 2550.42,-65.5 2550.42,-72.5"/>
+<text xml:space="preserve" text-anchor="middle" x="2289.62" y="-250.81" font-family="Helvetica,Arial,sans-serif" font-size="9.00">DF32: Save Review Photos (.webp)</text>
+</g>
+<!-- AdminProcess&#45;&gt;MySQLDatabase -->
+<g id="edge33" class="edge">
+<title>AdminProcess-&gt;MySQLDatabase</title>
+<path fill="none" stroke="#334155" d="M2096,-424.59C2096,-336.32 2096,-92 2096,-92 2096,-92 2770.85,-92 2770.85,-92"/>
+<polygon fill="#334155" stroke="#334155" points="2770.85,-95.5 2780.85,-92 2770.85,-88.5 2770.85,-95.5"/>
+<text xml:space="preserve" text-anchor="middle" x="2971.12" y="-250.81" font-family="Helvetica,Arial,sans-serif" font-size="9.00">DF33: Update Report Status &amp; Categories</text>
+</g>
+<!-- NotificationProcess&#45;&gt;MySQLDatabase -->
+<g id="edge34" class="edge">
+<title>NotificationProcess-&gt;MySQLDatabase</title>
+<path fill="none" stroke="#334155" d="M1073.62,-68.09C1073.62,-77 1073.62,-87 1073.62,-87 1073.62,-87 2750.15,-87 2750.15,-87"/>
+<polygon fill="#334155" stroke="#334155" points="2750.15,-90.5 2760.15,-87 2750.15,-83.5 2750.15,-90.5"/>
+<text xml:space="preserve" text-anchor="middle" x="1242" y="-185.3" font-family="Helvetica,Arial,sans-serif" font-size="9.00">DF34: Store Database Notifications</text>
+</g>
+</g>
+</svg>

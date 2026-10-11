@@ -36,10 +36,10 @@ threats = [
     },
     {
         'id': 'CVE-2023-40028 / CWE-209',
-        'desc': 'Information Disclosure via APP_DEBUG=true & Logging Error Sensitive Data di Environment Production',
+        'desc': '[TERMITIGASI] Information Disclosure via APP_DEBUG & Error Trace (Status: Dinonaktifkan di .env)',
         'stride_S': 0, 'stride_T': 0, 'stride_R': 0, 'stride_I': 1, 'stride_D': 0, 'stride_E': 0,
-        'dread_Damage': 7, 'dread_Reproducibility': 9, 'dread_Exploitability': 9, 'dread_AffectedUsers': 9, 'dread_Discoverability': 9,
-        'note': 'Debug mode aktif menampilkan stack trace, variabel lingkungan, kredensial DB, dan API Key saat terjadi exception.'
+        'dread_Damage': 2, 'dread_Reproducibility': 1, 'dread_Exploitability': 1, 'dread_AffectedUsers': 1, 'dread_Discoverability': 1,
+        'note': 'Termitigasi: Nilai APP_DEBUG telah diubah menjadi false pada .env sehingga detail exception/kredensial tidak lagi terekspos.'
     },
     {
         'id': 'CVE-2023-38035 / CWE-770',
