@@ -1,0 +1,303 @@
+digraph FindServices_DFD_TrustBoundary {
+    graph [
+        rankdir=TB,
+        splines=ortho,
+        nodesep=0.6,
+        ranksep=0.8,
+        fontname="Helvetica,Arial,sans-serif",
+        fontsize=12,
+        compound=true,
+        bgcolor="#F8FAFC"
+    ];
+
+    node [
+        fontname="Helvetica,Arial,sans-serif",
+        fontsize=10,
+        style="filled,rounded",
+        shape=box
+    ];
+
+    edge [
+        fontname="Helvetica,Arial,sans-serif",
+        fontsize=9,
+        color="#334155"
+    ];
+
+    // ==========================================
+    // TRUST BOUNDARY 1: External Untrusted Zone
+    // ==========================================
+    subgraph cluster_external_untrusted {
+        label = "TB 1: Zona Eksternal (Untrusted Public Zone)\n[Pengguna & Pihak Luar]";
+        style = "dashed,rounded";
+        color = "#EF4444";
+        bgcolor = "#FEF2F2";
+        penwidth = 2.0;
+
+        Customer [
+            label = "External Entity:\nCustomer / Klien\n(Web Browser / Mobile Client)",
+            shape = box,
+            fillcolor = "#FEE2E2",
+            color = "#B91C1C",
+            style = "filled,rounded",
+            penwidth = 1.5
+        ];
+
+        Provider [
+            label = "External Entity:\nService Provider / Tukang\n(Web Browser Client)",
+            shape = box,
+            fillcolor = "#FEE2E2",
+            color = "#B91C1C",
+            style = "filled,rounded",
+            penwidth = 1.5
+        ];
+
+        AdminUser [
+            label = "External Entity:\nAdministrator Sistem\n(Browser Back-office)",
+            shape = box,
+            fillcolor = "#FEE2E2",
+            color = "#B91C1C",
+            style = "filled,rounded",
+            penwidth = 1.5
+        ];
+
+        MidtransGateway [
+            label = "External Entity:\nMidtrans Payment Gateway\n(Payment Service & Webhook Trigger)",
+            shape = box,
+            fillcolor = "#FED7AA",
+            color = "#C2410C",
+            style = "filled,rounded",
+            penwidth = 1.5
+        ];
+    }
+
+    // ==========================================
+    // TRUST BOUNDARY 2: Network Perimeter / Edge
+    // ==========================================
+    subgraph cluster_network_perimeter {
+        label = "TB 2: Perimeter Jaringan & Reverse Proxy\n[TLS Ingress / Cloudflare Tunnel / Nginx]";
+        style = "dashed,rounded";
+        color = "#F59E0B";
+        bgcolor = "#FFFBEB";
+        penwidth = 2.0;
+
+        CloudflareEdge [
+            label = "Process 0.1:\nCloudflare Tunnel / Edge\n(Reverse Proxy & SSL Termination)\n[app.cornel.my.id / ws.cornel.my.id]",
+            shape = ellipse,
+            fillcolor = "#FEF3C7",
+            color = "#D97706",
+            style = "filled",
+            penwidth = 1.5
+        ];
+
+        WebRouter [
+            label = "Process 0.2:\nLaravel Web Routing & Middlewares\n(CSRF, Session, Authenticate, AdminMiddleware)",
+            shape = ellipse,
+            fillcolor = "#FEF3C7",
+            color = "#D97706",
+            style = "filled",
+            penwidth = 1.5
+        ];
+
+        ApiRouter [
+            label = "Process 0.3:\nLaravel API Routing\n(CSRF-Exempt Webhook Route / Sanctum)",
+            shape = ellipse,
+            fillcolor = "#FEF3C7",
+            color = "#D97706",
+            style = "filled",
+            penwidth = 1.5
+        ];
+    }
+
+    // ==========================================
+    // TRUST BOUNDARY 3: Core Application Boundary
+    // ==========================================
+    subgraph cluster_application_core {
+        label = "TB 3: Core Application Process Layer (Laravel 12 + Inertia/Vue)\n[Trusted Host Environment - PHP 8.3 / Laragon]";
+        style = "dashed,rounded";
+        color = "#3B82F6";
+        bgcolor = "#EFF6FF";
+        penwidth = 2.0;
+
+        AuthProcess [
+            label = "Process 1.0:\nAuth & Account Management\n(Login, Register, Profile, Session)",
+            shape = ellipse,
+            fillcolor = "#DBEAFE",
+            color = "#1D4ED8",
+            style = "filled"
+        ];
+
+        MarketplaceProcess [
+            label = "Process 2.0:\nMarketplace & Geolocation Search\n(Haversine Distance, Filters, Catalog)",
+            shape = ellipse,
+            fillcolor = "#DBEAFE",
+            color = "#1D4ED8",
+            style = "filled"
+        ];
+
+        ServiceProcess [
+            label = "Process 3.0:\nService Management\n(Create, Update, Upload Media, Trash)",
+            shape = ellipse,
+            fillcolor = "#DBEAFE",
+            color = "#1D4ED8",
+            style = "filled"
+        ];
+
+        BookingProcess [
+            label = "Process 4.0:\nBooking & Order Workflow\n(Quotas, Status Transitions, Admin Fee)",
+            shape = ellipse,
+            fillcolor = "#DBEAFE",
+            color = "#1D4ED8",
+            style = "filled"
+        ];
+
+        PaymentProcess [
+            label = "Process 5.0:\nPayment Processing & Webhook Handler\n(Snap Token Request, SHA512 Signature Check)",
+            shape = ellipse,
+            fillcolor = "#DBEAFE",
+            color = "#1D4ED8",
+            style = "filled"
+        ];
+
+        ChatProcess [
+            label = "Process 6.0:\nChat & Messaging Controller\n(Hashids Decode, Soft Delete, Read Status)",
+            shape = ellipse,
+            fillcolor = "#DBEAFE",
+            color = "#1D4ED8",
+            style = "filled"
+        ];
+
+        ReviewProcess [
+            label = "Process 7.0:\nReview & Rating System\n(Image Upload WebP, Observers, Score Avg)",
+            shape = ellipse,
+            fillcolor = "#DBEAFE",
+            color = "#1D4ED8",
+            style = "filled"
+        ];
+
+        AdminProcess [
+            label = "Process 8.0:\nAdmin Operations & Reports\n(Category CRUD, User Reports, Metrics)",
+            shape = ellipse,
+            fillcolor = "#DBEAFE",
+            color = "#1D4ED8",
+            style = "filled"
+        ];
+
+        NotificationProcess [
+            label = "Process 9.0:\nNotification Dispatcher\n(Database Notifications & Mail Trigger)",
+            shape = ellipse,
+            fillcolor = "#DBEAFE",
+            color = "#1D4ED8",
+            style = "filled"
+        ];
+    }
+
+    // ==========================================
+    // TRUST BOUNDARY 4: Real-time Daemon Zone
+    // ==========================================
+    subgraph cluster_realtime_daemon {
+        label = "TB 4: WebSocket Real-Time Daemon\n[Laravel Reverb Server - Port 8080]";
+        style = "dashed,rounded";
+        color = "#8B5CF6";
+        bgcolor = "#F5F3FF";
+        penwidth = 2.0;
+
+        ReverbDaemon [
+            label = "Process 10.0:\nLaravel Reverb WebSocket Server\n(MessageSent, BookingStatusUpdated, Channels)",
+            shape = ellipse,
+            fillcolor = "#EDE9FE",
+            color = "#6D28D9",
+            style = "filled"
+        ];
+    }
+
+    // ==========================================
+    // TRUST BOUNDARY 5: Persistent Storage Layer
+    // ==========================================
+    subgraph cluster_data_storage {
+        label = "TB 5: Persistent Data & File Storage Layer\n[Local MySQL Database & Storage Disk]";
+        style = "dashed,rounded";
+        color = "#10B981";
+        bgcolor = "#ECFDF5";
+        penwidth = 2.0;
+
+        MySQLDatabase [
+            label = "Data Store D1:\nMySQL Database (findservices)\n[Tables: users, services, bookings,\nchats, reviews, reports, sessions, notifications]",
+            shape = cylinder,
+            fillcolor = "#D1FAE5",
+            color = "#047857",
+            style = "filled",
+            penwidth = 1.5
+        ];
+
+        LocalStorage [
+            label = "Data Store D2:\nLocal File System Disk\n(storage/app/public)\n[avatars, services, reviews, reports]",
+            shape = folder,
+            fillcolor = "#D1FAE5",
+            color = "#047857",
+            style = "filled",
+            penwidth = 1.5
+        ];
+
+        LogFileStorage [
+            label = "Data Store D3:\nLaravel Logs\n(storage/logs/laravel.log)\n[Debug Traces, Midtrans Errors]",
+            shape = folder,
+            fillcolor = "#D1FAE5",
+            color = "#047857",
+            style = "filled",
+            penwidth = 1.5
+        ];
+    }
+
+    // ==========================================
+    // DATA FLOWS ACROSS TRUST BOUNDARIES
+    // ==========================================
+
+    // External to Perimeter
+    Customer -> CloudflareEdge [label = "DF1: HTTPS Requests (Browse, Book, Chat, Pay)"];
+    Provider -> CloudflareEdge [label = "DF2: HTTPS Requests (Manage Service, Confirm, Chat)"];
+    AdminUser -> CloudflareEdge [label = "DF3: HTTPS Requests (Admin Back-office)"];
+    MidtransGateway -> CloudflareEdge [label = "DF4: HTTP POST Webhook (/api/midtrans/callback)"];
+
+    // Cloudflare Edge to Web/API Routers
+    CloudflareEdge -> WebRouter [label = "DF5: Forwarded Web Request\n[Crosses TB 1 -> TB 2]"];
+    CloudflareEdge -> ApiRouter [label = "DF6: Forwarded API Callback\n[Crosses TB 1 -> TB 2]"];
+    CloudflareEdge -> ReverbDaemon [label = "DF7: WSS / WebSocket Upgrade Connection\n[ws.cornel.my.id:443 -> localhost:8080]"];
+
+    // Routers to Processes (Crosses TB 2 -> TB 3)
+    WebRouter -> AuthProcess [label = "DF8: Auth & Profile Routes"];
+    WebRouter -> MarketplaceProcess [label = "DF9: Search & Catalog Queries"];
+    WebRouter -> ServiceProcess [label = "DF10: Service CRUD Requests"];
+    WebRouter -> BookingProcess [label = "DF11: Booking Action Requests"];
+    WebRouter -> PaymentProcess [label = "DF12: Pay Request (Token Generation)"];
+    WebRouter -> ChatProcess [label = "DF13: Chat Dispatch & Delete"];
+    WebRouter -> ReviewProcess [label = "DF14: Review Submit & Update"];
+    WebRouter -> AdminProcess [label = "DF15: Admin & Report Operations"];
+
+    ApiRouter -> PaymentProcess [label = "DF16: Raw Midtrans Callback Payload\n[Signature Key, Status, OrderID]"];
+
+    // Process to Process Connections
+    BookingProcess -> PaymentProcess [label = "DF17: Initiate Snap Payment"];
+    PaymentProcess -> MidtransGateway [label = "DF18: Snap API Request (Gross Amount, OrderID)\n[Crosses TB 3 -> TB 1]"];
+    BookingProcess -> NotificationProcess [label = "DF19: Trigger Order Notification"];
+    PaymentProcess -> NotificationProcess [label = "DF20: Trigger Payment Notification"];
+    ChatProcess -> ReverbDaemon [label = "DF21: Broadcast MessageSent Event\n[Crosses TB 3 -> TB 4]"];
+    BookingProcess -> ReverbDaemon [label = "DF22: Broadcast BookingStatusUpdated Event\n[Crosses TB 3 -> TB 4]"];
+
+    // Processes to Data Stores (Crosses TB 3 -> TB 5)
+    AuthProcess -> MySQLDatabase [label = "DF23: Read/Write Users & Sessions"];
+    AuthProcess -> LocalStorage [label = "DF24: Write Avatars (.webp)"];
+    MarketplaceProcess -> MySQLDatabase [label = "DF25: Haversine Query & Category Reads"];
+    ServiceProcess -> MySQLDatabase [label = "DF26: Read/Write Services & Galleries"];
+    ServiceProcess -> LocalStorage [label = "DF27: Save Service Photos (.webp)"];
+    BookingProcess -> MySQLDatabase [label = "DF28: Read/Write Bookings & Checks Quota"];
+    PaymentProcess -> MySQLDatabase [label = "DF29: Update payment_status & snap_token"];
+    ChatProcess -> MySQLDatabase [label = "DF30: Insert/Soft Delete Messages"];
+    ReviewProcess -> MySQLDatabase [label = "DF31: Save Review & Image Paths"];
+    ReviewProcess -> LocalStorage [label = "DF32: Save Review Photos (.webp)"];
+    AdminProcess -> MySQLDatabase [label = "DF33: Update Report Status & Categories"];
+    NotificationProcess -> MySQLDatabase [label = "DF34: Store Database Notifications"];
+
+    // Logging flow
+    PaymentProcess -> LogFileStorage [label = "DF35: Log Errors & Callback Traces"];
+    WebRouter -> LogFileStorage [label = "DF36: Error Stack Traces (APP_DEBUG)"];
+}
