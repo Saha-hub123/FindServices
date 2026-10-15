@@ -1,0 +1,617 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+<meta charset="UTF-8">
+<title>DFD Level-0 / Level-1 & Trust Boundary Mapping - FindServices</title>
+<style>
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+  body {
+    font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
+    background-color: #f8fafc;
+    color: #1e293b;
+    padding: 30px;
+    line-height: 1.5;
+  }
+  .container {
+    max-width: 1400px;
+    margin: 0 auto;
+    background: #ffffff;
+    border: 1px solid #e2e8f0;
+    border-radius: 12px;
+    box-shadow: 0 10px 25px -5px rgba(0, 0, 0, 0.05);
+    overflow: hidden;
+  }
+  .header {
+    background: linear-gradient(135deg, #1e3a8a 0%, #3b82f6 100%);
+    color: #ffffff;
+    padding: 24px 32px;
+  }
+  .header h1 {
+    font-size: 26px;
+    font-weight: 700;
+    letter-spacing: -0.5px;
+    margin-bottom: 6px;
+  }
+  .header p {
+    font-size: 14px;
+    opacity: 0.9;
+  }
+  .section-title {
+    font-size: 18px;
+    font-weight: 700;
+    color: #0f172a;
+    border-bottom: 2px solid #e2e8f0;
+    padding-bottom: 8px;
+    margin: 24px 32px 16px 32px;
+    display: flex;
+    align-items: center;
+    gap: 10px;
+  }
+  .badge-sec {
+    background: #3b82f6;
+    color: #fff;
+    font-size: 12px;
+    padding: 3px 10px;
+    border-radius: 9999px;
+  }
+  .diagram-wrapper {
+    padding: 10px 32px;
+    overflow-x: auto;
+  }
+  svg {
+    width: 100%;
+    height: auto;
+    display: block;
+    background: #ffffff;
+  }
+  /* Legend Section */
+  .legend-grid {
+    display: grid;
+    grid-template-columns: 1fr 1.5fr;
+    gap: 20px;
+    padding: 0 32px 24px 32px;
+  }
+  .legend-card {
+    background: #f8fafc;
+    border: 1px solid #e2e8f0;
+    border-radius: 8px;
+    padding: 18px;
+  }
+  .legend-card h3 {
+    font-size: 15px;
+    font-weight: 700;
+    margin-bottom: 12px;
+    color: #1e293b;
+    border-bottom: 1px solid #cbd5e1;
+    padding-bottom: 6px;
+  }
+  .legend-item {
+    display: flex;
+    align-items: flex-start;
+    gap: 12px;
+    margin-bottom: 10px;
+    font-size: 13px;
+  }
+  .legend-item:last-child { margin-bottom: 0; }
+  .symbol-box {
+    width: 32px;
+    height: 22px;
+    flex-shrink: 0;
+    border-radius: 4px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 10px;
+    font-weight: 700;
+  }
+  /* Table Section */
+  .table-wrapper {
+    padding: 0 32px 32px 32px;
+    overflow-x: auto;
+  }
+  table {
+    width: 100%;
+    border-collapse: collapse;
+    font-size: 12px;
+    background: #ffffff;
+  }
+  th {
+    background: #f1f5f9;
+    color: #334155;
+    font-weight: 700;
+    text-align: left;
+    padding: 10px 12px;
+    border: 1px solid #cbd5e1;
+    white-space: nowrap;
+  }
+  td {
+    padding: 9px 12px;
+    border: 1px solid #e2e8f0;
+    vertical-align: top;
+  }
+  tr:nth-child(even) { background-color: #f8fafc; }
+  tr:hover { background-color: #f1f5f9; }
+  .badge {
+    display: inline-block;
+    padding: 3px 8px;
+    border-radius: 4px;
+    font-weight: 700;
+    font-size: 10.5px;
+    text-align: center;
+    white-space: nowrap;
+  }
+  .badge-critical { background: #fee2e2; color: #991b1b; border: 1px solid #f87171; }
+  .badge-high { background: #ffedd5; color: #9a3412; border: 1px solid #fb923c; }
+  .badge-medium { background: #fef9c3; color: #854d0e; border: 1px solid #facc15; }
+  .badge-low { background: #dcfce7; color: #166534; border: 1px solid #4ade80; }
+  .badge-stride {
+    background: #e0f2fe;
+    color: #0369a1;
+    border: 1px solid #7dd3fc;
+    font-weight: 600;
+    font-size: 10px;
+    padding: 2px 6px;
+    border-radius: 3px;
+    margin-right: 3px;
+  }
+  .tb-tag {
+    display: inline-block;
+    padding: 2px 6px;
+    border-radius: 3px;
+    font-size: 10.5px;
+    font-weight: 700;
+    font-family: monospace;
+  }
+  .tb-1 { background: #fee2e2; color: #b91c1c; border: 1px dashed #ef4444; }
+  .tb-2 { background: #fef3c7; color: #b45309; border: 1px dashed #f59e0b; }
+  .tb-3 { background: #dbeafe; color: #1d4ed8; border: 1px dashed #3b82f6; }
+  .tb-4 { background: #ede9fe; color: #6d28d9; border: 1px dashed #8b5cf6; }
+  .tb-5 { background: #d1fae5; color: #047857; border: 1px dashed #10b981; }
+</style>
+</head>
+<body>
+
+<div class="container">
+  <!-- HEADER -->
+  <div class="header">
+    <h1>Threat Modeling: Data Flow Diagram (DFD) &amp; Trust Boundaries</h1>
+    <p>Target Sistem: <strong>FindServices Marketplace</strong> (Laravel 12 + Vue 3/Inertia + MySQL + Reverb + Midtrans) | Metodologi: STRIDE &amp; DREAD</p>
+  </div>
+
+  <!-- SECTION 1: DFD DIAGRAM -->
+  <div class="section-title">
+    <span class="badge-sec">Bagian 1</span>
+    <span>Pemetaan Data Flow Diagram (DFD) &amp; 5 Trust Boundaries</span>
+  </div>
+
+  <div class="diagram-wrapper">
+    <!-- SVG Vector Diagram -->
+    <svg viewBox="0 0 1340 760" xmlns="http://www.w3.org/2000/svg">
+      <defs>
+        <!-- Arrowhead Marker -->
+        <marker id="arrow" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="6" markerHeight="6" orient="auto-start-reverse">
+          <path d="M 0 1.5 L 8 5 L 0 8.5 z" fill="#475569"/>
+        </marker>
+        <marker id="arrow-blue" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="6" markerHeight="6" orient="auto-start-reverse">
+          <path d="M 0 1.5 L 8 5 L 0 8.5 z" fill="#2563eb"/>
+        </marker>
+        <marker id="arrow-orange" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="6" markerHeight="6" orient="auto-start-reverse">
+          <path d="M 0 1.5 L 8 5 L 0 8.5 z" fill="#ea580c"/>
+        </marker>
+        <marker id="arrow-green" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="6" markerHeight="6" orient="auto-start-reverse">
+          <path d="M 0 1.5 L 8 5 L 0 8.5 z" fill="#059669"/>
+        </marker>
+        <marker id="arrow-purple" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="6" markerHeight="6" orient="auto-start-reverse">
+          <path d="M 0 1.5 L 8 5 L 0 8.5 z" fill="#7c3aed"/>
+        </marker>
+      </defs>
+
+      <!-- ============================================== -->
+      <!-- TRUST BOUNDARIES (BACKGROUND CLUSTERS)         -->
+      <!-- ============================================== -->
+
+      <!-- TB 1: Untrusted Public Zone -->
+      <rect x="20" y="20" width="310" height="720" rx="10" fill="#fef2f2" stroke="#ef4444" stroke-width="2" stroke-dasharray="6,4"/>
+      <rect x="35" y="32" width="280" height="26" rx="4" fill="#fee2e2" stroke="#f87171" stroke-width="1"/>
+      <text x="175" y="49" text-anchor="middle" font-size="12" font-weight="700" fill="#991b1b">TB-1: Zona Eksternal (Untrusted Public)</text>
+
+      <!-- TB 2: Network Perimeter & Ingress -->
+      <rect x="350" y="20" width="220" height="720" rx="10" fill="#fffbeb" stroke="#f59e0b" stroke-width="2" stroke-dasharray="6,4"/>
+      <rect x="365" y="32" width="190" height="26" rx="4" fill="#fef3c7" stroke="#fbbf24" stroke-width="1"/>
+      <text x="460" y="49" text-anchor="middle" font-size="12" font-weight="700" fill="#92400e">TB-2: Perimeter &amp; Ingress</text>
+
+      <!-- TB 3: Core Application Logic -->
+      <rect x="590" y="20" width="460" height="720" rx="10" fill="#eff6ff" stroke="#3b82f6" stroke-width="2" stroke-dasharray="6,4"/>
+      <rect x="605" y="32" width="430" height="26" rx="4" fill="#dbeafe" stroke="#60a5fa" stroke-width="1"/>
+      <text x="820" y="49" text-anchor="middle" font-size="12" font-weight="700" fill="#1e40af">TB-3: Core Application (Laravel 12 / PHP 8.3 Host)</text>
+
+      <!-- TB 4: Realtime Daemon Zone -->
+      <rect x="1070" y="20" width="250" height="340" rx="10" fill="#faf5ff" stroke="#8b5cf6" stroke-width="2" stroke-dasharray="6,4"/>
+      <rect x="1085" y="32" width="220" height="26" rx="4" fill="#ede9fe" stroke="#c084fc" stroke-width="1"/>
+      <text x="1195" y="49" text-anchor="middle" font-size="12" font-weight="700" fill="#6b21a8">TB-4: Real-time WebSocket</text>
+
+      <!-- TB 5: Persistent Storage Zone -->
+      <rect x="1070" y="380" width="250" height="360" rx="10" fill="#ecfdf5" stroke="#10b981" stroke-width="2" stroke-dasharray="6,4"/>
+      <rect x="1085" y="392" width="220" height="26" rx="4" fill="#d1fae5" stroke="#34d399" stroke-width="1"/>
+      <text x="1195" y="409" text-anchor="middle" font-size="12" font-weight="700" fill="#065f46">TB-5: Persistent Storage Layer</text>
+
+      <!-- ============================================== -->
+      <!-- ENTITIES (TB 1)                                -->
+      <!-- ============================================== -->
+
+      <!-- Customer -->
+      <rect x="40" y="80" width="270" height="70" rx="6" fill="#ffffff" stroke="#dc2626" stroke-width="1.8"/>
+      <text x="55" y="105" font-size="13" font-weight="700" fill="#991b1b">Customer (Pelanggan)</text>
+      <text x="55" y="123" font-size="10.5" fill="#64748b">Web Browser / Mobile Client</text>
+      <text x="55" y="137" font-size="10" fill="#dc2626">&#9656; Cari Jasa, Reservasi, Bayar, Chat</text>
+
+      <!-- Provider -->
+      <rect x="40" y="180" width="270" height="70" rx="6" fill="#ffffff" stroke="#dc2626" stroke-width="1.8"/>
+      <text x="55" y="205" font-size="13" font-weight="700" fill="#991b1b">Service Provider (Tukang)</text>
+      <text x="55" y="223" font-size="10.5" fill="#64748b">Web Browser Client</text>
+      <text x="55" y="237" font-size="10" fill="#dc2626">&#9656; Kelola Jasa, Konfirmasi Order, Chat</text>
+
+      <!-- Admin -->
+      <rect x="40" y="280" width="270" height="65" rx="6" fill="#ffffff" stroke="#dc2626" stroke-width="1.8"/>
+      <text x="55" y="305" font-size="13" font-weight="700" fill="#991b1b">Admin Platform</text>
+      <text x="55" y="323" font-size="10.5" fill="#64748b">Web Browser (Back-office)</text>
+      <text x="55" y="337" font-size="10" fill="#dc2626">&#9656; Kelola Kategori, Tinjau Laporan</text>
+
+      <!-- Midtrans Gateway -->
+      <rect x="40" y="580" width="270" height="75" rx="6" fill="#ffffff" stroke="#ea580c" stroke-width="1.8"/>
+      <text x="55" y="605" font-size="13" font-weight="700" fill="#c2410c">Midtrans Payment Gateway</text>
+      <text x="55" y="623" font-size="10.5" fill="#64748b">Third-Party Gateway Service</text>
+      <text x="55" y="638" font-size="10" fill="#ea580c">&#9656; Pemroses Pembayaran &amp; Webhook</text>
+
+      <!-- ============================================== -->
+      <!-- PROCESSES (TB 2: Perimeter & Ingress)          -->
+      <!-- ============================================== -->
+
+      <!-- Cloudflare Ingress -->
+      <rect x="365" y="80" width="190" height="75" rx="8" fill="#ffffff" stroke="#d97706" stroke-width="1.6"/>
+      <text x="375" y="103" font-size="11.5" font-weight="700" fill="#b45309">Cloudflare Tunnel</text>
+      <text x="375" y="120" font-size="9.5" fill="#64748b">SSL/TLS Termination</text>
+      <text x="375" y="135" font-size="9.5" fill="#475569">app / ws .cornel.my.id</text>
+
+      <!-- Web Router -->
+      <rect x="365" y="195" width="190" height="95" rx="8" fill="#ffffff" stroke="#d97706" stroke-width="1.6"/>
+      <text x="375" y="218" font-size="11.5" font-weight="700" fill="#b45309">Laravel Web Router</text>
+      <text x="375" y="235" font-size="9.5" fill="#64748b">&#8226; CSRF Token Verifier</text>
+      <text x="375" y="250" font-size="9.5" fill="#64748b">&#8226; Session &amp; Auth Middlewares</text>
+      <text x="375" y="265" font-size="9.5" fill="#64748b">&#8226; AdminMiddleware Guard</text>
+
+      <!-- API Router -->
+      <rect x="365" y="580" width="190" height="75" rx="8" fill="#ffffff" stroke="#d97706" stroke-width="1.6"/>
+      <text x="375" y="603" font-size="11.5" font-weight="700" fill="#b45309">Laravel API Router</text>
+      <text x="375" y="620" font-size="9.5" fill="#64748b">&#8226; CSRF-Exempt Endpoint</text>
+      <text x="375" y="635" font-size="9.5" fill="#ea580c">/api/midtrans/callback</text>
+
+      <!-- ============================================== -->
+      <!-- PROCESSES (TB 3: Core Application Layer)       -->
+      <!-- ============================================== -->
+
+      <!-- P1: Auth & Profile -->
+      <rect x="610" y="80" width="200" height="60" rx="8" fill="#ffffff" stroke="#2563eb" stroke-width="1.6"/>
+      <text x="620" y="102" font-size="11" font-weight="700" fill="#1e40af">P1.0: Auth &amp; Profile</text>
+      <text x="620" y="118" font-size="9.5" fill="#64748b">ProfileController / Register</text>
+      <text x="620" y="131" font-size="9" fill="#dc2626">Cek: Mass Assignment User</text>
+
+      <!-- P2: Marketplace & Search -->
+      <rect x="830" y="80" width="200" height="60" rx="8" fill="#ffffff" stroke="#2563eb" stroke-width="1.6"/>
+      <text x="840" y="102" font-size="11" font-weight="700" fill="#1e40af">P2.0: Marketplace &amp; Search</text>
+      <text x="840" y="118" font-size="9.5" fill="#64748b">MarketplaceController</text>
+      <text x="840" y="131" font-size="9" fill="#dc2626">Cek: Haversine Geo Query</text>
+
+      <!-- P3: Service Management -->
+      <rect x="610" y="170" width="200" height="60" rx="8" fill="#ffffff" stroke="#2563eb" stroke-width="1.6"/>
+      <text x="620" y="192" font-size="11" font-weight="700" fill="#1e40af">P3.0: Service Management</text>
+      <text x="620" y="208" font-size="9.5" fill="#64748b">ServiceController &amp; Gallery</text>
+      <text x="620" y="221" font-size="9" fill="#dc2626">Cek: Upload MIME 10MB</text>
+
+      <!-- P4: Booking & Workflow -->
+      <rect x="830" y="170" width="200" height="65" rx="8" fill="#ffffff" stroke="#2563eb" stroke-width="1.6"/>
+      <text x="840" y="192" font-size="11" font-weight="700" fill="#1e40af">P4.0: Booking Workflow</text>
+      <text x="840" y="208" font-size="9.5" fill="#64748b">BookingController</text>
+      <text x="840" y="223" font-size="9" fill="#dc2626">&#9888; Cek: BOLA/IDOR updateStatus</text>
+
+      <!-- P5: Payment & Callback -->
+      <rect x="610" y="580" width="200" height="65" rx="8" fill="#ffffff" stroke="#2563eb" stroke-width="1.6"/>
+      <text x="620" y="602" font-size="11" font-weight="700" fill="#1e40af">P5.0: Payment Handler</text>
+      <text x="620" y="618" font-size="9.5" fill="#64748b">PaymentCallbackController</text>
+      <text x="620" y="633" font-size="9" fill="#dc2626">Cek: SHA512 Signature &amp; Key</text>
+
+      <!-- P6: Chatting & Messaging -->
+      <rect x="830" y="260" width="200" height="60" rx="8" fill="#ffffff" stroke="#2563eb" stroke-width="1.6"/>
+      <text x="840" y="282" font-size="11" font-weight="700" fill="#1e40af">P6.0: Chat &amp; Messaging</text>
+      <text x="840" y="298" font-size="9.5" fill="#64748b">ChatController (Hashids)</text>
+      <text x="840" y="311" font-size="9" fill="#dc2626">Cek: Otorisasi Hapus Pesan</text>
+
+      <!-- P7: Review & Rating -->
+      <rect x="610" y="260" width="200" height="60" rx="8" fill="#ffffff" stroke="#2563eb" stroke-width="1.6"/>
+      <text x="620" y="282" font-size="11" font-weight="700" fill="#1e40af">P7.0: Review &amp; Rating</text>
+      <text x="620" y="298" font-size="9.5" fill="#64748b">Review System / Observers</text>
+      <text x="620" y="311" font-size="9" fill="#dc2626">Cek: Stored XSS di Komentar</text>
+
+      <!-- P8: Admin Moderation -->
+      <rect x="610" y="350" width="200" height="60" rx="8" fill="#ffffff" stroke="#2563eb" stroke-width="1.6"/>
+      <text x="620" y="372" font-size="11" font-weight="700" fill="#1e40af">P8.0: Admin Moderation</text>
+      <text x="620" y="388" font-size="9.5" fill="#64748b">Report &amp; Category Controller</text>
+      <text x="620" y="401" font-size="9" fill="#64748b">Soft Delete &amp; Status Restore</text>
+
+      <!-- P9: Notification Dispatcher -->
+      <rect x="830" y="350" width="200" height="60" rx="8" fill="#ffffff" stroke="#2563eb" stroke-width="1.6"/>
+      <text x="840" y="372" font-size="11" font-weight="700" fill="#1e40af">P9.0: Notifications</text>
+      <text x="840" y="388" font-size="9.5" fill="#64748b">DB &amp; Mail Notification</text>
+      <text x="840" y="401" font-size="9" fill="#64748b">Pemicu Email / Event Sinyal</text>
+
+      <!-- ============================================== -->
+      <!-- DAEMON & DATA STORES (TB 4 & TB 5)             -->
+      <!-- ============================================== -->
+
+      <!-- P10: Laravel Reverb -->
+      <rect x="1090" y="80" width="210" height="95" rx="8" fill="#ffffff" stroke="#7c3aed" stroke-width="1.8"/>
+      <text x="1105" y="105" font-size="12" font-weight="700" fill="#6d28d9">P10.0: Laravel Reverb</text>
+      <text x="1105" y="122" font-size="10" fill="#64748b">WebSocket Daemon</text>
+      <text x="1105" y="137" font-size="9.5" fill="#475569">Port 8080 (Localhost / WSS)</text>
+      <text x="1105" y="152" font-size="9" fill="#dc2626">&#9888; Cek: DoS /api/test-latency</text>
+
+      <!-- D1: MySQL Database -->
+      <rect x="1090" y="440" width="210" height="90" rx="6" fill="#ffffff" stroke="#059669" stroke-width="1.8"/>
+      <text x="1105" y="465" font-size="12" font-weight="700" fill="#047857">D1: MySQL Database</text>
+      <text x="1105" y="482" font-size="10" fill="#64748b">Database 'findservices'</text>
+      <text x="1105" y="497" font-size="9.5" fill="#475569">users, bookings, chats,</text>
+      <text x="1105" y="512" font-size="9.5" fill="#475569">reviews, reports, sessions</text>
+
+      <!-- D2: Local Storage Disk -->
+      <rect x="1090" y="550" width="210" height="75" rx="6" fill="#ffffff" stroke="#059669" stroke-width="1.8"/>
+      <text x="1105" y="575" font-size="12" font-weight="700" fill="#047857">D2: File Storage Disk</text>
+      <text x="1105" y="592" font-size="9.5" fill="#64748b">storage/app/public/</text>
+      <text x="1105" y="607" font-size="9.5" fill="#475569">avatars, services, reviews (.webp)</text>
+
+      <!-- D3: Log Storage -->
+      <rect x="1090" y="645" width="210" height="75" rx="6" fill="#ffffff" stroke="#059669" stroke-width="1.8"/>
+      <text x="1105" y="668" font-size="12" font-weight="700" fill="#047857">D3: Log File Storage</text>
+      <text x="1105" y="685" font-size="9.5" fill="#64748b">storage/logs/laravel.log</text>
+      <text x="1105" y="700" font-size="9" fill="#166534">&#10004; APP_DEBUG=false (Terkunci)</text>
+
+      <!-- ============================================== -->
+      <!-- DATA FLOW ARROWS (F1 to F10)                   -->
+      <!-- ============================================== -->
+
+      <!-- Flow 1: Customer Auth -->
+      <path d="M 310 115 L 365 115" stroke="#475569" stroke-width="1.8" fill="none" marker-end="url(#arrow)"/>
+      <rect x="315" y="98" width="45" height="16" rx="3" fill="#fee2e2" stroke="#ef4444" stroke-width="0.8"/>
+      <text x="337" y="110" font-size="9" font-weight="700" fill="#991b1b" text-anchor="middle">F1</text>
+
+      <!-- Cloudflare to WebRouter -->
+      <path d="M 460 155 L 460 195" stroke="#475569" stroke-width="1.8" fill="none" marker-end="url(#arrow)"/>
+
+      <!-- WebRouter to Processes -->
+      <path d="M 555 220 L 610 110" stroke="#2563eb" stroke-width="1.6" fill="none" marker-end="url(#arrow-blue)"/>
+      <path d="M 555 235 L 830 110" stroke="#2563eb" stroke-width="1.6" fill="none" marker-end="url(#arrow-blue)"/>
+      <rect x="560" y="165" width="45" height="16" rx="3" fill="#fee2e2" stroke="#ef4444" stroke-width="0.8"/>
+      <text x="582" y="177" font-size="9" font-weight="700" fill="#991b1b" text-anchor="middle">F2</text>
+
+      <path d="M 555 245 L 610 200" stroke="#2563eb" stroke-width="1.6" fill="none" marker-end="url(#arrow-blue)"/>
+      <path d="M 555 255 L 830 200" stroke="#2563eb" stroke-width="1.6" fill="none" marker-end="url(#arrow-blue)"/>
+      <rect x="690" y="215" width="45" height="16" rx="3" fill="#fee2e2" stroke="#ef4444" stroke-width="0.8"/>
+      <text x="712" y="227" font-size="9" font-weight="700" fill="#991b1b" text-anchor="middle">F3, F4</text>
+
+      <path d="M 555 265 L 610 290" stroke="#2563eb" stroke-width="1.6" fill="none" marker-end="url(#arrow-blue)"/>
+      <path d="M 555 275 L 830 290" stroke="#2563eb" stroke-width="1.6" fill="none" marker-end="url(#arrow-blue)"/>
+      <rect x="690" y="280" width="45" height="16" rx="3" fill="#fee2e2" stroke="#ef4444" stroke-width="0.8"/>
+      <text x="712" y="292" font-size="9" font-weight="700" fill="#991b1b" text-anchor="middle">F7</text>
+
+      <!-- Flow 5: Snap Token Request (P4/P5 -> Midtrans) -->
+      <path d="M 610 610 L 310 610" stroke="#ea580c" stroke-width="1.8" fill="none" marker-end="url(#arrow-orange)"/>
+      <rect x="440" y="598" width="45" height="16" rx="3" fill="#fed7aa" stroke="#ea580c" stroke-width="0.8"/>
+      <text x="462" y="610" font-size="9" font-weight="700" fill="#9a3412" text-anchor="middle">F5</text>
+
+      <!-- Flow 6: Midtrans Webhook (Midtrans -> ApiRouter -> P5) -->
+      <path d="M 310 630 L 365 630" stroke="#ea580c" stroke-width="1.8" fill="none" marker-end="url(#arrow-orange)"/>
+      <path d="M 555 630 L 610 630" stroke="#ea580c" stroke-width="1.8" fill="none" marker-end="url(#arrow-orange)"/>
+      <rect x="320" y="635" width="45" height="16" rx="3" fill="#fee2e2" stroke="#ef4444" stroke-width="0.8"/>
+      <text x="342" y="647" font-size="9" font-weight="700" fill="#991b1b" text-anchor="middle">F6</text>
+
+      <!-- Flow 8: Broadcast to Reverb (P4/P6 -> P10) -->
+      <path d="M 1030 200 L 1090 140" stroke="#7c3aed" stroke-width="1.6" fill="none" marker-end="url(#arrow-purple)"/>
+      <path d="M 1030 280 L 1090 160" stroke="#7c3aed" stroke-width="1.6" fill="none" marker-end="url(#arrow-purple)"/>
+      <rect x="1035" y="165" width="45" height="16" rx="3" fill="#ede9fe" stroke="#8b5cf6" stroke-width="0.8"/>
+      <text x="1057" y="177" font-size="9" font-weight="700" fill="#6d28d9" text-anchor="middle">F8</text>
+
+      <!-- Flow 9: DB Operations (P1, P2, P4, P6, P7 -> D1) -->
+      <path d="M 1030 220 L 1090 460" stroke="#059669" stroke-width="1.6" fill="none" marker-end="url(#arrow-green)"/>
+      <path d="M 810 600 L 1090 480" stroke="#059669" stroke-width="1.6" fill="none" marker-end="url(#arrow-green)"/>
+      <rect x="1035" y="445" width="45" height="16" rx="3" fill="#d1fae5" stroke="#10b981" stroke-width="0.8"/>
+      <text x="1057" y="457" font-size="9" font-weight="700" fill="#065f46" text-anchor="middle">F9</text>
+
+      <!-- Flow 10: Local File Uploads (P1, P3, P7 -> D2) -->
+      <path d="M 810 200 L 1090 570" stroke="#059669" stroke-width="1.6" fill="none" marker-end="url(#arrow-green)"/>
+      <path d="M 810 290 L 1090 590" stroke="#059669" stroke-width="1.6" fill="none" marker-end="url(#arrow-green)"/>
+      <rect x="1035" y="565" width="45" height="16" rx="3" fill="#d1fae5" stroke="#10b981" stroke-width="0.8"/>
+      <text x="1057" y="577" font-size="9" font-weight="700" fill="#065f46" text-anchor="middle">F10</text>
+    </svg>
+  </div>
+
+  <!-- SECTION 2: LEGENDA LENGKAP -->
+  <div class="section-title">
+    <span class="badge-sec">Bagian 2</span>
+    <span>Keterangan Legenda Lengkap Pemetaan</span>
+  </div>
+
+  <div class="legend-grid">
+    <!-- Simbol DFD -->
+    <div class="legend-card">
+      <h3>1. Notasi Simbol DFD (Data Flow Diagram)</h3>
+      <div class="legend-item">
+        <div class="symbol-box" style="border: 2px solid #dc2626; background: #fff; color: #dc2626;">[ ]</div>
+        <div><strong>External Entity:</strong> Entitas luar (Customer, Provider, Admin, Midtrans) sebagai sumber atau tujuan data.</div>
+      </div>
+      <div class="legend-item">
+        <div class="symbol-box" style="border: 2px solid #2563eb; background: #eff6ff; color: #1e40af; border-radius: 8px;">( )</div>
+        <div><strong>Process Layer:</strong> Proses / Controller logika bisnis (Laravel 12, routing, webhook handler, socket daemon).</div>
+      </div>
+      <div class="legend-item">
+        <div class="symbol-box" style="border: 2px solid #059669; background: #ecfdf5; color: #047857;">[=]</div>
+        <div><strong>Data Store:</strong> Tempat penyimpanan persisten (MySQL Database findservices, disk file storage, logs).</div>
+      </div>
+      <div class="legend-item">
+        <div class="symbol-box" style="background: #f1f5f9; color: #475569;">&rarr;</div>
+        <div><strong>Data Flow (F1–F10):</strong> Aliran data terarah antar komponen lengkap dengan protokol dan muatan payload.</div>
+      </div>
+    </div>
+
+    <!-- Trust Boundaries -->
+    <div class="legend-card">
+      <h3>2. Batas Kepercayaan (Trust Boundaries)</h3>
+      <div class="legend-item">
+        <span class="tb-tag tb-1">TB-1</span>
+        <div><strong>Zona Eksternal:</strong> Klien publik internet; semua request dianggap <em>untrusted</em> dan wajib diautentikasi.</div>
+      </div>
+      <div class="legend-item">
+        <span class="tb-tag tb-2">TB-2</span>
+        <div><strong>Perimeter &amp; Ingress:</strong> Lapisan Cloudflare Tunnel &amp; routing middleware; verifikasi CSRF token &amp; sesi.</div>
+      </div>
+      <div class="legend-item">
+        <span class="tb-tag tb-3">TB-3</span>
+        <div><strong>Core Application:</strong> Proses bisnis internal terpercaya di host PHP 8.3 / Laravel 12.</div>
+      </div>
+      <div class="legend-item">
+        <span class="tb-tag tb-4">TB-4</span>
+        <div><strong>WebSocket Realtime:</strong> Daemon background Reverb (port 8080); membutuhkan proteksi flood &amp; rate limit.</div>
+      </div>
+      <div class="legend-item">
+        <span class="tb-tag tb-5">TB-5</span>
+        <div><strong>Storage Layer:</strong> MySQL dan file disk; media penyimpanan data sensitif dan berkas unggahan publik.</div>
+      </div>
+    </div>
+  </div>
+
+  <!-- SECTION 3: DAFTAR ANCAMAN TERTERA DI BAWAH KETERANGAN -->
+  <div class="section-title">
+    <span class="badge-sec">Bagian 3</span>
+    <span>Daftar Ancaman Terpetakan (STRIDE &amp; DREAD)</span>
+  </div>
+
+  <div class="table-wrapper">
+    <table>
+      <thead>
+        <tr>
+          <th style="width: 50px;">No</th>
+          <th style="width: 170px;">ID Ancaman / CVE</th>
+          <th>Deskripsi Singkat Ancaman</th>
+          <th style="width: 110px;">STRIDE</th>
+          <th style="width: 110px;">Komponen / Flow</th>
+          <th style="width: 70px;">Skor</th>
+          <th style="width: 95px;">Tingkat Risiko</th>
+          <th>Saran Mitigasi Utama</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td><strong>1</strong></td>
+          <td><strong>T-01</strong><br><small style="color: #64748b;">CVE-2023-28438</small></td>
+          <td><strong>BOLA / IDOR Status Booking:</strong> Penyerang memanipulasi parameter ID booking untuk mengubah status pesanan orang lain tanpa otorisasi.</td>
+          <td><span class="badge-stride">Tampering</span><span class="badge-stride">Privilege</span></td>
+          <td><span class="tb-tag tb-3">TB-3</span><br><small>P4.0 / F4</small></td>
+          <td><strong>40</strong></td>
+          <td><span class="badge badge-critical">CRITICAL</span></td>
+          <td>Aktifkan pengecekan kepemilikan akun di BookingController baris 230 dan terapkan Policy otorisasi.</td>
+        </tr>
+        <tr>
+          <td><strong>2</strong></td>
+          <td><strong>T-02</strong><br><small style="color: #64748b;">CVE-2023-34449</small></td>
+          <td><strong>DoS via Flooding WebSocket:</strong> Endpoint /api/test-latency tanpa autentikasi ditembak request masif hingga Reverb crash.</td>
+          <td><span class="badge-stride">DoS</span></td>
+          <td><span class="tb-tag tb-4">TB-4</span><br><small>P10.0 / F8</small></td>
+          <td><strong>40</strong></td>
+          <td><span class="badge badge-critical">CRITICAL</span></td>
+          <td>Hapus route /test-latency di production atau lindungi dengan auth:sanctum dan throttle rate limiting.</td>
+        </tr>
+        <tr>
+          <td><strong>3</strong></td>
+          <td><strong>T-03</strong><br><small style="color: #64748b;">CVE-2023-45133</small></td>
+          <td><strong>Missing Auth / Webhook Replay:</strong> Pemalsuan callback Midtrans via SHA512 bypass atau replay packet hingga pesanan lunas palsu.</td>
+          <td><span class="badge-stride">Spoofing</span><span class="badge-stride">Tampering</span></td>
+          <td><span class="tb-tag tb-3">TB-3</span><br><small>P5.0 / F6</small></td>
+          <td><strong>39</strong></td>
+          <td><span class="badge badge-high">HIGH</span></td>
+          <td>Validasi ketat Server Key tidak boleh kosong, dan verifikasi silang status order langsung ke API Get Status Midtrans.</td>
+        </tr>
+        <tr>
+          <td><strong>4</strong></td>
+          <td><strong>T-04</strong><br><small style="color: #64748b;">CVE-2023-38035</small></td>
+          <td><strong>DoS via Geo Query &amp; Upload 10MB:</strong> Perhitungan Haversine tanpa cache &amp; upload file besar membebani CPU dan ruang disk server.</td>
+          <td><span class="badge-stride">DoS</span></td>
+          <td><span class="tb-tag tb-3">TB-3</span><br><small>P2.0 / F2, F10</small></td>
+          <td><strong>38</strong></td>
+          <td><span class="badge badge-high">HIGH</span></td>
+          <td>Terapkan caching hasil query geolokasi dan turunkan batas maksimal upload file menjadi 2MB per gambar.</td>
+        </tr>
+        <tr>
+          <td><strong>5</strong></td>
+          <td><strong>T-05</strong><br><small style="color: #64748b;">CVE-2024-21501</small></td>
+          <td><strong>Stored XSS Review &amp; Catatan:</strong> Penyisipan skrip JavaScript jahat pada komentar review jasa yang dieksekusi di browser admin/user.</td>
+          <td><span class="badge-stride">Tampering</span><span class="badge-stride">Info Disc</span></td>
+          <td><span class="tb-tag tb-5">TB-5</span><br><small>P7.0 / F10</small></td>
+          <td><strong>37</strong></td>
+          <td><span class="badge badge-high">HIGH</span></td>
+          <td>Sanitasi input strip_tags() pada controller dan hindari penggunaan v-html tanpa sanitasi DOMPurify di frontend.</td>
+        </tr>
+        <tr>
+          <td><strong>6</strong></td>
+          <td><strong>T-06</strong><br><small style="color: #64748b;">CVE-2023-22809</small></td>
+          <td><strong>Privilege Escalation Mass Assignment:</strong> Penambahan parameter role=admin pada payload request profil mengeksploitasi fillable User.</td>
+          <td><span class="badge-stride">Tampering</span><span class="badge-stride">Privilege</span></td>
+          <td><span class="tb-tag tb-5">TB-5</span><br><small>P1.0 / F9</small></td>
+          <td><strong>37</strong></td>
+          <td><span class="badge badge-high">HIGH</span></td>
+          <td>Keluarkan 'role' dari array protected $fillable model User dan kunci mutasi hak akses hanya via admin.</td>
+        </tr>
+        <tr>
+          <td><strong>7</strong></td>
+          <td><strong>T-07</strong><br><small style="color: #64748b;">CVE-2024-21516</small></td>
+          <td><strong>SSRF &amp; File Upload Vulnerability:</strong> Upload gambar polyglot/SVG berbahaya lolos filter MIME dan dieksekusi di server/browser.</td>
+          <td><span class="badge-stride">Tampering</span><span class="badge-stride">Info Disc</span></td>
+          <td><span class="tb-tag tb-5">TB-5</span><br><small>P3.0 / F10</small></td>
+          <td><strong>34</strong></td>
+          <td><span class="badge badge-high">HIGH</span></td>
+          <td>Gunakan Intervention Image untuk me-re-encode seluruh gambar ke format WebP murni dan isolasi folder storage.</td>
+        </tr>
+        <tr>
+          <td><strong>8</strong></td>
+          <td><strong>T-08</strong><br><small style="color: #64748b;">CVE-2022-31129</small></td>
+          <td><strong>Session Hijacking Plaintext:</strong> Konfigurasi sesi database tanpa enkripsi (SESSION_ENCRYPT=false) rentan disadap pihak perantara.</td>
+          <td><span class="badge-stride">Spoofing</span><span class="badge-stride">Info Disc</span></td>
+          <td><span class="tb-tag tb-5">TB-5</span><br><small>P1.0 / F9</small></td>
+          <td><strong>34</strong></td>
+          <td><span class="badge badge-high">HIGH</span></td>
+          <td>Set SESSION_ENCRYPT=true pada file .env dan aktifkan atribut HttpOnly serta Secure pada session cookie.</td>
+        </tr>
+        <tr>
+          <td><strong>9</strong></td>
+          <td><strong>T-09</strong><br><small style="color: #64748b;">CVE-2022-31279</small></td>
+          <td><strong>BOLA &amp; Improper Access Chat:</strong> Manipulasi parameter hash_id pada percakapan untuk mengintip atau menghapus riwayat chat orang lain.</td>
+          <td><span class="badge-stride">Tampering</span><span class="badge-stride">Info Disc</span></td>
+          <td><span class="tb-tag tb-3">TB-3</span><br><small>P6.0 / F7</small></td>
+          <td><strong>33</strong></td>
+          <td><span class="badge badge-high">HIGH</span></td>
+          <td>Terapkan Policy otorisasi pada ChatController dan jangan jadikan Hashids sebagai satu-satunya lapisan keamanan.</td>
+        </tr>
+        <tr>
+          <td><strong>10</strong></td>
+          <td><strong>T-10</strong><br><small style="color: #64748b;">CVE-2023-40028</small></td>
+          <td><strong>[TERMITIGASI] Info Disclosure via Debug:</strong> Tampilan error stack trace dan environment variable di browser pengunjung.</td>
+          <td><span class="badge-stride">Info Disc</span></td>
+          <td><span class="tb-tag tb-2">TB-2</span><br><small>Router / D3</small></td>
+          <td><strong>6</strong></td>
+          <td><span class="badge badge-low">LOW (MITIGATED)</span></td>
+          <td>Status: Berhasil dimitigasi dengan menyetel APP_DEBUG=false pada .env; pertahankan status ini di production.</td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+</div>
+
+</body>
+</html>
