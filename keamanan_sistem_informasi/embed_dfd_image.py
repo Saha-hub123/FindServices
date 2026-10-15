@@ -29,4 +29,4 @@ img.height = target_h_px
 ws.add_image(img, 'A53')
 
 wb.save(xlsx_path)
-print("✅ Image embedded and file saved.")
+print("[OK] Image embedded and file saved.")

@@ -1,0 +1,955 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+  <meta charset="UTF-8">
+  <title>Infografik Threat Modeling FindServices - Light Theme (4:3 Ratio)</title>
+  <script src="https://cdn.tailwindcss.com"></script>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&family=JetBrains+Mono:wght@400;600;700&display=swap" rel="stylesheet">
+  <style>
+    * { box-sizing: border-box; margin: 0; padding: 0; }
+    body {
+      font-family: 'Plus Jakarta Sans', sans-serif;
+      background-color: #f1f5f9;
+      color: #1e293b;
+      width: 1920px;
+      height: 1440px;
+      overflow: hidden;
+      display: flex;
+      flex-direction: column;
+      justify-content: space-between;
+      padding: 16px 20px 14px 20px;
+    }
+    .mono { font-family: 'JetBrains Mono', monospace; }
+    .card-box {
+      background: #ffffff;
+      border: 1px solid #cbd5e1;
+      border-radius: 10px;
+      box-shadow: 0 1px 3px 0 rgba(0, 0, 0, 0.05);
+    }
+    .gradient-header {
+      background: linear-gradient(135deg, #0284c7 0%, #2563eb 50%, #7c3aed 100%);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+    }
+  </style>
+</head>
+<body>
+
+  <!-- ======================================================== -->
+  <!-- HEADER BAR (Height: ~68px)                               -->
+  <!-- ======================================================== -->
+  <header class="card-box px-6 py-2.5 flex items-center justify-between shadow-sm">
+    <div class="flex items-center gap-4">
+      <div class="w-11 h-11 rounded-xl bg-gradient-to-br from-blue-600 to-indigo-700 flex items-center justify-center shadow-md text-white font-black text-xl">
+        FS
+      </div>
+      <div>
+        <div class="flex items-center gap-2.5">
+          <h1 class="text-xl font-extrabold tracking-tight text-slate-900 uppercase">
+            FINDSERVICES <span class="gradient-header">THREAT MODELING DASHBOARD</span>
+          </h1>
+          <span class="mono text-[10.5px] bg-blue-100 text-blue-800 border border-blue-300 px-2 py-0.5 rounded font-bold">STRIDE &amp; DREAD</span>
+          <span class="mono text-[10.5px] bg-slate-100 text-slate-700 border border-slate-300 px-2 py-0.5 rounded">OWASP FRAMEWORK</span>
+        </div>
+        <p class="text-xs text-slate-500 mt-0.5">
+          Target Sistem: <strong class="text-slate-800">FindServices Marketplace</strong> (Laravel 12 + Vue 3/Inertia + MySQL + Reverb + Midtrans) | Praktikum Keamanan SI
+        </p>
+      </div>
+    </div>
+
+    <!-- Top Key Badges (CORRECT VALUES FROM EXCEL) -->
+    <div class="flex items-center gap-3">
+      <div class="flex items-center gap-2 bg-slate-100 border border-slate-300 px-3 py-1.5 rounded-lg text-xs">
+        <span class="text-slate-600 font-medium">Total Ancaman:</span>
+        <span class="mono font-extrabold text-slate-900 text-sm">10</span>
+      </div>
+      <div class="flex items-center gap-2 bg-rose-50 border border-rose-300 px-3 py-1.5 rounded-lg text-xs">
+        <span class="w-2.5 h-2.5 rounded-full bg-rose-600 animate-pulse"></span>
+        <span class="text-rose-800 font-semibold">Critical:</span>
+        <span class="mono font-extrabold text-rose-900 text-sm">2</span>
+      </div>
+      <div class="flex items-center gap-2 bg-amber-50 border border-amber-300 px-3 py-1.5 rounded-lg text-xs">
+        <span class="w-2.5 h-2.5 rounded-full bg-amber-500"></span>
+        <span class="text-amber-800 font-semibold">High:</span>
+        <span class="mono font-extrabold text-amber-900 text-sm">7</span>
+      </div>
+      <div class="flex items-center gap-2 bg-emerald-50 border border-emerald-300 px-3 py-1.5 rounded-lg text-xs">
+        <span class="w-2.5 h-2.5 rounded-full bg-emerald-600"></span>
+        <span class="text-emerald-800 font-semibold">Mitigated:</span>
+        <span class="mono font-extrabold text-emerald-900 text-sm">1</span>
+      </div>
+      <div class="flex items-center gap-2 bg-sky-50 border border-sky-300 px-3 py-1.5 rounded-lg text-xs">
+        <span class="text-sky-800 font-semibold">Avg DREAD:</span>
+        <span class="mono font-extrabold text-sky-900 text-sm">33.8 <span class="text-[10px] text-slate-500 font-normal">/50</span></span>
+      </div>
+    </div>
+  </header>
+
+  <!-- ======================================================== -->
+  <!-- MAIN WORKSPACE: 2 COLUMNS (Height: ~1320px)              -->
+  <!-- ======================================================== -->
+  <div class="grid grid-cols-12 gap-3.5 flex-1 mt-3 mb-1 overflow-hidden" style="height: 1315px;">
+    
+    <!-- ====================================================== -->
+    <!-- LEFT COLUMN (Cols: 7 / 12) - System, Workflow, DFD     -->
+    <!-- ====================================================== -->
+    <div class="col-span-7 flex flex-col justify-between gap-3 h-full overflow-hidden">
+      
+      <!-- ROW 1: System Summary & Workflow (Height: ~285px) -->
+      <div class="grid grid-cols-12 gap-3 shrink-0" style="height: 285px;">
+        
+        <!-- System Profile Card (Cols: 5) -->
+        <div class="col-span-5 card-box p-3.5 flex flex-col justify-between text-xs">
+          <div>
+            <div class="flex items-center justify-between pb-1.5 border-b border-slate-200 mb-2">
+              <span class="font-bold text-slate-900 flex items-center gap-1.5 text-xs">
+                <svg class="w-4 h-4 text-blue-600" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 21V5a2 2 0 00-2-2H7a2 2 0 00-2 2v16m14 0h2m-2 0h-5m-9 0H3m2 0h5M9 7h1m-1 4h1m4-4h1m-1 4h1m-5 10v-5a1 1 0 011-1h2a1 1 0 011 1v5m-4 0h4"/></svg>
+                1. Profil &amp; Arsitektur Sistem
+              </span>
+              <span class="mono text-[10px] text-blue-700 bg-blue-50 border border-blue-200 px-1.5 py-0.5 rounded font-bold">FINDSERVICES</span>
+            </div>
+            <p class="text-slate-600 text-[11px] leading-relaxed line-clamp-3 mb-2">
+              Platform marketplace berbasis web yang menghubungkan <em class="text-slate-800 font-medium">Customer</em> dengan <em class="text-slate-800 font-medium">Provider/Tukang</em> lokal terdekat berbasis radius koordinat (Haversine), negosiasi biaya, escrow Midtrans, dan chat real-time.
+            </p>
+            <div class="space-y-1 text-[10.5px]">
+              <div class="flex justify-between py-0.5 border-b border-slate-100">
+                <span class="text-slate-500">Backend Core:</span>
+                <span class="text-slate-800 font-semibold">Laravel 12 (PHP 8.3)</span>
+              </div>
+              <div class="flex justify-between py-0.5 border-b border-slate-100">
+                <span class="text-slate-500">Frontend Stack:</span>
+                <span class="text-slate-800 font-semibold">Vue 3 + Inertia.js</span>
+              </div>
+              <div class="flex justify-between py-0.5 border-b border-slate-100">
+                <span class="text-slate-500">Database &amp; Store:</span>
+                <span class="text-slate-800 font-semibold">MySQL 8.0 &amp; Local Disk</span>
+              </div>
+              <div class="flex justify-between py-0.5">
+                <span class="text-slate-500">Realtime Daemon:</span>
+                <span class="text-purple-700 font-semibold">Laravel Reverb (:8080)</span>
+              </div>
+            </div>
+          </div>
+          <div class="pt-1.5 border-t border-slate-200 flex items-center justify-between text-[10px] text-slate-500">
+            <span>Aktor: Customer, Provider, Admin</span>
+            <span class="text-blue-700 font-semibold">Ruang Lingkup: Static Audit</span>
+          </div>
+        </div>
+
+        <!-- Workflow Pipeline Card (Cols: 7) -->
+        <div class="col-span-7 card-box p-3.5 flex flex-col justify-between text-xs">
+          <div>
+            <div class="flex items-center justify-between pb-1.5 border-b border-slate-200 mb-2">
+              <span class="font-bold text-slate-900 flex items-center gap-1.5 text-xs">
+                <svg class="w-4 h-4 text-purple-600" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7"/></svg>
+                2. Alur Kerja Pengguna &amp; Titik Ancaman (Touchpoints)
+              </span>
+              <span class="text-[10px] text-slate-500 font-medium">5 Siklus Layanan</span>
+            </div>
+            
+            <!-- 5 Steps Flow (Light) -->
+            <div class="grid grid-cols-5 gap-1.5 text-center mt-1">
+              <!-- Step 1 -->
+              <div class="p-1.5 rounded-lg bg-slate-50 border border-slate-200 flex flex-col justify-between h-[180px]">
+                <div>
+                  <div class="mono w-5 h-5 mx-auto rounded-full bg-blue-100 text-blue-700 border border-blue-300 text-[10px] font-bold flex items-center justify-center mb-1">1</div>
+                  <div class="font-bold text-slate-800 text-[10.5px]">Pencarian &amp; Auth</div>
+                  <div class="text-[9.5px] text-slate-500 mt-1 leading-tight">Customer login &amp; cari jasa via radius Haversine</div>
+                </div>
+                <div class="mt-2 pt-1 border-t border-slate-200 space-y-1">
+                  <div class="mono text-[9px] bg-amber-50 text-amber-800 rounded px-1 py-0.5 border border-amber-300 font-bold" title="DoS Haversine Query">T-04 (DoS)</div>
+                  <div class="mono text-[9px] bg-amber-50 text-amber-800 rounded px-1 py-0.5 border border-amber-300 font-bold" title="Plaintext Session">T-08 (Sess)</div>
+                </div>
+              </div>
+
+              <!-- Step 2 -->
+              <div class="p-1.5 rounded-lg bg-slate-50 border border-slate-200 flex flex-col justify-between h-[180px]">
+                <div>
+                  <div class="mono w-5 h-5 mx-auto rounded-full bg-blue-100 text-blue-700 border border-blue-300 text-[10px] font-bold flex items-center justify-center mb-1">2</div>
+                  <div class="font-bold text-slate-800 text-[10.5px]">Booking &amp; Nego</div>
+                  <div class="text-[9.5px] text-slate-500 mt-1 leading-tight">Buat pesanan, negosiasi dan kesepakatan harga</div>
+                </div>
+                <div class="mt-2 pt-1 border-t border-slate-200 space-y-1">
+                  <div class="mono text-[9px] bg-rose-50 text-rose-800 rounded px-1 py-0.5 border border-rose-300 font-black" title="BOLA / IDOR Status Booking">T-01 (IDOR)</div>
+                  <div class="mono text-[9px] bg-amber-50 text-amber-800 rounded px-1 py-0.5 border border-amber-300 font-bold" title="Mass Assignment Role">T-06 (Priv)</div>
+                </div>
+              </div>
+
+              <!-- Step 3 -->
+              <div class="p-1.5 rounded-lg bg-slate-50 border border-slate-200 flex flex-col justify-between h-[180px]">
+                <div>
+                  <div class="mono w-5 h-5 mx-auto rounded-full bg-blue-100 text-blue-700 border border-blue-300 text-[10px] font-bold flex items-center justify-center mb-1">3</div>
+                  <div class="font-bold text-slate-800 text-[10.5px]">Pembayaran</div>
+                  <div class="text-[9.5px] text-slate-500 mt-1 leading-tight">Snap Midtrans token &amp; callback webhook</div>
+                </div>
+                <div class="mt-2 pt-1 border-t border-slate-200 space-y-1">
+                  <div class="mono text-[9px] bg-amber-50 text-amber-800 rounded px-1 py-0.5 border border-amber-300 font-bold" title="Webhook Signature Bypass">T-03 (Pay)</div>
+                </div>
+              </div>
+
+              <!-- Step 4 -->
+              <div class="p-1.5 rounded-lg bg-slate-50 border border-slate-200 flex flex-col justify-between h-[180px]">
+                <div>
+                  <div class="mono w-5 h-5 mx-auto rounded-full bg-blue-100 text-blue-700 border border-blue-300 text-[10px] font-bold flex items-center justify-center mb-1">4</div>
+                  <div class="font-bold text-slate-800 text-[10.5px]">Chat &amp; Kerja</div>
+                  <div class="text-[9.5px] text-slate-500 mt-1 leading-tight">Pengerjaan jasa &amp; komunikasi socket Reverb</div>
+                </div>
+                <div class="mt-2 pt-1 border-t border-slate-200 space-y-1">
+                  <div class="mono text-[9px] bg-rose-50 text-rose-800 rounded px-1 py-0.5 border border-rose-300 font-black" title="Reverb WebSocket Flooding">T-02 (DoS)</div>
+                  <div class="mono text-[9px] bg-amber-50 text-amber-800 rounded px-1 py-0.5 border border-amber-300 font-bold" title="Chat Hashids Tampering">T-09 (Chat)</div>
+                </div>
+              </div>
+
+              <!-- Step 5 -->
+              <div class="p-1.5 rounded-lg bg-slate-50 border border-slate-200 flex flex-col justify-between h-[180px]">
+                <div>
+                  <div class="mono w-5 h-5 mx-auto rounded-full bg-blue-100 text-blue-700 border border-blue-300 text-[10px] font-bold flex items-center justify-center mb-1">5</div>
+                  <div class="font-bold text-slate-800 text-[10.5px]">Review &amp; Selesai</div>
+                  <div class="text-[9.5px] text-slate-500 mt-1 leading-tight">Konfirmasi selesai, ulasan rating &amp; upload foto</div>
+                </div>
+                <div class="mt-2 pt-1 border-t border-slate-200 space-y-1">
+                  <div class="mono text-[9px] bg-amber-50 text-amber-800 rounded px-1 py-0.5 border border-amber-300 font-bold" title="Stored XSS Review">T-05 (XSS)</div>
+                  <div class="mono text-[9px] bg-amber-50 text-amber-800 rounded px-1 py-0.5 border border-amber-300 font-bold" title="Polyglot Image Upload">T-07 (File)</div>
+                </div>
+              </div>
+
+            </div>
+          </div>
+          <div class="text-[10px] text-slate-500 pt-1 flex justify-between items-center">
+            <span>Kode Risiko: <span class="text-rose-700 font-bold">Merah = Critical (Skor &ge;40)</span> | <span class="text-amber-700 font-bold">Kuning = High (Skor 30–39)</span></span>
+            <span class="mono text-blue-700 font-semibold text-[9.5px]">End-to-End Mapped</span>
+          </div>
+        </div>
+
+      </div>
+
+      <!-- ROW 2: DFD Level-1 & Trust Boundaries Diagram (Height: ~1015px) -->
+      <div class="card-box p-3.5 flex flex-col justify-between flex-1 overflow-hidden">
+        <div class="flex items-center justify-between pb-1.5 border-b border-slate-200 shrink-0">
+          <span class="font-bold text-slate-900 flex items-center gap-1.5 text-xs">
+            <svg class="w-4 h-4 text-emerald-600" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 7v10c0 2 1.5 3 3.5 3h9c2 0 3.5-1 3.5-3V7c0-2-1.5-3-3.5-3h-9C5.5 4 4 5 4 7z"/></svg>
+            3. Data Flow Diagram (DFD Level-1) &amp; 5 Trust Boundaries
+          </span>
+          <div class="flex items-center gap-3 text-[10.5px]">
+            <span class="flex items-center gap-1"><span class="w-2.5 h-2.5 rounded-full bg-rose-500"></span> TB-1 Public</span>
+            <span class="flex items-center gap-1"><span class="w-2.5 h-2.5 rounded-full bg-amber-500"></span> TB-2 Ingress</span>
+            <span class="flex items-center gap-1"><span class="w-2.5 h-2.5 rounded-full bg-blue-500"></span> TB-3 Core App</span>
+            <span class="flex items-center gap-1"><span class="w-2.5 h-2.5 rounded-full bg-purple-500"></span> TB-4 Daemon</span>
+            <span class="flex items-center gap-1"><span class="w-2.5 h-2.5 rounded-full bg-emerald-500"></span> TB-5 Storage</span>
+          </div>
+        </div>
+
+        <!-- SVG DFD Container (Crisp White Background) -->
+        <div class="w-full flex-1 flex items-center justify-center p-1 my-1 bg-white rounded-lg border border-slate-200 shadow-inner overflow-hidden">
+          <svg viewBox="0 0 1340 760" xmlns="http://www.w3.org/2000/svg">
+        <defs>
+          <!-- Arrowhead Markers -->
+          <marker id="arrow" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="6" markerHeight="6"
+            orient="auto-start-reverse">
+            <path d="M 0 1.5 L 8 5 L 0 8.5 z" fill="#475569" />
+          </marker>
+          <marker id="arrow-blue" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="6" markerHeight="6"
+            orient="auto-start-reverse">
+            <path d="M 0 1.5 L 8 5 L 0 8.5 z" fill="#2563eb" />
+          </marker>
+          <marker id="arrow-orange" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="6" markerHeight="6"
+            orient="auto-start-reverse">
+            <path d="M 0 1.5 L 8 5 L 0 8.5 z" fill="#ea580c" />
+          </marker>
+          <marker id="arrow-green" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="6" markerHeight="6"
+            orient="auto-start-reverse">
+            <path d="M 0 1.5 L 8 5 L 0 8.5 z" fill="#059669" />
+          </marker>
+          <marker id="arrow-purple" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="6" markerHeight="6"
+            orient="auto-start-reverse">
+            <path d="M 0 1.5 L 8 5 L 0 8.5 z" fill="#7c3aed" />
+          </marker>
+        </defs>
+
+        <!-- ============================================== -->
+        <!-- TRUST BOUNDARIES (BACKGROUND CLUSTERS)         -->
+        <!-- ============================================== -->
+
+        <!-- TB 1: Untrusted Public Zone -->
+        <rect x="20" y="20" width="310" height="720" rx="10" fill="#fef2f2" stroke="#ef4444" stroke-width="2"
+          stroke-dasharray="6,4" />
+        <rect x="35" y="32" width="280" height="26" rx="4" fill="#fee2e2" stroke="#f87171" stroke-width="1" />
+        <text x="175" y="49" text-anchor="middle" font-size="12" font-weight="700" fill="#991b1b">TB-1: Zona Eksternal
+          (Untrusted Public)</text>
+
+        <!-- TB 2: Network Perimeter & Ingress -->
+        <rect x="350" y="20" width="220" height="720" rx="10" fill="#fffbeb" stroke="#f59e0b" stroke-width="2"
+          stroke-dasharray="6,4" />
+        <rect x="365" y="32" width="190" height="26" rx="4" fill="#fef3c7" stroke="#fbbf24" stroke-width="1" />
+        <text x="460" y="49" text-anchor="middle" font-size="12" font-weight="700" fill="#92400e">TB-2: Perimeter &amp;
+          Ingress</text>
+
+        <!-- TB 3: Core Application Logic -->
+        <rect x="590" y="20" width="460" height="720" rx="10" fill="#eff6ff" stroke="#3b82f6" stroke-width="2"
+          stroke-dasharray="6,4" />
+        <rect x="605" y="32" width="430" height="26" rx="4" fill="#dbeafe" stroke="#60a5fa" stroke-width="1" />
+        <text x="820" y="49" text-anchor="middle" font-size="12" font-weight="700" fill="#1e40af">TB-3: Core Application
+          (Laravel 12 / PHP 8.3 Host)</text>
+
+        <!-- TB 4: Realtime Daemon Zone -->
+        <rect x="1070" y="20" width="250" height="340" rx="10" fill="#faf5ff" stroke="#8b5cf6" stroke-width="2"
+          stroke-dasharray="6,4" />
+        <rect x="1085" y="32" width="220" height="26" rx="4" fill="#ede9fe" stroke="#c084fc" stroke-width="1" />
+        <text x="1195" y="49" text-anchor="middle" font-size="12" font-weight="700" fill="#6b21a8">TB-4: Real-time
+          WebSocket</text>
+
+        <!-- TB 5: Persistent Storage Zone -->
+        <rect x="1070" y="380" width="250" height="360" rx="10" fill="#ecfdf5" stroke="#10b981" stroke-width="2"
+          stroke-dasharray="6,4" />
+        <rect x="1085" y="392" width="220" height="26" rx="4" fill="#d1fae5" stroke="#34d399" stroke-width="1" />
+        <text x="1195" y="409" text-anchor="middle" font-size="12" font-weight="700" fill="#065f46">TB-5: Persistent
+          Storage Layer</text>
+
+        <!-- ============================================== -->
+        <!-- ENTITIES (TB 1)                                -->
+        <!-- ============================================== -->
+
+        <!-- Customer -->
+        <rect x="40" y="80" width="270" height="70" rx="6" fill="#ffffff" stroke="#dc2626" stroke-width="1.8" />
+        <text x="55" y="105" font-size="13" font-weight="700" fill="#991b1b">Customer (Pelanggan)</text>
+        <text x="55" y="123" font-size="10.5" fill="#64748b">Web Browser / Mobile Client</text>
+        <text x="55" y="137" font-size="10" fill="#dc2626">&#9656; Cari Jasa, Reservasi, Bayar, Chat</text>
+
+        <!-- Provider -->
+        <rect x="40" y="180" width="270" height="70" rx="6" fill="#ffffff" stroke="#dc2626" stroke-width="1.8" />
+        <text x="55" y="205" font-size="13" font-weight="700" fill="#991b1b">Service Provider (Tukang)</text>
+        <text x="55" y="223" font-size="10.5" fill="#64748b">Web Browser Client</text>
+        <text x="55" y="237" font-size="10" fill="#dc2626">&#9656; Kelola Jasa, Konfirmasi Order, Chat</text>
+
+        <!-- Admin -->
+        <rect x="40" y="280" width="270" height="65" rx="6" fill="#ffffff" stroke="#dc2626" stroke-width="1.8" />
+        <text x="55" y="305" font-size="13" font-weight="700" fill="#991b1b">Admin Platform</text>
+        <text x="55" y="323" font-size="10.5" fill="#64748b">Web Browser (Back-office)</text>
+        <text x="55" y="337" font-size="10" fill="#dc2626">&#9656; Kelola Kategori, Tinjau Laporan</text>
+
+        <!-- Midtrans Gateway -->
+        <rect x="40" y="580" width="270" height="75" rx="6" fill="#ffffff" stroke="#ea580c" stroke-width="1.8" />
+        <text x="55" y="605" font-size="13" font-weight="700" fill="#c2410c">Midtrans Payment Gateway</text>
+        <text x="55" y="623" font-size="10.5" fill="#64748b">Third-Party Gateway Service</text>
+        <text x="55" y="638" font-size="10" fill="#ea580c">&#9656; Pemroses Pembayaran &amp; Webhook</text>
+
+        <!-- ============================================== -->
+        <!-- PROCESSES (TB 2: Perimeter & Ingress)          -->
+        <!-- ============================================== -->
+
+        <!-- Cloudflare Ingress -->
+        <rect x="365" y="80" width="190" height="75" rx="8" fill="#ffffff" stroke="#d97706" stroke-width="1.6" />
+        <text x="375" y="103" font-size="11.5" font-weight="700" fill="#b45309">Cloudflare Tunnel</text>
+        <text x="375" y="120" font-size="9.5" fill="#64748b">SSL/TLS Termination</text>
+        <text x="375" y="135" font-size="9.5" fill="#475569">app / ws .cornel.my.id</text>
+
+        <!-- Web Router -->
+        <rect x="365" y="195" width="190" height="95" rx="8" fill="#ffffff" stroke="#d97706" stroke-width="1.6" />
+        <text x="375" y="218" font-size="11.5" font-weight="700" fill="#b45309">Laravel Web Router</text>
+        <text x="375" y="235" font-size="9.5" fill="#64748b">&#8226; CSRF Token Verifier</text>
+        <text x="375" y="250" font-size="9.5" fill="#64748b">&#8226; Session &amp; Auth Middlewares</text>
+        <text x="375" y="265" font-size="9.5" fill="#64748b">&#8226; AdminMiddleware Guard</text>
+
+        <!-- API Router -->
+        <rect x="365" y="580" width="190" height="75" rx="8" fill="#ffffff" stroke="#d97706" stroke-width="1.6" />
+        <text x="375" y="603" font-size="11.5" font-weight="700" fill="#b45309">Laravel API Router</text>
+        <text x="375" y="620" font-size="9.5" fill="#64748b">&#8226; CSRF-Exempt Endpoint</text>
+        <text x="375" y="635" font-size="9.5" fill="#ea580c">/api/midtrans/callback</text>
+
+        <!-- ============================================== -->
+        <!-- PROCESSES (TB 3: Core Application Layer)       -->
+        <!-- ============================================== -->
+
+        <!-- P1: Auth & Profile (Col 1) -->
+        <rect x="610" y="80" width="180" height="60" rx="8" fill="#ffffff" stroke="#2563eb" stroke-width="1.6" />
+        <text x="620" y="102" font-size="11" font-weight="700" fill="#1e40af">P1.0: Auth &amp; Profile</text>
+        <text x="620" y="118" font-size="9.5" fill="#64748b">ProfileController / Register</text>
+        <text x="620" y="131" font-size="9" font-weight="700" fill="#c2410c">[T-06]</text>
+        <text x="652" y="131" font-size="9" fill="#dc2626">Cek: Mass Assignment</text>
+
+        <!-- P2: Marketplace & Search (Col 2) -->
+        <rect x="850" y="80" width="180" height="60" rx="8" fill="#ffffff" stroke="#2563eb" stroke-width="1.6" />
+        <text x="860" y="102" font-size="11" font-weight="700" fill="#1e40af">P2.0: Marketplace &amp; Search</text>
+        <text x="860" y="118" font-size="9.5" fill="#64748b">MarketplaceController</text>
+        <text x="860" y="131" font-size="9" font-weight="700" fill="#c2410c">[T-04]</text>
+        <text x="892" y="131" font-size="9" fill="#dc2626">Cek: Haversine Geo</text>
+
+        <!-- P3: Service Management (Col 1) -->
+        <rect x="610" y="170" width="180" height="60" rx="8" fill="#ffffff" stroke="#2563eb" stroke-width="1.6" />
+        <text x="620" y="192" font-size="11" font-weight="700" fill="#1e40af">P3.0: Service Management</text>
+        <text x="620" y="208" font-size="9.5" fill="#64748b">ServiceController &amp; Gallery</text>
+        <text x="620" y="221" font-size="9" font-weight="700" fill="#c2410c">[T-07]</text>
+        <text x="652" y="221" font-size="9" fill="#dc2626">Cek: SSRF / Upload MIME</text>
+
+        <!-- P4: Booking & Workflow (Col 2) -->
+        <rect x="850" y="170" width="180" height="65" rx="8" fill="#ffffff" stroke="#2563eb" stroke-width="1.6" />
+        <text x="860" y="192" font-size="11" font-weight="700" fill="#1e40af">P4.0: Booking Workflow</text>
+        <text x="860" y="208" font-size="9.5" fill="#64748b">BookingController</text>
+        <text x="860" y="223" font-size="9" font-weight="700" fill="#991b1b">[T-01]</text>
+        <text x="892" y="223" font-size="9" fill="#dc2626">&#9888; BOLA/IDOR Status</text>
+
+        <!-- P7: Review & Rating (Col 1) -->
+        <rect x="610" y="260" width="180" height="60" rx="8" fill="#ffffff" stroke="#2563eb" stroke-width="1.6" />
+        <text x="620" y="282" font-size="11" font-weight="700" fill="#1e40af">P7.0: Review &amp; Rating</text>
+        <text x="620" y="298" font-size="9.5" fill="#64748b">Review System / Observers</text>
+        <text x="620" y="311" font-size="9" font-weight="700" fill="#c2410c">[T-05]</text>
+        <text x="652" y="311" font-size="9" fill="#dc2626">Cek: Stored XSS Review</text>
+
+        <!-- P6: Chatting & Messaging (Col 2) -->
+        <rect x="850" y="260" width="180" height="60" rx="8" fill="#ffffff" stroke="#2563eb" stroke-width="1.6" />
+        <text x="860" y="282" font-size="11" font-weight="700" fill="#1e40af">P6.0: Chat &amp; Messaging</text>
+        <text x="860" y="298" font-size="9.5" fill="#64748b">ChatController (Hashids)</text>
+        <text x="860" y="311" font-size="9" font-weight="700" fill="#c2410c">[T-09]</text>
+        <text x="892" y="311" font-size="9" fill="#dc2626">Cek: Otorisasi Chat</text>
+
+        <!-- P8: Admin Moderation (Col 1) -->
+        <rect x="610" y="350" width="180" height="60" rx="8" fill="#ffffff" stroke="#2563eb" stroke-width="1.6" />
+        <text x="620" y="372" font-size="11" font-weight="700" fill="#1e40af">P8.0: Admin Moderation</text>
+        <text x="620" y="388" font-size="9.5" fill="#64748b">Report &amp; Category Ctrl</text>
+        <text x="620" y="401" font-size="9" fill="#64748b">Soft Delete &amp; Restore</text>
+
+        <!-- P9: Notification Dispatcher (Col 2) -->
+        <rect x="850" y="350" width="180" height="60" rx="8" fill="#ffffff" stroke="#2563eb" stroke-width="1.6" />
+        <text x="860" y="372" font-size="11" font-weight="700" fill="#1e40af">P9.0: Notifications</text>
+        <text x="860" y="388" font-size="9.5" fill="#64748b">DB &amp; Mail Notification</text>
+        <text x="860" y="401" font-size="9" fill="#64748b">Pemicu Email / Event Sinyal</text>
+
+        <!-- P5: Payment & Callback (Col 1 - Lower) -->
+        <rect x="610" y="580" width="180" height="65" rx="8" fill="#ffffff" stroke="#2563eb" stroke-width="1.6" />
+        <text x="620" y="602" font-size="11" font-weight="700" fill="#1e40af">P5.0: Payment Handler</text>
+        <text x="620" y="618" font-size="9.5" fill="#64748b">PaymentCallbackController</text>
+        <text x="620" y="633" font-size="9" font-weight="700" fill="#c2410c">[T-03]</text>
+        <text x="652" y="633" font-size="9" fill="#dc2626">Cek: SHA512 Callback</text>
+
+        <!-- ============================================== -->
+        <!-- DAEMON & DATA STORES (TB 4 & TB 5)             -->
+        <!-- ============================================== -->
+
+        <!-- P10: Laravel Reverb -->
+        <rect x="1090" y="80" width="210" height="95" rx="8" fill="#ffffff" stroke="#7c3aed" stroke-width="1.8" />
+        <text x="1105" y="105" font-size="12" font-weight="700" fill="#6d28d9">P10.0: Laravel Reverb</text>
+        <text x="1105" y="122" font-size="10" fill="#64748b">WebSocket Daemon</text>
+        <text x="1105" y="137" font-size="9.5" fill="#475569">Port 8080 (Localhost / WSS)</text>
+        <text x="1105" y="152" font-size="9" font-weight="700" fill="#991b1b">[T-02]</text>
+        <text x="1137" y="152" font-size="9" fill="#dc2626">&#9888; DoS /api/test-latency</text>
+
+        <!-- D1: MySQL Database -->
+        <rect x="1090" y="440" width="210" height="105" rx="6" fill="#ffffff" stroke="#059669" stroke-width="1.8" />
+        <text x="1105" y="465" font-size="12" font-weight="700" fill="#047857">D1: MySQL Database</text>
+        <text x="1105" y="482" font-size="10" fill="#64748b">Database 'findservices'</text>
+        <text x="1105" y="497" font-size="9.5" fill="#475569">users, bookings, chats,</text>
+        <text x="1105" y="512" font-size="9.5" fill="#475569">reviews, reports, sessions</text>
+        <text x="1105" y="530" font-size="9" font-weight="700" fill="#c2410c">[T-08]</text>
+        <text x="1137" y="530" font-size="9" fill="#dc2626">Sesi Database Plaintext</text>
+
+        <!-- D2: Local Storage Disk -->
+        <rect x="1090" y="555" width="210" height="75" rx="6" fill="#ffffff" stroke="#059669" stroke-width="1.8" />
+        <text x="1105" y="580" font-size="12" font-weight="700" fill="#047857">D2: File Storage Disk</text>
+        <text x="1105" y="597" font-size="9.5" fill="#64748b">storage/app/public/</text>
+        <text x="1105" y="612" font-size="9.5" fill="#475569">avatars, services, reviews (.webp)</text>
+
+        <!-- D3: Log Storage -->
+        <rect x="1090" y="645" width="210" height="75" rx="6" fill="#ffffff" stroke="#059669" stroke-width="1.8" />
+        <text x="1105" y="668" font-size="12" font-weight="700" fill="#047857">D3: Log File Storage</text>
+        <text x="1105" y="685" font-size="9.5" fill="#64748b">storage/logs/laravel.log</text>
+        <text x="1105" y="700" font-size="9" font-weight="700" fill="#166534">[T-10]</text>
+        <text x="1137" y="700" font-size="9" fill="#166534">&#10004; APP_DEBUG=false</text>
+
+        <!-- ============================================== -->
+        <!-- ORTHOGONAL DATA FLOW ARROWS (CLEAN ROUTING)    -->
+        <!-- ============================================== -->
+
+        <!-- FLOW 1: Customer / Provider / Admin -> Cloudflare Tunnel -->
+        <!-- Customer -> Cloudflare -->
+        <path d="M 310 100 L 365 100" stroke="#475569" stroke-width="1.8" fill="none" marker-end="url(#arrow)" />
+        <rect x="318" y="91" width="38" height="18" rx="3" fill="#fee2e2" stroke="#ef4444" stroke-width="0.8" />
+        <text x="337" y="103" font-size="9" font-weight="700" fill="#991b1b" text-anchor="middle">F1</text>
+
+        <!-- Provider -> Cloudflare Corridor -->
+        <path d="M 310 215 H 335 V 117 H 365" stroke="#475569" stroke-width="1.5" stroke-dasharray="4,3" fill="none"
+          marker-end="url(#arrow)" />
+
+        <!-- Admin -> Cloudflare Corridor -->
+        <path d="M 310 312 H 345 V 134 H 365" stroke="#475569" stroke-width="1.5" stroke-dasharray="4,3" fill="none"
+          marker-end="url(#arrow)" />
+
+        <!-- Cloudflare -> Laravel Web Router -->
+        <path d="M 460 155 V 195" stroke="#475569" stroke-width="1.8" fill="none" marker-end="url(#arrow)" />
+
+        <!-- ROUTING FROM WEB ROUTER TO CORE PROCESSES (CORRIDOR 1: X=580) -->
+
+        <!-- F2: Web Router -> P1.0 Auth -->
+        <path d="M 555 210 H 580 V 110 H 610" stroke="#2563eb" stroke-width="1.6" fill="none"
+          marker-end="url(#arrow-blue)" />
+        <rect x="560" y="148" width="38" height="18" rx="3" fill="#fee2e2" stroke="#ef4444" stroke-width="0.8" />
+        <text x="579" y="160" font-size="9" font-weight="700" fill="#991b1b" text-anchor="middle">F2</text>
+
+        <!-- F2 (Cont): P1.0 -> P2.0 Search across Row 1 -->
+        <path d="M 790 110 H 850" stroke="#2563eb" stroke-width="1.6" fill="none" marker-end="url(#arrow-blue)" />
+
+        <!-- F3: Web Router -> P3.0 Service Mgmt -->
+        <path d="M 555 225 H 580 V 200 H 610" stroke="#2563eb" stroke-width="1.6" fill="none"
+          marker-end="url(#arrow-blue)" />
+        <rect x="560" y="210" width="38" height="18" rx="3" fill="#fee2e2" stroke="#ef4444" stroke-width="0.8" />
+        <text x="579" y="222" font-size="9" font-weight="700" fill="#991b1b" text-anchor="middle">F3</text>
+
+        <!-- F4: Web Router -> Corridor 1 -> Row Gap 245 -> Corridor 2 (X=820) -> P4.0 Booking -->
+        <path d="M 555 240 H 580 H 820 V 202.5 H 850" stroke="#2563eb" stroke-width="1.6" fill="none"
+          marker-end="url(#arrow-blue)" />
+        <rect x="710" y="239" width="38" height="18" rx="3" fill="#fee2e2" stroke="#ef4444" stroke-width="0.8" />
+        <text x="729" y="251" font-size="9" font-weight="700" fill="#991b1b" text-anchor="middle">F4</text>
+
+        <!-- F7: Web Router -> P7.0 Review & P6.0 Chat -->
+        <path d="M 555 255 H 580 V 290 H 610" stroke="#2563eb" stroke-width="1.6" fill="none"
+          marker-end="url(#arrow-blue)" />
+        <path d="M 790 290 H 850" stroke="#2563eb" stroke-width="1.6" fill="none" marker-end="url(#arrow-blue)" />
+        <rect x="560" y="278" width="38" height="18" rx="3" fill="#fee2e2" stroke="#ef4444" stroke-width="0.8" />
+        <text x="579" y="290" font-size="9" font-weight="700" fill="#991b1b" text-anchor="middle">F7</text>
+
+        <!-- FLOW 5: Snap Token Request (P5.0 Payment -> Midtrans) -->
+        <path d="M 610 602 H 580 V 570 H 340 V 605 H 310" stroke="#ea580c" stroke-width="1.8" fill="none" marker-end="url(#arrow-orange)" />
+        <rect x="440" y="560" width="38" height="18" rx="3" fill="#fed7aa" stroke="#ea580c" stroke-width="0.8" />
+        <text x="459" y="572" font-size="9" font-weight="700" fill="#9a3412" text-anchor="middle">F5</text>
+
+        <!-- FLOW 6: Midtrans Webhook Callback (Midtrans -> ApiRouter -> P5.0) -->
+        <path d="M 310 630 H 365" stroke="#ea580c" stroke-width="1.8" fill="none" marker-end="url(#arrow-orange)" />
+        <path d="M 555 630 H 610" stroke="#ea580c" stroke-width="1.8" fill="none" marker-end="url(#arrow-orange)" />
+        <rect x="320" y="638" width="38" height="18" rx="3" fill="#fee2e2" stroke="#ef4444" stroke-width="0.8" />
+        <text x="339" y="650" font-size="9" font-weight="700" fill="#991b1b" text-anchor="middle">F6</text>
+
+        <!-- FLOW 8: Broadcast to Reverb WebSocket (P4.0 & P6.0 -> Corridor 3 X=1060 -> P10.0) -->
+        <path d="M 1030 190 H 1060 V 115 H 1090" stroke="#7c3aed" stroke-width="1.6" fill="none"
+          marker-end="url(#arrow-purple)" />
+        <path d="M 1030 290 H 1065 V 140 H 1090" stroke="#7c3aed" stroke-width="1.6" fill="none"
+          marker-end="url(#arrow-purple)" />
+        
+
+        <!-- FLOW 9: Database Operations (Col 2 & P5.0 -> Corridor 3 X=1052 -> D1 MySQL) -->
+        <path d="M 1030 215 H 1061 V 475 H 1090" stroke="#059669" stroke-width="1.6" fill="none"
+          marker-end="url(#arrow-green)" />
+        <path d="M 790 612.5 H 1061 V 510 H 1090" stroke="#059669" stroke-width="1.6" fill="none"
+          marker-end="url(#arrow-green)" />
+        
+
+        <!-- FLOW 10: File Upload Operations (P3.0 / P7.0 -> Corridor 2 X=820 -> Row Gap 335 -> D2 Storage) -->
+        <path d="M 790 200 H 815 V 335 H 1056 V 585 H 1090" stroke="#059669" stroke-width="1.6" fill="none"
+          marker-end="url(#arrow-green)" />
+        <rect x="1041" y="573" width="38" height="18" rx="3" fill="#d1fae5" stroke="#10b981" stroke-width="0.8" />
+        <text x="1060" y="585" font-size="9" font-weight="700" fill="#065f46" text-anchor="middle">F10</text>
+        
+        <!-- LABEL Flow F9 -->
+        <rect x="1041" y="468" width="38" height="18" rx="3" fill="#d1fae5" stroke="#10b981" stroke-width="0.8" />
+        <text x="1060" y="480" font-size="9" font-weight="700" fill="#065f46" text-anchor="middle">F9</text>
+      </svg>
+        </div>
+
+        <!-- Legend Bar Compact matching dfd_threat_modeling copy.html -->
+        <div class="pt-1.5 border-t border-slate-200 flex items-center justify-between text-[10px] text-slate-600 shrink-0">
+          <div class="flex items-center gap-4">
+            <span class="flex items-center gap-1"><span class="w-3.5 h-2.5 rounded border border-rose-600 bg-white inline-block"></span> <strong>[ ]</strong> Entitas Luar</span>
+            <span class="flex items-center gap-1"><span class="w-3.5 h-2.5 rounded-md border border-blue-600 bg-blue-50 inline-block"></span> <strong>( )</strong> Proses / Controller</span>
+            <span class="flex items-center gap-1"><span class="w-3.5 h-2.5 border border-emerald-600 bg-emerald-50 inline-block"></span> <strong>[=]</strong> Data Store (MySQL/Disk)</span>
+            <span class="flex items-center gap-1"><span class="w-4 h-0.5 border-b-2 border-dashed border-rose-500 inline-block"></span> Trust Boundary</span>
+          </div>
+          <div class="flex items-center gap-2">
+            <span class="mono bg-rose-50 text-rose-800 border border-rose-300 px-1.5 py-0.5 rounded font-bold">[T-x] Titik Ancaman</span>
+            <span class="mono bg-blue-50 text-blue-800 border border-blue-300 px-1.5 py-0.5 rounded font-bold">F1–F10 Aliran Data</span>
+          </div>
+        </div>
+      </div>
+
+    </div>
+
+
+    <!-- ====================================================== -->
+    <!-- RIGHT COLUMN (Cols: 5 / 12) - Metrics & Threat Matrix  -->
+    <!-- ====================================================== -->
+    <div class="col-span-5 flex flex-col justify-between gap-3 h-full overflow-hidden">
+      
+      <!-- ==================================================== -->
+      <!-- BAGIAN 4: RINGKASAN HASIL & METRIK STRIDE-DREAD      -->
+      <!-- ==================================================== -->
+      <div class="card-box p-3.5 flex flex-col justify-between shrink-0" style="height: 220px;">
+        <div class="flex items-center justify-between pb-1.5 border-b border-slate-200">
+          <span class="font-bold text-slate-900 flex items-center gap-1.5 text-xs">
+            <svg class="w-4 h-4 text-amber-500" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 10V3L4 14h7v7l9-11h-7z"/></svg>
+            4. Ringkasan Hasil &amp; Metrik Evaluasi Risiko (Sheet Ringkasan)
+          </span>
+          <span class="mono text-[10px] bg-slate-100 text-slate-700 border border-slate-300 px-1.5 py-0.5 rounded font-bold">Rata-rata: 33.8 / 50</span>
+        </div>
+
+        <div class="grid grid-cols-12 gap-3 items-center my-auto">
+          <!-- Risk Distribution Progress (Cols: 5) -->
+          <div class="col-span-5 space-y-1.5 text-xs">
+            <div>
+              <div class="flex justify-between text-[11px] mb-0.5">
+                <span class="text-rose-700 font-bold flex items-center gap-1">
+                  <span class="w-2 h-2 rounded-full bg-rose-600"></span> CRITICAL (40–50)
+                </span>
+                <span class="mono font-extrabold text-rose-800">2 (20%)</span>
+              </div>
+              <div class="w-full bg-slate-100 border border-slate-200 h-2 rounded-full overflow-hidden">
+                <div class="bg-rose-600 h-full rounded-full" style="width: 20%"></div>
+              </div>
+            </div>
+
+            <div>
+              <div class="flex justify-between text-[11px] mb-0.5">
+                <span class="text-amber-700 font-bold flex items-center gap-1">
+                  <span class="w-2 h-2 rounded-full bg-amber-500"></span> HIGH (30–39)
+                </span>
+                <span class="mono font-extrabold text-amber-800">7 (70%)</span>
+              </div>
+              <div class="w-full bg-slate-100 border border-slate-200 h-2 rounded-full overflow-hidden">
+                <div class="bg-amber-500 h-full rounded-full" style="width: 70%"></div>
+              </div>
+            </div>
+
+            <div>
+              <div class="flex justify-between text-[11px] mb-0.5">
+                <span class="text-emerald-700 font-bold flex items-center gap-1">
+                  <span class="w-2 h-2 rounded-full bg-emerald-600"></span> LOW / MITIGATED (&lt;20)
+                </span>
+                <span class="mono font-extrabold text-emerald-800">1 (10%)</span>
+              </div>
+              <div class="w-full bg-slate-100 border border-slate-200 h-2 rounded-full overflow-hidden">
+                <div class="bg-emerald-600 h-full rounded-full" style="width: 10%"></div>
+              </div>
+            </div>
+          </div>
+
+          <!-- STRIDE Badges Grid (Cols: 7) -->
+          <div class="col-span-7 bg-slate-50 p-2.5 rounded-lg border border-slate-200">
+            <span class="text-[10px] text-slate-600 block mb-1.5 font-semibold uppercase tracking-wider">Distribusi Kategori STRIDE:</span>
+            <div class="grid grid-cols-3 gap-1.5 text-[10.5px]">
+              <div class="bg-white px-2 py-1 rounded flex justify-between border border-slate-200 shadow-sm">
+                <span class="text-slate-600">Tamper</span>
+                <span class="mono font-bold text-blue-700">6</span>
+              </div>
+              <div class="bg-white px-2 py-1 rounded flex justify-between border border-slate-200 shadow-sm">
+                <span class="text-slate-600">Info</span>
+                <span class="mono font-bold text-blue-700">5</span>
+              </div>
+              <div class="bg-white px-2 py-1 rounded flex justify-between border border-slate-200 shadow-sm">
+                <span class="text-slate-600">Spoof</span>
+                <span class="mono font-bold text-blue-700">2</span>
+              </div>
+              <div class="bg-white px-2 py-1 rounded flex justify-between border border-slate-200 shadow-sm">
+                <span class="text-slate-600">DoS</span>
+                <span class="mono font-bold text-blue-700">2</span>
+              </div>
+              <div class="bg-white px-2 py-1 rounded flex justify-between border border-slate-200 shadow-sm">
+                <span class="text-slate-600">Elevate</span>
+                <span class="mono font-bold text-blue-700">2</span>
+              </div>
+              <div class="bg-white px-2 py-1 rounded flex justify-between border border-slate-200 shadow-sm">
+                <span class="text-slate-400">Repudi</span>
+                <span class="mono font-bold text-slate-400">0</span>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <div class="pt-1.5 border-t border-slate-200 flex items-center justify-between text-[10.5px]">
+          <span class="text-slate-700">Prioritas 1: <strong class="text-rose-700">T-01 BOLA Booking (Skor 40)</strong> &bull; Prioritas 2: <strong class="text-rose-700">T-02 Reverb Socket DoS (Skor 40)</strong></span>
+          <span class="text-emerald-800 font-bold bg-emerald-100 px-2 py-0.5 rounded border border-emerald-300">T-10 APP_DEBUG=false ✓</span>
+        </div>
+      </div>
+
+      <!-- ==================================================== -->
+      <!-- BAGIAN 5: DAFTAR LENGKAP 10 ANCAMAN & MITIGASI       -->
+      <!-- ==================================================== -->
+      <div class="card-box p-3.5 flex flex-col justify-between flex-1 overflow-hidden">
+        <div class="flex items-center justify-between pb-1.5 border-b border-slate-200 shrink-0 mb-1.5">
+          <span class="font-bold text-slate-900 flex items-center gap-1.5 text-xs">
+            <svg class="w-4 h-4 text-rose-600" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 9v2m0 4h.01m-6.938 4h13.856c1.54 0 2.502-1.667 1.732-3L13.732 4c-.77-1.333-2.694-1.333-3.464 0L3.34 16c-.77 1.333.192 3 1.732 3z"/></svg>
+            5. Daftar Lengkap 10 Ancaman &amp; Rekomendasi Mitigasi (Sesuai Excel)
+          </span>
+          <span class="text-[10px] text-slate-500 font-medium">10 / 10 Terverifikasi Sesuai Sheet STRIDE_DREAD_Template</span>
+        </div>
+
+        <!-- 10 Verified Threat Rows with Correct Severity Badges & Colors -->
+        <div class="space-y-1.5 overflow-hidden flex-1 flex flex-col justify-between">
+
+          <div class="p-2 rounded-lg border bg-white border-l-4 border-l-rose-600 border-slate-200 shadow-sm flex flex-col justify-between text-xs" style="height: 87px;">
+            <div class="flex items-center justify-between gap-2">
+              <div class="flex items-center gap-1.5 overflow-hidden">
+                <span class="mono font-bold text-slate-900 text-[11px] bg-slate-100 border border-slate-300 px-1.5 py-0.5 rounded shrink-0">T-01 (CVE-2023-28438)</span>
+                <span class="mono text-[9px] bg-blue-50 text-blue-800 border border-blue-200 px-1.5 py-0.5 rounded shrink-0 font-bold">T,E</span>
+                <span class="font-bold text-slate-900 text-[11px] truncate" title="Penyerang yang terautentikasi memanipulasi parameter order_id pada endpoint status booking di BookingController tanpa verifikasi kepemilikan akun, sehingga dapat mengubah status pesanan milik pengguna lain secara sepihak.">Penyerang yang terautentikasi memanipulasi parameter order_id pada endpoint status booking di BookingControlle...</span>
+              </div>
+              <div class="shrink-0 flex items-center gap-1.5">
+                <span class="mono font-extrabold text-[10px] text-slate-800 bg-slate-100 border border-slate-300 px-1.5 py-0.5 rounded">40/50</span>
+                <span class="mono font-black text-[9px] px-2 py-0.5 rounded border bg-rose-100 text-rose-800 border-rose-300">CRITICAL</span>
+              </div>
+            </div>
+
+            <div class="grid grid-cols-12 gap-2 text-[10px] mt-1 items-center">
+              <div class="col-span-5 truncate text-slate-600" title="BookingController.php baris 228–232: pengecekan hak akses kepemilikan auth()->id() dikomentari.">
+                <span class="text-slate-500 font-semibold">Bukti:</span> <code class="mono text-rose-700 bg-slate-100 border border-slate-200 px-1 rounded font-semibold">BookingController.php baris 228–232: penge...</code>
+              </div>
+              <div class="col-span-7 truncate text-slate-700" title="Aktifkan kembali validasi: if (auth()->id() !== $booking->provider_id && auth()->id() !== $booking->customer_id) abort(403); & BookingPolicy.">
+                <span class="text-emerald-700 font-bold">Solusi:</span> Aktifkan kembali validasi: if (auth()->id() !== $booking->provider_id && auth()->id() !== $booking->customer_id) abort(403); ...
+              </div>
+            </div>
+          </div>
+    
+          <div class="p-2 rounded-lg border bg-white border-l-4 border-l-rose-600 border-slate-200 shadow-sm flex flex-col justify-between text-xs" style="height: 87px;">
+            <div class="flex items-center justify-between gap-2">
+              <div class="flex items-center gap-1.5 overflow-hidden">
+                <span class="mono font-bold text-slate-900 text-[11px] bg-slate-100 border border-slate-300 px-1.5 py-0.5 rounded shrink-0">T-02 (CVE-2023-34449)</span>
+                <span class="mono text-[9px] bg-blue-50 text-blue-800 border border-blue-200 px-1.5 py-0.5 rounded shrink-0 font-bold">D</span>
+                <span class="font-bold text-slate-900 text-[11px] truncate" title="Penyerang tanpa autentikasi mengirimkan ribuan request ke endpoint uji latensi WebSocket Reverb secara masif, sehingga membanjiri channel Reverb dan mengakibatkan server socket mengalami kehabisan memori serta lumpuh.">Penyerang tanpa autentikasi mengirimkan ribuan request ke endpoint uji latensi WebSocket Reverb secara masif, ...</span>
+              </div>
+              <div class="shrink-0 flex items-center gap-1.5">
+                <span class="mono font-extrabold text-[10px] text-slate-800 bg-slate-100 border border-slate-300 px-1.5 py-0.5 rounded">40/50</span>
+                <span class="mono font-black text-[9px] px-2 py-0.5 rounded border bg-rose-100 text-rose-800 border-rose-300">CRITICAL</span>
+              </div>
+            </div>
+
+            <div class="grid grid-cols-12 gap-2 text-[10px] mt-1 items-center">
+              <div class="col-span-5 truncate text-slate-600" title="routes/api.php baris 15–52: route POST /test-latency memicu TestLatency::dispatch tanpa middleware auth maupun rate limiting.">
+                <span class="text-slate-500 font-semibold">Bukti:</span> <code class="mono text-rose-700 bg-slate-100 border border-slate-200 px-1 rounded font-semibold">routes/api.php baris 15–52: route POST /te...</code>
+              </div>
+              <div class="col-span-7 truncate text-slate-700" title="Hapus route /test-latency di production atau lindungi dengan auth:sanctum dan throttle rate limit 5 req/min.">
+                <span class="text-emerald-700 font-bold">Solusi:</span> Hapus route /test-latency di production atau lindungi dengan auth:sanctum dan throttle rate limit 5 req/min.
+              </div>
+            </div>
+          </div>
+    
+          <div class="p-2 rounded-lg border bg-white border-l-4 border-l-amber-500 border-slate-200 shadow-sm flex flex-col justify-between text-xs" style="height: 87px;">
+            <div class="flex items-center justify-between gap-2">
+              <div class="flex items-center gap-1.5 overflow-hidden">
+                <span class="mono font-bold text-slate-900 text-[11px] bg-slate-100 border border-slate-300 px-1.5 py-0.5 rounded shrink-0">T-03 (CVE-2023-45133)</span>
+                <span class="mono text-[9px] bg-blue-50 text-blue-800 border border-blue-200 px-1.5 py-0.5 rounded shrink-0 font-bold">S,T</span>
+                <span class="font-bold text-slate-900 text-[11px] truncate" title="Penyerang memalsukan notifikasi callback webhook Midtrans dengan mengeksploitasi kemungkinan kunci rahasia kosong pada berkas konfigurasi, sehingga status pembayaran booking berubah menjadi lunas tanpa transfer uang sesungguhnya.">Penyerang memalsukan notifikasi callback webhook Midtrans dengan mengeksploitasi kemungkinan kunci rahasia kos...</span>
+              </div>
+              <div class="shrink-0 flex items-center gap-1.5">
+                <span class="mono font-extrabold text-[10px] text-slate-800 bg-slate-100 border border-slate-300 px-1.5 py-0.5 rounded">39/50</span>
+                <span class="mono font-black text-[9px] px-2 py-0.5 rounded border bg-amber-100 text-amber-800 border-amber-300">HIGH</span>
+              </div>
+            </div>
+
+            <div class="grid grid-cols-12 gap-2 text-[10px] mt-1 items-center">
+              <div class="col-span-5 truncate text-slate-600" title="PaymentCallbackController.php:14–38 & bootstrap/app.php:21–23: route callback CSRF-exempt & key kosong.">
+                <span class="text-slate-500 font-semibold">Bukti:</span> <code class="mono text-rose-700 bg-slate-100 border border-slate-200 px-1 rounded font-semibold">PaymentCallbackController.php:14–38 & boot...</code>
+              </div>
+              <div class="col-span-7 truncate text-slate-700" title="Validasi ketat MIDTRANS_SERVER_KEY tidak boleh kosong, verifikasi hash SHA512, dan inquiry API.">
+                <span class="text-emerald-700 font-bold">Solusi:</span> Validasi ketat MIDTRANS_SERVER_KEY tidak boleh kosong, verifikasi hash SHA512, dan inquiry API.
+              </div>
+            </div>
+          </div>
+    
+          <div class="p-2 rounded-lg border bg-white border-l-4 border-l-amber-500 border-slate-200 shadow-sm flex flex-col justify-between text-xs" style="height: 87px;">
+            <div class="flex items-center justify-between gap-2">
+              <div class="flex items-center gap-1.5 overflow-hidden">
+                <span class="mono font-bold text-slate-900 text-[11px] bg-slate-100 border border-slate-300 px-1.5 py-0.5 rounded shrink-0">T-04 (CVE-2023-38035)</span>
+                <span class="mono text-[9px] bg-blue-50 text-blue-800 border border-blue-200 px-1.5 py-0.5 rounded shrink-0 font-bold">D</span>
+                <span class="font-bold text-slate-900 text-[11px] truncate" title="Pengguna jahat memicu pencarian katalog dengan koordinat radius geolokasi secara berulang dan mengunggah banyak berkas berukuran 10MB, sehingga membebani CPU database dan menghabiskan ruang penyimpanan server.">Pengguna jahat memicu pencarian katalog dengan koordinat radius geolokasi secara berulang dan mengunggah banya...</span>
+              </div>
+              <div class="shrink-0 flex items-center gap-1.5">
+                <span class="mono font-extrabold text-[10px] text-slate-800 bg-slate-100 border border-slate-300 px-1.5 py-0.5 rounded">38/50</span>
+                <span class="mono font-black text-[9px] px-2 py-0.5 rounded border bg-amber-100 text-amber-800 border-amber-300">HIGH</span>
+              </div>
+            </div>
+
+            <div class="grid grid-cols-12 gap-2 text-[10px] mt-1 items-center">
+              <div class="col-span-5 truncate text-slate-600" title="MarketplaceController.php baris 57–68: query Haversine tanpa cache & upload file mencapai 10MB.">
+                <span class="text-slate-500 font-semibold">Bukti:</span> <code class="mono text-rose-700 bg-slate-100 border border-slate-200 px-1 rounded font-semibold">MarketplaceController.php baris 57–68: que...</code>
+              </div>
+              <div class="col-span-7 truncate text-slate-700" title="Terapkan Redis caching untuk hasil pencarian geolokasi, turunkan batas upload menjadi 2MB, dan pasang rate limiting.">
+                <span class="text-emerald-700 font-bold">Solusi:</span> Terapkan Redis caching untuk hasil pencarian geolokasi, turunkan batas upload menjadi 2MB, dan pasang rate limiting.
+              </div>
+            </div>
+          </div>
+    
+          <div class="p-2 rounded-lg border bg-white border-l-4 border-l-amber-500 border-slate-200 shadow-sm flex flex-col justify-between text-xs" style="height: 87px;">
+            <div class="flex items-center justify-between gap-2">
+              <div class="flex items-center gap-1.5 overflow-hidden">
+                <span class="mono font-bold text-slate-900 text-[11px] bg-slate-100 border border-slate-300 px-1.5 py-0.5 rounded shrink-0">T-05 (CVE-2024-21501)</span>
+                <span class="mono text-[9px] bg-blue-50 text-blue-800 border border-blue-200 px-1.5 py-0.5 rounded shrink-0 font-bold">T,I</span>
+                <span class="font-bold text-slate-900 text-[11px] truncate" title="Pengguna menyisipkan skrip berbahaya berupa payload JavaScript pada kolom ulasan review atau catatan pemesanan jasa, sehingga skrip dieksekusi di browser penyedia jasa atau administrator saat membuka halaman.">Pengguna menyisipkan skrip berbahaya berupa payload JavaScript pada kolom ulasan review atau catatan pemesanan...</span>
+              </div>
+              <div class="shrink-0 flex items-center gap-1.5">
+                <span class="mono font-extrabold text-[10px] text-slate-800 bg-slate-100 border border-slate-300 px-1.5 py-0.5 rounded">37/50</span>
+                <span class="mono font-black text-[9px] px-2 py-0.5 rounded border bg-amber-100 text-amber-800 border-amber-300">HIGH</span>
+              </div>
+            </div>
+
+            <div class="grid grid-cols-12 gap-2 text-[10px] mt-1 items-center">
+              <div class="col-span-5 truncate text-slate-600" title="BookingController.php baris 470–502: kolom comment review divalidasi string tanpa pembersihan tag HTML.">
+                <span class="text-slate-500 font-semibold">Bukti:</span> <code class="mono text-rose-700 bg-slate-100 border border-slate-200 px-1 rounded font-semibold">BookingController.php baris 470–502: kolom...</code>
+              </div>
+              <div class="col-span-7 truncate text-slate-700" title="Terapkan sanitasi input strip_tags() pada backend dan pastikan Vue tidak memakai direktif v-html.">
+                <span class="text-emerald-700 font-bold">Solusi:</span> Terapkan sanitasi input strip_tags() pada backend dan pastikan Vue tidak memakai direktif v-html.
+              </div>
+            </div>
+          </div>
+    
+          <div class="p-2 rounded-lg border bg-white border-l-4 border-l-amber-500 border-slate-200 shadow-sm flex flex-col justify-between text-xs" style="height: 87px;">
+            <div class="flex items-center justify-between gap-2">
+              <div class="flex items-center gap-1.5 overflow-hidden">
+                <span class="mono font-bold text-slate-900 text-[11px] bg-slate-100 border border-slate-300 px-1.5 py-0.5 rounded shrink-0">T-06 (CVE-2023-22809)</span>
+                <span class="mono text-[9px] bg-blue-50 text-blue-800 border border-blue-200 px-1.5 py-0.5 rounded shrink-0 font-bold">T,E</span>
+                <span class="font-bold text-slate-900 text-[11px] truncate" title="Pengguna mendaftar atau memperbarui profil lalu menambahkan parameter role=admin melalui manipulasi HTTP request payload, sehingga hak akses akun meningkat menjadi administrator karena atribut role masuk ke fillable model.">Pengguna mendaftar atau memperbarui profil lalu menambahkan parameter role=admin melalui manipulasi HTTP reque...</span>
+              </div>
+              <div class="shrink-0 flex items-center gap-1.5">
+                <span class="mono font-extrabold text-[10px] text-slate-800 bg-slate-100 border border-slate-300 px-1.5 py-0.5 rounded">37/50</span>
+                <span class="mono font-black text-[9px] px-2 py-0.5 rounded border bg-amber-100 text-amber-800 border-amber-300">HIGH</span>
+              </div>
+            </div>
+
+            <div class="grid grid-cols-12 gap-2 text-[10px] mt-1 items-center">
+              <div class="col-span-5 truncate text-slate-600" title="app/Models/User.php baris 26: kolom 'role' terdaftar di properti protected $fillable User model.">
+                <span class="text-slate-500 font-semibold">Bukti:</span> <code class="mono text-rose-700 bg-slate-100 border border-slate-200 px-1 rounded font-semibold">app/Models/User.php baris 26: kolom 'role'...</code>
+              </div>
+              <div class="col-span-7 truncate text-slate-700" title="Keluarkan atribut 'role' dari array $fillable pada User, dan atur peran admin via seeder/panel khusus.">
+                <span class="text-emerald-700 font-bold">Solusi:</span> Keluarkan atribut 'role' dari array $fillable pada User, dan atur peran admin via seeder/panel khusus.
+              </div>
+            </div>
+          </div>
+    
+          <div class="p-2 rounded-lg border bg-white border-l-4 border-l-amber-500 border-slate-200 shadow-sm flex flex-col justify-between text-xs" style="height: 87px;">
+            <div class="flex items-center justify-between gap-2">
+              <div class="flex items-center gap-1.5 overflow-hidden">
+                <span class="mono font-bold text-slate-900 text-[11px] bg-slate-100 border border-slate-300 px-1.5 py-0.5 rounded shrink-0">T-07 (CVE-2024-21516)</span>
+                <span class="mono text-[9px] bg-blue-50 text-blue-800 border border-blue-200 px-1.5 py-0.5 rounded shrink-0 font-bold">T,I</span>
+                <span class="font-bold text-slate-900 text-[11px] truncate" title="Pengguna mengunggah berkas gambar manipulasi (seperti polyglot file atau SVG berbisa) pada fitur foto jasa dan avatar profil, sehingga berkas berbahaya tersimpan di direktori publik server dan dapat memicu SSRF atau XSS.">Pengguna mengunggah berkas gambar manipulasi (seperti polyglot file atau SVG berbisa) pada fitur foto jasa dan...</span>
+              </div>
+              <div class="shrink-0 flex items-center gap-1.5">
+                <span class="mono font-extrabold text-[10px] text-slate-800 bg-slate-100 border border-slate-300 px-1.5 py-0.5 rounded">34/50</span>
+                <span class="mono font-black text-[9px] px-2 py-0.5 rounded border bg-amber-100 text-amber-800 border-amber-300">HIGH</span>
+              </div>
+            </div>
+
+            <div class="grid grid-cols-12 gap-2 text-[10px] mt-1 items-center">
+              <div class="col-span-5 truncate text-slate-600" title="ServiceController.php:63–64 & UserReportController.php:36: validasi hanya cek ekstensi mimes tanpa magic bytes.">
+                <span class="text-slate-500 font-semibold">Bukti:</span> <code class="mono text-rose-700 bg-slate-100 border border-slate-200 px-1 rounded font-semibold">ServiceController.php:63–64 & UserReportCo...</code>
+              </div>
+              <div class="col-span-7 truncate text-slate-700" title="Gunakan Intervention Image untuk merender ulang dan konversi semua gambar ke JPEG/WebP murni.">
+                <span class="text-emerald-700 font-bold">Solusi:</span> Gunakan Intervention Image untuk merender ulang dan konversi semua gambar ke JPEG/WebP murni.
+              </div>
+            </div>
+          </div>
+    
+          <div class="p-2 rounded-lg border bg-white border-l-4 border-l-amber-500 border-slate-200 shadow-sm flex flex-col justify-between text-xs" style="height: 87px;">
+            <div class="flex items-center justify-between gap-2">
+              <div class="flex items-center gap-1.5 overflow-hidden">
+                <span class="mono font-bold text-slate-900 text-[11px] bg-slate-100 border border-slate-300 px-1.5 py-0.5 rounded shrink-0">T-08 (CVE-2022-31129)</span>
+                <span class="mono text-[9px] bg-blue-50 text-blue-800 border border-blue-200 px-1.5 py-0.5 rounded shrink-0 font-bold">S,I</span>
+                <span class="font-bold text-slate-900 text-[11px] truncate" title="Pihak ketiga pada jaringan lokal atau perantara sniffing mencuri session ID pengguna karena konfigurasi sesi di database tidak dienkripsi, sehingga penyerang dapat membajak sesi login pengguna tanpa memerlukan password.">Pihak ketiga pada jaringan lokal atau perantara sniffing mencuri session ID pengguna karena konfigurasi sesi d...</span>
+              </div>
+              <div class="shrink-0 flex items-center gap-1.5">
+                <span class="mono font-extrabold text-[10px] text-slate-800 bg-slate-100 border border-slate-300 px-1.5 py-0.5 rounded">34/50</span>
+                <span class="mono font-black text-[9px] px-2 py-0.5 rounded border bg-amber-100 text-amber-800 border-amber-300">HIGH</span>
+              </div>
+            </div>
+
+            <div class="grid grid-cols-12 gap-2 text-[10px] mt-1 items-center">
+              <div class="col-span-5 truncate text-slate-600" title=".env baris 34–36: SESSION_DRIVER=database dan SESSION_ENCRYPT=false menyimpan sesi secara plaintext.">
+                <span class="text-slate-500 font-semibold">Bukti:</span> <code class="mono text-rose-700 bg-slate-100 border border-slate-200 px-1 rounded font-semibold">.env baris 34–36: SESSION_DRIVER=database ...</code>
+              </div>
+              <div class="col-span-7 truncate text-slate-700" title="Ubah konfigurasi .env menjadi SESSION_ENCRYPT=true dan pastikan flag cookie HttpOnly serta Secure aktif.">
+                <span class="text-emerald-700 font-bold">Solusi:</span> Ubah konfigurasi .env menjadi SESSION_ENCRYPT=true dan pastikan flag cookie HttpOnly serta Secure aktif.
+              </div>
+            </div>
+          </div>
+    
+          <div class="p-2 rounded-lg border bg-white border-l-4 border-l-amber-500 border-slate-200 shadow-sm flex flex-col justify-between text-xs" style="height: 87px;">
+            <div class="flex items-center justify-between gap-2">
+              <div class="flex items-center gap-1.5 overflow-hidden">
+                <span class="mono font-bold text-slate-900 text-[11px] bg-slate-100 border border-slate-300 px-1.5 py-0.5 rounded shrink-0">T-09 (CVE-2022-31279)</span>
+                <span class="mono text-[9px] bg-blue-50 text-blue-800 border border-blue-200 px-1.5 py-0.5 rounded shrink-0 font-bold">T,I</span>
+                <span class="font-bold text-slate-900 text-[11px] truncate" title="Pengguna yang terautentikasi memanipulasi parameter hash_id pada URL percakapan atau request penghapusan pesan, sehingga dapat membaca pesan rahasia atau menghapus riwayat chat milik pihak lain tanpa izin.">Pengguna yang terautentikasi memanipulasi parameter hash_id pada URL percakapan atau request penghapusan pesan...</span>
+              </div>
+              <div class="shrink-0 flex items-center gap-1.5">
+                <span class="mono font-extrabold text-[10px] text-slate-800 bg-slate-100 border border-slate-300 px-1.5 py-0.5 rounded">33/50</span>
+                <span class="mono font-black text-[9px] px-2 py-0.5 rounded border bg-amber-100 text-amber-800 border-amber-300">HIGH</span>
+              </div>
+            </div>
+
+            <div class="grid grid-cols-12 gap-2 text-[10px] mt-1 items-center">
+              <div class="col-span-5 truncate text-slate-600" title="ChatController.php baris 59–97 & 240–253: pemuatan pesan konteks mengandalkan decode hash tanpa policy.">
+                <span class="text-slate-500 font-semibold">Bukti:</span> <code class="mono text-rose-700 bg-slate-100 border border-slate-200 px-1 rounded font-semibold">ChatController.php baris 59–97 & 240–253: ...</code>
+              </div>
+              <div class="col-span-7 truncate text-slate-700" title="Gunakan Laravel Policy untuk memeriksa relasi pesan sebelum memuat atau menghapus histori chat.">
+                <span class="text-emerald-700 font-bold">Solusi:</span> Gunakan Laravel Policy untuk memeriksa relasi pesan sebelum memuat atau menghapus histori chat.
+              </div>
+            </div>
+          </div>
+    
+          <div class="p-2 rounded-lg border bg-white border-l-4 border-l-emerald-600 border-slate-200 shadow-sm flex flex-col justify-between text-xs" style="height: 87px;">
+            <div class="flex items-center justify-between gap-2">
+              <div class="flex items-center gap-1.5 overflow-hidden">
+                <span class="mono font-bold text-slate-900 text-[11px] bg-slate-100 border border-slate-300 px-1.5 py-0.5 rounded shrink-0">T-10 (CVE-2023-40028)</span>
+                <span class="mono text-[9px] bg-blue-50 text-blue-800 border border-blue-200 px-1.5 py-0.5 rounded shrink-0 font-bold">I</span>
+                <span class="font-bold text-slate-900 text-[11px] truncate" title="[TERMITIGASI] Pengunjung website memicu error sistem untuk melihat tampilan stack trace lengkap dan kredensial sensitif, namun saat ini risiko telah diminimalisasi karena parameter APP_DEBUG telah dinonaktifkan di berkas .env.">[TERMITIGASI] Pengunjung website memicu error sistem untuk melihat tampilan stack trace lengkap dan kredensial...</span>
+              </div>
+              <div class="shrink-0 flex items-center gap-1.5">
+                <span class="mono font-extrabold text-[10px] text-slate-800 bg-slate-100 border border-slate-300 px-1.5 py-0.5 rounded">6/50</span>
+                <span class="mono font-black text-[9px] px-2 py-0.5 rounded border bg-emerald-100 text-emerald-800 border-emerald-300">LOW</span>
+              </div>
+            </div>
+
+            <div class="grid grid-cols-12 gap-2 text-[10px] mt-1 items-center">
+              <div class="col-span-5 truncate text-slate-600" title=".env baris 4: parameter APP_DEBUG telah bernilai false (APP_DEBUG=false) sehingga stack trace terlindungi.">
+                <span class="text-slate-500 font-semibold">Bukti:</span> <code class="mono text-rose-700 bg-slate-100 border border-slate-200 px-1 rounded font-semibold">.env baris 4: parameter APP_DEBUG telah be...</code>
+              </div>
+              <div class="col-span-7 truncate text-slate-700" title="Pertahankan APP_DEBUG=false di production, aktifkan log rotasi, dan gunakan monitoring tertutup (Sentry).">
+                <span class="text-emerald-700 font-bold">Solusi:</span> Pertahankan APP_DEBUG=false di production, aktifkan log rotasi, dan gunakan monitoring tertutup (Sentry).
+              </div>
+            </div>
+          </div>
+    
+        </div>
+
+        <!-- ROW 3: Strategic Roadmap Strip (Height: ~92px) -->
+        <div class="mt-2 pt-2 border-t border-slate-200 grid grid-cols-3 gap-2 text-[10px] shrink-0">
+          <div class="p-2 rounded-lg bg-rose-50 border border-rose-200">
+            <div class="font-bold text-rose-800 mb-0.5 uppercase tracking-wide flex items-center justify-between">
+              <span>Fase 1: Segera (&lt;48 Jam)</span>
+              <span class="mono font-black text-[9px] bg-rose-200 px-1 rounded">HOTFIX</span>
+            </div>
+            <p class="text-slate-700 leading-tight">Un-comment auth check <code class="text-rose-800 font-semibold">BookingController:230</code> (T-01) &amp; amankan route <code class="text-rose-800 font-semibold">/api/test-latency</code> (T-02).</p>
+          </div>
+          <div class="p-2 rounded-lg bg-amber-50 border border-amber-200">
+            <div class="font-bold text-amber-800 mb-0.5 uppercase tracking-wide flex items-center justify-between">
+              <span>Fase 2: Hardening (1–2 Minggu)</span>
+              <span class="mono font-black text-[9px] bg-amber-200 px-1 rounded">CONFIG</span>
+            </div>
+            <p class="text-slate-700 leading-tight">Set <code class="text-amber-800 font-semibold">SESSION_ENCRYPT=true</code> (T-08), hapus 'role' dari fillable User (T-06), &amp; sanitasi XSS (T-05).</p>
+          </div>
+          <div class="p-2 rounded-lg bg-blue-50 border border-blue-200">
+            <div class="font-bold text-blue-800 mb-0.5 uppercase tracking-wide flex items-center justify-between">
+              <span>Fase 3: Arsitektur (1 Bulan)</span>
+              <span class="mono font-black text-[9px] bg-blue-200 px-1 rounded">DEFENSE</span>
+            </div>
+            <p class="text-slate-700 leading-tight">Pasang Redis cache untuk Haversine (T-04), re-encode WebP image (T-07), &amp; pasang Cloudflare WAF.</p>
+          </div>
+        </div>
+
+      </div>
+
+    </div>
+
+  </div>
+
+  <!-- ======================================================== -->
+  <!-- FOOTER (Height: ~26px)                                   -->
+  <!-- ======================================================== -->
+  <footer class="card-box px-4 py-1.5 flex items-center justify-between text-[10.5px] text-slate-500 shadow-sm shrink-0">
+    <div class="flex items-center gap-2">
+      <span class="inline-block w-2.5 h-2.5 rounded-full bg-emerald-500"></span>
+      <span>FindServices Security Audit Report &bull; Data Source: <strong class="text-slate-700">1. template_baru_Praktikum_STRIDE-DREAD.xlsx</strong></span>
+    </div>
+    <div class="flex items-center gap-4">
+      <span>Theme: <strong class="text-blue-700 font-bold">Light Mode</strong></span>
+      <span>Rasio Gambar: <strong class="text-blue-700 mono font-bold">4:3 (1920 &times; 1440)</strong></span>
+      <span>&copy; 2026 Praktikum Keamanan Sistem Informasi</span>
+    </div>
+  </footer>
+
+</body>
+</html>
