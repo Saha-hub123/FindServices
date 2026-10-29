@@ -1,0 +1,477 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+<meta charset="utf-8">
+<title>Laporan Praktikum Mandiri CVSS v4.0</title>
+<style>
+
+@page {
+    size: A4;
+    margin: 8mm 10mm 8mm 10mm;
+}
+body {
+    font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Helvetica, Arial, sans-serif;
+    font-size: 8pt;
+    line-height: 1.3;
+    color: #1e293b;
+    margin: 0;
+    padding: 0;
+}
+h1 {
+    font-size: 12pt;
+    font-weight: 800;
+    color: #0f172a;
+    margin: 0 0 2px 0;
+    text-transform: uppercase;
+    letter-spacing: 0.3px;
+}
+h2 {
+    font-size: 9.5pt;
+    font-weight: 700;
+    color: #1e40af;
+    margin: 0 0 4px 0;
+    border-bottom: 1.5px solid #3b82f6;
+    padding-bottom: 2px;
+}
+h3 {
+    font-size: 8.5pt;
+    font-weight: 700;
+    color: #1e293b;
+    margin: 6px 0 2px 0;
+    background: #f1f5f9;
+    padding: 2px 5px;
+    border-left: 3px solid #2563eb;
+}
+h4 {
+    font-size: 8pt;
+    font-weight: 700;
+    color: #334155;
+    margin: 4px 0 1px 0;
+}
+p {
+    margin: 1.5px 0 2px 0;
+}
+ul, ol {
+    margin: 1.5px 0 2px 0;
+    padding-left: 15px;
+}
+li {
+    margin-bottom: 1px;
+}
+hr {
+    border: none;
+    border-top: 1px solid #cbd5e1;
+    margin: 4px 0;
+}
+table {
+    width: 100%;
+    border-collapse: collapse;
+    margin: 3px 0 4px 0;
+    font-size: 7.2pt;
+    page-break-inside: avoid;
+}
+th, td {
+    border: 1px solid #cbd5e1;
+    padding: 2px 4px;
+    text-align: left;
+    vertical-align: top;
+}
+th {
+    background-color: #f1f5f9;
+    color: #0f172a;
+    font-weight: 700;
+}
+tr:nth-child(even) td {
+    background-color: #f8fafc;
+}
+code {
+    font-family: 'Consolas', 'Courier New', monospace;
+    font-size: 7.2pt;
+    background-color: #f1f5f9;
+    color: #0969da;
+    padding: 1px 2px;
+    border-radius: 2px;
+    word-break: break-all;
+}
+pre {
+    background: #f8fafc;
+    border: 1px solid #e2e8f0;
+    padding: 4px 5px;
+    border-radius: 3px;
+    overflow-x: auto;
+    font-size: 6.8pt;
+    line-height: 1.15;
+    margin: 2px 0 4px 0;
+    page-break-inside: avoid;
+}
+pre code {
+    background: none;
+    padding: 0;
+    color: #334155;
+}
+blockquote {
+    margin: 2px 0;
+    padding: 2px 5px;
+    background-color: #eff6ff;
+    border-left: 2.5px solid #3b82f6;
+    font-size: 7.5pt;
+    color: #1e3a8a;
+}
+strong, b {
+    color: #0f172a;
+}
+@media print {
+    body {
+        -webkit-print-color-adjust: exact;
+        print-color-adjust: exact;
+    }
+}
+
+</style>
+</head>
+<body>
+<h1>LAPORAN TUGAS MANDIRI</h1>
+<h2>Eksplorasi dan Pemahaman Common Vulnerability Scoring System (CVSS) Version 4.0 Calculator</h2>
+<p><strong>Mata Kuliah:</strong> Keamanan Sistem Informasi<br />
+<strong>Topik:</strong> Penilaian Keparahan Kerentanan Menggunakan Standar CVSS v4.0<br />
+<strong>Alat Pengujian:</strong> FIRST CVSS v4.0 Official Calculator (<a href="https://www.first.org/cvss/calculator/4.0">https://www.first.org/cvss/calculator/4.0</a>)  </p>
+<hr />
+<h3>DAFTAR ISI</h3>
+<ol>
+<li><a href="#bagian-a-konsep-dasar-cvss-v40">Bagian A: Konsep Dasar CVSS v4.0</a></li>
+<li><a href="#bagian-b-eksplorasi-base-metrics-11-metrik">Bagian B: Eksplorasi Base Metrics (11 Metrik)</a></li>
+<li><a href="#bagian-c-threat-environmental-dan-supplemental-metrics">Bagian C: Threat, Environmental, dan Supplemental Metrics</a></li>
+<li><a href="#bagian-d-struktur-dan-pembacaan-vector-string">Bagian D: Struktur dan Pembacaan Vector String</a></li>
+<li><a href="#bagian-e-hasil-dan-pembahasan-4-simulasi">Bagian E: Hasil dan Pembahasan 4 Simulasi</a></li>
+<li><a href="#bagian-f-tabel-perbandingan-dan-analisis-pertanyaan-kritis">Bagian F: Tabel Perbandingan dan Analisis Pertanyaan Kritis</a></li>
+<li><a href="#panduan-langkah-input-kalkulator-first-siap-screenshot">Panduan Langkah Input Kalkulator FIRST (Siap Screenshot)</a></li>
+<li><a href="#kesimpulan">Kesimpulan</a></li>
+</ol>
+<hr />
+<h3>Bagian A: Konsep Dasar CVSS v4.0</h3>
+<h4>1. Pengertian, Tujuan, dan Manfaat CVSS</h4>
+<ul>
+<li><strong>Pengertian:</strong> <em>Common Vulnerability Scoring System</em> (CVSS) adalah standar industri terbuka (<em>open standard</em>) yang dikelola oleh FIRST (<em>Forum of Incident Response and Security Teams</em>) untuk mengukur dan mengomunikasikan karakteristik serta tingkat keparahan (<em>severity</em>) kerentanan perangkat lunak dan perangkat keras.</li>
+<li><strong>Tujuan:</strong> Menyediakan metode penilaian yang terstandarisasi, netral vendor, objektif, dan dapat direproduksi (<em>repeatable</em>) di seluruh dunia.</li>
+<li><strong>Manfaat:</strong> Membantu tim keamanan (<em>security engineers</em>), pengembang, dan auditor dalam memprioritaskan remediasi kerentanan (<em>patch management</em>), mendukung standarisasi basis data global (seperti NVD dan CVE), serta menyelaraskan komunikasi teknis antar organisasi.</li>
+</ul>
+<h4>2. Perbedaan Vulnerability, Threat, Risk, dan Severity</h4>
+<ul>
+<li><strong>Vulnerability (Kerentanan):</strong> Cacat atau kelemahan logis pada kode, konfigurasi, atau desain sistem yang dapat disalahgunakan (misal: <em>endpoint</em> API tanpa validasi otorisasi).</li>
+<li><strong>Threat (Ancaman):</strong> Aktor eksternal, entitas, atau kejadian potensial yang memiliki kemampuan dan niat untuk mengeksploitasi kerentanan tersebut (misal: penyerang siber, skrip bot otomatis).</li>
+<li><strong>Severity (Keparahan):</strong> Besaran dampak teknis intrinsik dan kemudahan eksploitasi suatu kerentanan secara independen tanpa memandang konteks lingkungan implementasi (diukur oleh skor dasar CVSS).</li>
+<li><strong>Risk (Risiko):</strong> Probabilitas terjadinya serangan nyata yang dikalikan dengan dampak finansial atau operasional bisnis aktual terhadap organisasi (<b>Risk = Threat \times Vulnerability \times Business Impact</b>). CVSS mengukur <em>severity</em>, bukan <em>risk</em>.</li>
+</ul>
+<h4>3. Fungsi Empat Kelompok Metrik CVSS v4.0</h4>
+<ol>
+<li><strong>Base Metric Group:</strong> Menilai karakteristik intrinsik kerentanan yang konstan lintas waktu dan lingkungan pengguna (vektor akses, kompleksitas, prasyarat, otentikasi, interaksi, dan dampak CIA pada sistem rentan serta sistem turunan).</li>
+<li><strong>Threat Metric Group:</strong> Menilai kondisi dinamis eksploitasi di dunia nyata yang berubah seiring waktu (<em>Exploit Maturity</em>).</li>
+<li><strong>Environmental Metric Group:</strong> Menilai tingkat kepentingan aset dan penyesuaian metrik dasar berdasarkan kontrol keamanan lokal di lingkungan spesifik organisasi.</li>
+<li><strong>Supplemental Metric Group:</strong> Menyediakan indikator konteks operasional tambahan tanpa memengaruhi skor numerik akhir.</li>
+</ol>
+<h4>4. Nomenklatur Skor Resmi CVSS v4.0</h4>
+<p>Untuk menghindari kerancuan bahwa skor dasar (<em>Base</em>) adalah skor risiko akhir, CVSS v4.0 mewajibkan penggunaan label skor:
+- <strong>CVSS-B:</strong> Penilaian hanya menggunakan <em>Base Metrics</em>.
+- <strong>CVSS-BT:</strong> Penilaian menggabungkan <em>Base</em> dan <em>Threat Metrics</em>.
+- <strong>CVSS-BE:</strong> Penilaian menggabungkan <em>Base</em> dan <em>Environmental Metrics</em>.
+- <strong>CVSS-BTE:</strong> Penilaian komprehensif menggabungkan <em>Base</em>, <em>Threat</em>, dan <em>Environmental Metrics</em>.</p>
+<h4>5. Kategori Severity Kualitatif</h4>
+<p>FIRST memetakan skor numerik 0.0 – 10.0 ke dalam 5 tingkatan keparahan:
+- <strong>None:</strong> Skor <code>0.0</code> (tidak ada dampak teknis langsung).
+- <strong>Low:</strong> Skor <code>0.1 – 3.9</code> (dampak minimal atau eksploitasi membutuhkan kondisi sangat sulit).
+- <strong>Medium:</strong> Skor <code>4.0 – 6.9</code> (dampak moderat, mitigasi dijadwalkan pada rilis reguler).
+- <strong>High:</strong> Skor <code>7.0 – 8.9</code> (ancaman serius terhadap CIA, memerlukan penanganan prioritas).
+- <strong>Critical:</strong> Skor <code>9.0 – 10.0</code> (eksploitasi mudah, dampak fatal, memerlukan perbaikan darurat/<em>hotfix</em>).</p>
+<h4>6. Hubungan Nilai Metrik, Vector String, Skor Numerik, dan Severity</h4>
+<p>Pilihan Nilai Metrik \longrightarrow Vector String Terstandarisasi \longrightarrow Algoritma Macro-Vectors (Lookup Table) \longrightarrow Skor Numerik (0.0–10.0) \longrightarrow Severity Rating</p>
+<p>Setiap pilihan nilai metrik dicatat dalam <em>vector string</em>. Algoritma CVSS v4.0 mengelompokkan nilai tersebut ke dalam 6 dimensi <em>Macro-Vectors (Equivalence Classes)</em>, mencari skor dasar terkalibrasi pada tabel lookup para pakar, lalu menginterpolasi skor numerik akhir yang kemudian diklasifikasikan ke kategori <em>Severity</em>.</p>
+<hr />
+<h3>Bagian B: Eksplorasi Base Metrics (11 Metrik)</h3>
+<table>
+<thead>
+<tr>
+<th style="text-align: center;">No</th>
+<th style="text-align: left;">Metrik (Singkatan)</th>
+<th style="text-align: left;">Tujuan Penilaian</th>
+<th style="text-align: left;">Pilihan Nilai &amp; Artinya</th>
+<th style="text-align: left;">Contoh Skenario Nyata</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="text-align: center;">1</td>
+<td style="text-align: left;"><strong>Attack Vector (AV)</strong></td>
+<td style="text-align: left;">Mengukur jarak dan jalur jaringan yang dibutuhkan penyerang untuk mengeksploitasi celah.</td>
+<td style="text-align: left;"><strong>N (Network):</strong> Jarak jauh via internet L3.<br><strong>A (Adjacent):</strong> Satu jaringan lokal/subnet/Bluetooth.<br><strong>L (Local):</strong> Akses konsol/terminal/file lokal.<br><strong>P (Physical):</strong> Kontak fisik dengan perangkat keras.</td>
+<td style="text-align: left;">Endpoint API web klinik yang dapat diakses publik dari browser mana pun (<code>AV:N</code>).</td>
+</tr>
+<tr>
+<td style="text-align: center;">2</td>
+<td style="text-align: left;"><strong>Attack Complexity (AC)</strong></td>
+<td style="text-align: left;">Mengukur keberadaan mekanisme pertahanan bawaan yang harus dipecahkan penyerang.</td>
+<td style="text-align: left;"><strong>L (Low):</strong> Eksploitasi langsung dan deterministik.<br><strong>H (High):</strong> Harus memecahkan enkripsi, bypass ASLR/DEP, atau rekayasa balik.</td>
+<td style="text-align: left;">Membaca endpoint tanpa enkripsi (<code>AC:L</code>) vs memotong sesi TLS terenkripsi (<code>AC:H</code>).</td>
+</tr>
+<tr>
+<td style="text-align: center;">3</td>
+<td style="text-align: left;"><strong>Attack Requirements (AT)</strong></td>
+<td style="text-align: left;">Mengukur ketergantungan pada kondisi eksternal atau konfigurasi di luar kendali penyerang.</td>
+<td style="text-align: left;"><strong>N (None):</strong> Serangan berhasil kapan saja.<br><strong>P (Present):</strong> Butuh <em>race condition</em> spesifik atau manipulasi perantara (MitM).</td>
+<td style="text-align: left;">Eksploitasi SQLi langsung (<code>AT:N</code>) vs mengeksploitasi celah yang butuh kondisi <em>race condition</em> mikrodetik (<code>AT:P</code>).</td>
+</tr>
+<tr>
+<td style="text-align: center;">4</td>
+<td style="text-align: left;"><strong>Privileges Required (PR)</strong></td>
+<td style="text-align: left;">Mengukur tingkat hak otorisasi yang wajib dimiliki penyerang sebelum menyerang.</td>
+<td style="text-align: left;"><strong>N (None):</strong> Tanpa otentikasi (anonim).<br><strong>L (Low):</strong> Akun pengguna biasa.<br><strong>H (High):</strong> Akun administrator/root.</td>
+<td style="text-align: left;">Penyerang internet tanpa login (<code>PR:N</code>) vs pasien yang harus login akun portal (<code>PR:L</code>).</td>
+</tr>
+<tr>
+<td style="text-align: center;">5</td>
+<td style="text-align: left;"><strong>User Interaction (UI)</strong></td>
+<td style="text-align: left;">Mengukur keterlibatan pengguna sah dalam keberhasilan serangan.</td>
+<td style="text-align: left;"><strong>N (None):</strong> Tanpa interaksi pengguna lain.<br><strong>P (Passive):</strong> Korban hanya membuka tautan/email.<br><strong>A (Active):</strong> Korban harus menekan tombol setuju/menonaktifkan proteksi.</td>
+<td style="text-align: left;">Request API mandiri (<code>UI:N</code>) vs serangan XSS di mana korban membuka halaman profil (<code>UI:P</code>).</td>
+</tr>
+<tr>
+<td style="text-align: center;">6</td>
+<td style="text-align: left;"><strong>Vuln. System Confid. (VC)</strong></td>
+<td style="text-align: left;">Mengukur dampak kebocoran kerahasiaan data pada sistem yang langsung memuat bug.</td>
+<td style="text-align: left;"><strong>N (None):</strong> Tidak ada data bocor.<br><strong>L (Low):</strong> Data terbatas/non-kritis bocor.<br><strong>H (High):</strong> Seluruh data rahasia/identitas bocor.</td>
+<td style="text-align: left;">Penyerang mengunduh seluruh rekam medis dan NIK pasien dari basis data aplikasi (<code>VC:H</code>).</td>
+</tr>
+<tr>
+<td style="text-align: center;">7</td>
+<td style="text-align: left;"><strong>Vuln. System Integrity (VI)</strong></td>
+<td style="text-align: left;">Mengukur dampak modifikasi data tidak sah pada sistem rentan.</td>
+<td style="text-align: left;"><strong>N (None):</strong> Tidak ada data terubah.<br><strong>L (Low):</strong> Modifikasi sebagian data kecil.<br><strong>H (High):</strong> Modifikasi penuh/penghapusan data inti.</td>
+<td style="text-align: left;">Penyerang mengubah diagnosa medis, resep obat, atau menghapus riwayat kunjungan (<code>VI:H</code>).</td>
+</tr>
+<tr>
+<td style="text-align: center;">8</td>
+<td style="text-align: left;"><strong>Vuln. System Avail. (VA)</strong></td>
+<td style="text-align: left;">Mengukur dampak penurunan atau kelumpuhan ketersediaan layanan sistem rentan.</td>
+<td style="text-align: left;"><strong>N (None):</strong> Layanan berjalan normal.<br><strong>L (Low):</strong> Penurunan performa parsial.<br><strong>H (High):</strong> Sistem crash/mati total (DoS).</td>
+<td style="text-align: left;">Server web aplikasi klinik down total akibat banjir paket request tak berujung (<code>VA:H</code>).</td>
+</tr>
+<tr>
+<td style="text-align: center;">9</td>
+<td style="text-align: left;"><strong>Subsequent Confid. (SC)</strong></td>
+<td style="text-align: left;">Mengukur kebocoran data lanjutan pada sistem di luar batas sistem rentan.</td>
+<td style="text-align: left;"><strong>N (None):</strong> Sistem lain aman.<br><strong>L (Low):</strong> Informasi non-kritis bocor.<br><strong>H (High):</strong> Data rahasia sistem luar bocor penuh.</td>
+<td style="text-align: left;">Dari aplikasi web, penyerang membobol kredensial cloud storage AWS milik rumah sakit (<code>SC:H</code>).</td>
+</tr>
+<tr>
+<td style="text-align: center;">10</td>
+<td style="text-align: left;"><strong>Subsequent Integrity (SI)</strong></td>
+<td style="text-align: left;">Mengukur manipulasi data pada sistem luar yang terhubung secara independen.</td>
+<td style="text-align: left;"><strong>N (None):</strong> Tidak ada dampak luar.<br><strong>L (Low):</strong> Modifikasi minor pada log luar.<br><strong>H (High):</strong> Perubahan masif pada sistem rekanan.</td>
+<td style="text-align: left;">Celah web klinik memungkinkan manipulasi hasil uji lab pada server laboratorium independen (<code>SI:H</code>).</td>
+</tr>
+<tr>
+<td style="text-align: center;">11</td>
+<td style="text-align: left;"><strong>Subsequent Avail. (SA)</strong></td>
+<td style="text-align: left;">Mengukur gangguan ketersediaan pada sistem eksternal atau downstream.</td>
+<td style="text-align: left;"><strong>N (None):</strong> Sistem hilir normal.<br><strong>L (Low):</strong> Gangguan kecil pada sistem luar.<br><strong>H (High):</strong> Sistem eksternal mati total.</td>
+<td style="text-align: left;">Celah pada klinik menyebabkan server pembayaran gateway eksternal mengalami disrupsi fatal (<code>SA:H</code>).</td>
+</tr>
+</tbody>
+</table>
+<h4>Penekanan Perbedaan Konseptual Krusial</h4>
+<ol>
+<li><strong>Attack Complexity (AC) vs. Attack Requirements (AT):</strong>  </li>
+<li><b>AC</b> menilai <strong>mekanisme pertahanan bawaan sistem</strong> yang harus ditaklukkan penyerang (keahlian teknis/bypass proteksi).  </li>
+<li><b>AT</b> menilai <strong>kondisi lingkungan eksternal</strong> yang berada di luar kendali penyerang (misal keharusan adanya penyerang di tengah jaringan / MitM, konfigurasi langka, atau <em>race condition</em>).</li>
+<li><strong>Privileges Required (PR) vs. User Interaction (UI):</strong>  </li>
+<li><b>PR</b> berfokus pada <strong>hak otorisasi penyerang</strong> sebelum eksploitasi dimulai.  </li>
+<li><b>UI</b> berfokus pada <strong>keterlibatan pengguna korban</strong> untuk memicu muatan eksploitasi.</li>
+<li><strong>Vulnerable System (VC/VI/VA) vs. Subsequent System (SC/SI/SA):</strong>  </li>
+<li><em>Vulnerable System</em> adalah komponen perangkat lunak yang memuat kode/cacat keamanan secara fisik.  </li>
+<li><em>Subsequent System</em> adalah entitas komputasi lain yang terpisah secara otorisasi (OS <em>host</em>, basis data eksternal, atau sistem mitra independen).</li>
+</ol>
+<hr />
+<h3>Bagian C: Threat, Environmental, dan Supplemental Metrics</h3>
+<h4>1. Threat Metrics: Exploit Maturity (E)</h4>
+<p>Mengukur ketersediaan teknik/alat eksploitasi di dunia nyata:
+- <strong>Not Defined (X):</strong> Nilai default jika metrik ancaman tidak dinilai.
+- <strong>Unreported (U):</strong> Belum ada eksploit publik yang diketahui atau hanya solusi teoritis.
+- <strong>Proof-of-Concept (P):</strong> Kode PoC atau demonstrasi serangan tersedia di publik (misal di GitHub), tetapi belum digunakan luas.
+- <strong>Attacked (A):</strong> Eksploitasi aktif telah terjadi di alam liar atau terdapat alat serangan otomatis (<em>weaponized exploit kit</em>) yang beredar bebas.</p>
+<h4>2. Environmental Metrics</h4>
+<ul>
+<li><strong>Modified Base Metrics (MAV, MAC, MAT, MPR, MUI, MVC, MVI, MVA, MSC, MSI, MSA):</strong> Memungkinkan analis mengganti nilai dasar jika organisasi telah memasang kontrol kompensasi (misal memindahkan endpoint web publik ke jaringan intranet internal, sehingga <b>MAV:A</b>).</li>
+<li><strong>Security Requirements (CR, IR, AR):</strong> Mengukur tingkat kepentingan aset terhadap prinsip Kerahasiaan (<b>CR</b>), Keutuhan (<b>IR</b>), dan Ketersediaan (<b>AR</b>) bagi kelangsungan bisnis (<em>Low, Medium, High</em>).</li>
+</ul>
+<h4>3. Supplemental Metrics (Konteks Operasional)</h4>
+<p>Metrik kualitatif opsional yang memberi wawasan mendalam:
+- <strong>Safety (S):</strong> Dampak terhadap keselamatan fisik manusia (<em>Negligible [N]</em> / <em>Present [P]</em>).
+- <strong>Automatable (AU):</strong> Kemampuan worm/botnet mengotomatisasi serangan awal (<em>No [N]</em> / <em>Yes [Y]</em>).
+- <strong>Recovery (R):</strong> Pemulihan sistem (<em>Automatic [A]</em>, <em>User [U]</em>, <em>Irrecoverable [I]</em>).
+- <strong>Value Density (V):</strong> Konsentrasi nilai sumber daya yang diekspos (<em>Diffuse [D]</em> / <em>Concentrated [C]</em>).
+- <strong>Vulnerability Response Effort (RE):</strong> Biaya dan kesulitan membuat mitigasi (<em>Low [L]</em>, <em>Medium [M]</em>, <em>High [H]</em>).
+- <strong>Provider Urgency (U):</strong> Rekomendasi urgensi dari vendor (<em>Clear, Green, Amber, Red</em>).</p>
+<blockquote>
+<p><strong>Mengapa Supplemental Metrics tidak mengubah skor numerik?</strong><br />
+Agar skor keparahan teknis universal (<b>CVSS-B</b>) tetap konsisten dan dapat dibandingkan antar organisasi di seluruh dunia tanpa terdistorsi oleh faktor lokal subjektif, sembari tetap memberikan metadata kontekstual bernilai tinggi bagi analis insiden internal.</p>
+</blockquote>
+<hr />
+<h3>Bagian D: Struktur dan Pembacaan Vector String</h3>
+<ol>
+<li><strong>Awalan <code>CVSS:4.0</code>:</strong> Penanda skema versi standar yang digunakan (memastikan mesin parser mengenali algoritma kalkulasi versi 4.0).</li>
+<li><strong>Karakter <code>/</code> dan <code>:</code>:</strong> Karakter slash (<code>/</code>) memisahkan antar metrik, sedangkan titik dua (<code>:</code>) memisahkan kode singkatan metrik dengan nilai pilihannya.</li>
+<li><strong>Hubungan Singkatan dan Nilai:</strong> Format ringkas pasangan <b>Metrik:Nilai</b>, contohnya <code>AV:N</code> bermakna <em>Attack Vector = Network</em>.</li>
+<li><strong>Pembentukan Vector String:</strong> Dibentuk dengan menggabungkan 11 metrik dasar wajib, ditambah metrik Threat, Environmental, atau Supplemental jika didefinisikan.</li>
+<li><strong>Reproduksibilitas:</strong> Vector string bersifat deterministik universal. Siapa pun yang memasukkan string yang sama ke kalkulator CVSS v4.0 di mana pun akan menghasilkan skor dan tingkat keparahan yang persis sama.</li>
+</ol>
+<h4>Contoh Vector String Base CVSS v4.0 dan Maknanya</h4>
+<p>CVSS:4.0/AV:N/AC:L/AT:N/PR:N/UI:N/VC:H/VI:N/VA:N/SC:N/SI:N/SA:N</p>
+<ul>
+<li><code>CVSS:4.0</code> : Versi standar CVSS v4.0.</li>
+<li><code>AV:N</code> : Attack Vector = Network (dapat diserang dari internet publik).</li>
+<li><code>AC:L</code> : Attack Complexity = Low (tidak ada mekanisme pertahanan yang menghambat).</li>
+<li><code>AT:N</code> : Attack Requirements = None (tidak butuh kondisi lingkungan khusus).</li>
+<li><code>PR:N</code> : Privileges Required = None (penyerang tidak memerlukan akun/login).</li>
+<li><code>UI:N</code> : User Interaction = None (tidak memerlukan interaksi korban).</li>
+<li><code>VC:H</code> : Vulnerable System Confidentiality = High (seluruh data rahasia bocor).</li>
+<li><code>VI:N</code> : Vulnerable System Integrity = None (tidak ada manipulasi data pada sistem klinik).</li>
+<li><code>VA:N</code> : Vulnerable System Availability = None (sistem klinik tidak lumpuh).</li>
+<li><code>SC:N</code> : Subsequent System Confidentiality = None (tidak ada kebocoran pada sistem luar).</li>
+<li><code>SI:N</code> : Subsequent System Integrity = None (tidak ada perubahan data sistem luar).</li>
+<li><code>SA:N</code> : Subsequent System Availability = None (sistem luar tetap beroperasi normal).</li>
+</ul>
+<hr />
+<h3>Bagian E: Hasil dan Pembahasan 4 Simulasi</h3>
+<h4>Simulasi 1: Kebocoran Data Pasien</h4>
+<ul>
+<li><strong>Skenario:</strong> Endpoint aplikasi klinik terbuka ke internet tanpa login, mengekspos seluruh data identitas dan riwayat kunjungan pasien. Tidak ada perubahan data atau disrupsi layanan.</li>
+<li><strong>Base Metrics:</strong> <code>AV:N / AC:L / AT:N / PR:N / UI:N / VC:H / VI:N / VA:N / SC:N / SI:N / SA:N</code></li>
+<li><strong>Vector String:</strong> <code>CVSS:4.0/AV:N/AC:L/AT:N/PR:N/UI:N/VC:H/VI:N/VA:N/SC:N/SI:N/SA:N</code></li>
+<li><strong>Skor CVSS v4.0:</strong> <strong>8.7</strong> | <strong>Severity:</strong> <strong>HIGH</strong></li>
+<li><strong>Justifikasi:</strong> Penyerang jarak jauh tanpa otentikasi dapat mencuri seluruh data sensitif pasien (<b>VC:H</b>). Ketiadaan dampak integritas dan ketersediaan menempatkan keparahan pada batas atas level <em>High</em>.</li>
+</ul>
+<h4>Simulasi 2: Manipulasi Data Pasien</h4>
+<ul>
+<li><strong>Skenario:</strong> Melanjutkan Simulasi 1, namun penyerang kini juga memiliki kemampuan memodifikasi seluruh data rekam medis pasien secara tidak sah.</li>
+<li><strong>Metrik yang Berubah:</strong> <strong>VI</strong> berubah dari <strong>None (N)</strong> menjadi <strong>High (H)</strong>.</li>
+<li><strong>Vector String:</strong> <code>CVSS:4.0/AV:N/AC:L/AT:N/PR:N/UI:N/VC:H/VI:H/VA:N/SC:N/SI:N/SA:N</code></li>
+<li><strong>Skor CVSS v4.0:</strong> <strong>9.3</strong> | <strong>Severity:</strong> <strong>CRITICAL</strong></li>
+<li><strong>Justifikasi:</strong> Kombinasi hilangnya kerahasiaan total (<b>VC:H</b>) dan integritas total (<b>VI:H</b>) tanpa proteksi otentikasi (<b>PR:N</b>) mendorong skor melompat ke kategori <em>Critical</em>. Pasien dapat mengalami bahaya salah diagnosa atau resep obat palsu.</li>
+</ul>
+<h4>Simulasi 3: Pengaruh Autentikasi</h4>
+<ul>
+<li><strong>Skenario:</strong> Mengembalikan kondisi Simulasi 1, namun celah kebocoran data hanya dapat diakses oleh pengguna yang telah login menggunakan akun biasa.</li>
+<li><strong>Metrik yang Berubah:</strong> <strong>PR</strong> berubah dari <strong>None (N)</strong> menjadi <strong>Low (L)</strong> (sementara <b>VI</b> kembali bernilai <b>N</b>).</li>
+<li><strong>Vector String:</strong> <code>CVSS:4.0/AV:N/AC:L/AT:N/PR:L/UI:N/VC:H/VI:N/VA:N/SC:N/SI:N/SA:N</code></li>
+<li><strong>Skor CVSS v4.0:</strong> <strong>7.1</strong> | <strong>Severity:</strong> <strong>HIGH</strong></li>
+<li><strong>Justifikasi:</strong> Keharusan memiliki akun sah membatasi vektor ancaman hanya pada pengguna internal terdaftar. Hambatan otentikasi ini menurunkan skor dari 8.7 menjadi 7.1 (-1.6 poin).</li>
+</ul>
+<h4>Simulasi 4: Dampak pada Sistem Lain (Subsequent System)</h4>
+<ul>
+<li><strong>Skenario:</strong> Kerentanan pada aplikasi klinik memungkinkan perubahan data signifikan pada aplikasi klinik serta merembet mengubah data pada sistem laboratorium independen yang terhubung.</li>
+<li><strong>Identifikasi Dampak Sistem:</strong></li>
+<li><em>Vulnerable System:</em> Integritas data klinik rusak parah (<b>VI:H</b>).</li>
+<li><em>Subsequent System:</em> Integritas data laboratorium independen terkompromi (<b>SI:H</b>).</li>
+<li><strong>Base Metrics (Kondisi Modifikasi Lintas Sistem):</strong></li>
+<li><strong>Variasi 4A (Manipulasi Murni):</strong> <code>CVSS:4.0/AV:N/AC:L/AT:N/PR:N/UI:N/VC:N/VI:H/VA:N/SC:N/SI:H/SA:N</code><br />
+    <b>\rightarrow</b> <strong>Skor:</strong> <strong>9.2</strong> | <strong>Severity:</strong> <strong>CRITICAL</strong></li>
+<li><strong>Variasi 4B (Kebocoran + Manipulasi Lintas Sistem):</strong> <code>CVSS:4.0/AV:N/AC:L/AT:N/PR:N/UI:N/VC:H/VI:H/VA:N/SC:N/SI:H/SA:N</code><br />
+    <b>\rightarrow</b> <strong>Skor:</strong> <strong>9.9</strong> | <strong>Severity:</strong> <strong>CRITICAL</strong></li>
+<li><strong>Justifikasi:</strong> Adanya eskalasi dampak lintas batas otorisasi menuju sistem downstream laboratorium (<b>SI:H</b>) membuktikan fitur pemisahan dampak CVSS v4.0, mengangkat risiko kegagalan sistematis antar-lembaga ke skor mendekati sempurna (9.2 – 9.9).</li>
+</ul>
+<hr />
+<h3>Bagian F: Tabel Perbandingan dan Analisis Pertanyaan Kritis</h3>
+<h4>Tabel Perbandingan Hasil Simulasi</h4>
+<table>
+<thead>
+<tr>
+<th style="text-align: center;">Simulasi</th>
+<th style="text-align: left;">Metrik yang Berubah</th>
+<th style="text-align: left;">Vector String Lengkap</th>
+<th style="text-align: center;">Skor CVSS</th>
+<th style="text-align: center;">Severity</th>
+<th style="text-align: left;">Penjelasan Perubahan Dampak &amp; Risiko</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="text-align: center;"><strong>1</strong></td>
+<td style="text-align: left;"><em>(Kondisi Dasar)</em></td>
+<td style="text-align: left;"><code>CVSS:4.0/AV:N/AC:L/AT:N/PR:N/UI:N/VC:H/VI:N/VA:N/SC:N/SI:N/SA:N</code></td>
+<td style="text-align: center;"><strong>8.7</strong></td>
+<td style="text-align: center;"><strong>HIGH</strong></td>
+<td style="text-align: left;">Kebocoran data rekam medis pasien secara masif dari internet tanpa autentikasi.</td>
+</tr>
+<tr>
+<td style="text-align: center;"><strong>2</strong></td>
+<td style="text-align: left;"><b>VI: N \rightarrow \mathbf{H}</b></td>
+<td style="text-align: left;"><code>CVSS:4.0/AV:N/AC:L/AT:N/PR:N/UI:N/VC:H/VI:H/VA:N/SC:N/SI:N/SA:N</code></td>
+<td style="text-align: center;"><strong>9.3</strong></td>
+<td style="text-align: center;"><strong>CRITICAL</strong></td>
+<td style="text-align: left;">Skor naik <strong>+0.6</strong> ke <em>Critical</em> karena integritas data juga runtuh (data bisa dipalsukan).</td>
+</tr>
+<tr>
+<td style="text-align: center;"><strong>3</strong></td>
+<td style="text-align: left;"><b>PR: N \rightarrow \mathbf{L}</b></td>
+<td style="text-align: left;"><code>CVSS:4.0/AV:N/AC:L/AT:N/PR:L/UI:N/VC:H/VI:N/VA:N/SC:N/SI:N/SA:N</code></td>
+<td style="text-align: center;"><strong>7.1</strong></td>
+<td style="text-align: center;"><strong>HIGH</strong></td>
+<td style="text-align: left;">Skor turun <strong>-1.6</strong> karena penyerang harus terdaftar dan memiliki kredensial sah.</td>
+</tr>
+<tr>
+<td style="text-align: center;"><strong>4</strong></td>
+<td style="text-align: left;"><b>VI: \mathbf{H}, SI: \mathbf{H}</b></td>
+<td style="text-align: left;"><code>CVSS:4.0/AV:N/AC:L/AT:N/PR:N/UI:N/VC:N/VI:H/VA:N/SC:N/SI:H/SA:N</code></td>
+<td style="text-align: center;"><strong>9.2</strong></td>
+<td style="text-align: center;"><strong>CRITICAL</strong></td>
+<td style="text-align: left;">Dampak merembet ke sistem lab luar (<b>SI:H</b>), memicu risiko integritas multi-sistem.</td>
+</tr>
+</tbody>
+</table>
+<h4>Analisis Pertanyaan Kritis</h4>
+<ol>
+<li><strong>Mengapa perubahan satu metrik dapat memengaruhi skor akhir?</strong><br />
+   Karena algoritma CVSS v4.0 menggunakan <em>Equivalence Classes (Macro-Vectors)</em>. Perubahan satu metrik (misal dari <b>PR:N</b> ke <b>PR:L</b>) memindahkan posisi vektor ke kelas ekuivalen yang memiliki bobot kemudahan eksploitasi lebih rendah pada tabel lookup terkalibrasi.</li>
+<li><strong>Apakah dua vector string berbeda selalu menghasilkan skor berbeda?</strong><br />
+<strong>Tidak.</strong> Konsep <em>Equivalence Classes</em> pada CVSS v4.0 mengelompokkan kombinasi metrik yang memiliki tingkat keparahan setara ke dalam macro-vector yang sama. Sebagai contoh, pertukaran dampak antara sistem rentan dan sistem turunan pada konfigurasi tertentu dapat menghasilkan skor numerik yang identik.</li>
+<li><strong>Mengapa severity tidak boleh ditentukan hanya berdasarkan nama kerentanan?</strong><br />
+   Karena keparahan teknis nyata bergantung mutlak pada <strong>konteks arsitektur dan eksposur</strong>. Kerentanan SQL Injection yang berada pada antarmuka admin lokal intranet di balik otentikasi dua faktor memiliki tingkat keparahan riil yang jauh lebih rendah dibandingkan SQL Injection pada halaman login publik tanpa otentikasi.</li>
+<li><strong>Mengapa hasil CVSS tidak dapat langsung dianggap sebagai ukuran keseluruhan risiko organisasi?</strong><br />
+   Karena CVSS mengukur <strong>keparahan teknis intrinsik (<em>severity</em>)</strong>, bukan probabilitas atau dampak bisnis nyata (<em>risk</em>). Celah dengan skor 9.8 pada server pengujian yang terisolasi tanpa data sensitif memiliki risiko bisnis yang jauh lebih kecil daripada celah ber-skor 6.5 yang aktif dieksploitasi penyerang pada server basis data transaksi utama.</li>
+<li><strong>Mengapa penilaian metrik harus didasarkan pada bukti teknis?</strong><br />
+   Untuk menjaga objektivitas, mencegah over-scoring (inflasi keparahan) atau under-scoring, serta memastikan hasil penilaian dapat diaudit dan direproduksi (<em>reproducible</em>) secara konsisten oleh analis keamanan lain.</li>
+</ol>
+<hr />
+<h3>Panduan Langkah Input Kalkulator FIRST (Siap Screenshot)</h3>
+<p>Buka tautan resmi <a href="https://www.first.org/cvss/calculator/4.0">https://www.first.org/cvss/calculator/4.0</a>. Mahasiswa dapat mengklik tombol radio sesuai tabel panduan di bawah ini, atau <strong>langsung membuka URL dengan hash vector</strong> agar kalkulator terisi otomatis secara presisi:</p>
+<pre><code>┌─────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────┐
+│ PANDUAN PEMILIHAN TOMBOL RADIO PADA KALKULATOR FIRST CVSS v4.0                                                                 │
+├──────────┬────┬────┬────┬────┬────┬────┬────┬────┬────┬────┬────┬───────────┬──────────┬───────────────────────────────────────┤
+│ Simulasi │ AV │ AC │ AT │ PR │ UI │ VC │ VI │ VA │ SC │ SI │ SA │ Skor Akhir│ Severity │ Tautan Langsung Terisi Otomatis       │
+├──────────┼────┼────┼────┼────┼────┼────┼────┼────┼────┼────┼────┼───────────┼──────────┼───────────────────────────────────────┤
+│ Sim. 1   │ N  │ L  │ N  │ N  │ N  │ H  │ N  │ N  │ N  │ N  │ N  │    8.7    │   HIGH   │ first.org/cvss/calculator/4.0#...Sim1 │
+│ Sim. 2   │ N  │ L  │ N  │ N  │ N  │ H  │ H  │ N  │ N  │ N  │ N  │    9.3    │ CRITICAL │ first.org/cvss/calculator/4.0#...Sim2 │
+│ Sim. 3   │ N  │ L  │ N  │ L  │ N  │ H  │ N  │ N  │ N  │ N  │ N  │    7.1    │   HIGH   │ first.org/cvss/calculator/4.0#...Sim3 │
+│ Sim. 4   │ N  │ L  │ N  │ N  │ N  │ N  │ H  │ N  │ N  │ H  │ N  │    9.2    │ CRITICAL │ first.org/cvss/calculator/4.0#...Sim4 │
+└──────────┴────┴────┴────┴────┴────┴────┴────┴────┴────┴────┴────┴───────────┴──────────┴───────────────────────────────────────┘
+</code></pre>
+<h4>Tautan Langsung ke Kalkulator FIRST Resmi (Klik untuk Membuka &amp; Screenshot):</h4>
+<ol>
+<li><strong>Simulasi 1 (Kebocoran):</strong><br />
+<a href="https://www.first.org/cvss/calculator/4.0#CVSS:4.0/AV:N/AC:L/AT:N/PR:N/UI:N/VC:H/VI:N/VA:N/SC:N/SI:N/SA:N">https://www.first.org/cvss/calculator/4.0#CVSS:4.0/AV:N/AC:L/AT:N/PR:N/UI:N/VC:H/VI:N/VA:N/SC:N/SI:N/SA:N</a></li>
+<li><strong>Simulasi 2 (Manipulasi):</strong><br />
+<a href="https://www.first.org/cvss/calculator/4.0#CVSS:4.0/AV:N/AC:L/AT:N/PR:N/UI:N/VC:H/VI:H/VA:N/SC:N/SI:N/SA:N">https://www.first.org/cvss/calculator/4.0#CVSS:4.0/AV:N/AC:L/AT:N/PR:N/UI:N/VC:H/VI:H/VA:N/SC:N/SI:N/SA:N</a></li>
+<li><strong>Simulasi 3 (Autentikasi PR:L):</strong><br />
+<a href="https://www.first.org/cvss/calculator/4.0#CVSS:4.0/AV:N/AC:L/AT:N/PR:L/UI:N/VC:H/VI:N/VA:N/SC:N/SI:N/SA:N">https://www.first.org/cvss/calculator/4.0#CVSS:4.0/AV:N/AC:L/AT:N/PR:L/UI:N/VC:H/VI:N/VA:N/SC:N/SI:N/SA:N</a></li>
+<li><strong>Simulasi 4 (Dampak Sistem Lain):</strong><br />
+<a href="https://www.first.org/cvss/calculator/4.0#CVSS:4.0/AV:N/AC:L/AT:N/PR:N/UI:N/VC:N/VI:H/VA:N/SC:N/SI:H/SA:N">https://www.first.org/cvss/calculator/4.0#CVSS:4.0/AV:N/AC:L/AT:N/PR:N/UI:N/VC:N/VI:H/VA:N/SC:N/SI:H/SA:N</a></li>
+</ol>
+<p><em>(Tips Screenshot: Saat membuka tautan di atas, halaman kalkulator FIRST akan otomatis memilih seluruh tombol radio yang sesuai, menampilkan badge skor numerik besar di sebelah kanan atas, menampilkan badge tingkat keparahan kualitatif, serta menampilkan vector string resmi. Ambil tangkapan layar pada area tersebut).</em></p>
+<hr />
+<h3>Kesimpulan</h3>
+<ol>
+<li><strong>CVSS v4.0 Memberikan Penilaian Lebih Akurat:</strong> Pemisahan dampak antara sistem rentan (<em>Vulnerable System</em>) dan sistem turunan (<em>Subsequent System</em>) serta penambahan metrik <em>Attack Requirements</em> menghasilkan penilaian yang jauh lebih presisi dibandingkan versi pendahulunya.</li>
+<li><strong>Sensitivitas Terhadap Konteks Otorisasi:</strong> Simulasi membuktikan bahwa penambahan kontrol otentikasi (<b>PR:N \rightarrow PR:L</b>) mampu menurunkan skor keparahan secara signifikan dari 8.7 menjadi 7.1.</li>
+<li><strong>Pembedaan Ranah Severity vs. Risk:</strong> Skor CVSS adalah cerminan keparahan teknis murni dan harus diintegrasikan dengan konteks ancaman aktif (<em>Threat</em>) dan lingkungan lokal (<em>Environmental</em>) sebelum dijadikan keputusan akhir manajemen risiko organisasi.</li>
+</ol>
+</body>
+</html>

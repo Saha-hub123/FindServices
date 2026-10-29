@@ -1,0 +1,671 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+  <meta charset="UTF-8">
+  <title>Resume Standar Common Vulnerability Scoring System (CVSS) v4.0</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@300;400;500;600;700;800&family=JetBrains+Mono:wght@400;500;700&display=swap" rel="stylesheet">
+  
+  <style>
+    @page {
+      size: A4;
+      margin: 11mm 13mm 11mm 13mm;
+      @bottom-right {
+        content: "Halaman " counter(page);
+        font-family: 'Plus Jakarta Sans', sans-serif;
+        font-size: 8pt;
+        color: #64748b;
+      }
+      @top-right {
+        content: "Resume Standar CVSS v4.0 — Praktikum Keamanan SI";
+        font-family: 'Plus Jakarta Sans', sans-serif;
+        font-size: 7.5pt;
+        color: #94a3b8;
+      }
+    }
+
+    * {
+      box-sizing: border-box;
+    }
+
+    body {
+      font-family: 'Plus Jakarta Sans', -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+      font-size: 8.8pt;
+      line-height: 1.38;
+      color: #1e293b;
+      background-color: #ffffff;
+      margin: 0;
+      padding: 0;
+    }
+
+    .document-container {
+      width: 100%;
+      margin: 0 auto;
+      background: #ffffff;
+      padding: 0;
+    }
+
+    @media print {
+      body {
+        font-size: 8.6pt;
+        line-height: 1.34;
+      }
+      h2 {
+        page-break-after: avoid;
+      }
+      h3, h4 {
+        page-break-after: avoid;
+      }
+      table, pre {
+        page-break-inside: avoid;
+      }
+    }
+
+    /* Typography */
+    h1 {
+      font-size: 15pt;
+      font-weight: 800;
+      color: #0f172a;
+      line-height: 1.2;
+      margin-top: 0;
+      margin-bottom: 6px;
+      letter-spacing: -0.3px;
+      border-bottom: 2px solid #2563eb;
+      padding-bottom: 4px;
+    }
+
+    h2 {
+      font-size: 11pt;
+      font-weight: 700;
+      color: #1e3a8a;
+      margin-top: 14px;
+      margin-bottom: 6px;
+      padding-bottom: 2px;
+      border-bottom: 1px solid #cbd5e1;
+      letter-spacing: -0.1px;
+    }
+
+    h3 {
+      font-size: 9.8pt;
+      font-weight: 700;
+      color: #0f172a;
+      margin-top: 10px;
+      margin-bottom: 4px;
+    }
+
+    h4 {
+      font-size: 9pt;
+      font-weight: 600;
+      color: #334155;
+      margin-top: 8px;
+      margin-bottom: 3px;
+    }
+
+    p {
+      margin-top: 0;
+      margin-bottom: 6px;
+      text-align: justify;
+    }
+
+    ul, ol {
+      margin-top: 0;
+      margin-bottom: 6px;
+      padding-left: 20px;
+    }
+
+    li {
+      margin-bottom: 2px;
+    }
+
+    hr {
+      border: none;
+      border-top: 1px solid #e2e8f0;
+      margin: 10px 0;
+    }
+
+    /* Code & Mono */
+    code, pre {
+      font-family: 'JetBrains Mono', Consolas, Monaco, monospace;
+      font-size: 8pt;
+    }
+
+    p code, li code {
+      background: #f1f5f9;
+      color: #b91c1c;
+      padding: 1px 3.5px;
+      border-radius: 3px;
+      border: 1px solid #e2e8f0;
+      font-size: 7.8pt;
+    }
+
+    pre {
+      background: #0f172a;
+      color: #f8fafc;
+      padding: 6px 10px;
+      border-radius: 4px;
+      overflow-x: auto;
+      margin: 6px 0;
+      line-height: 1.3;
+      border: 1px solid #334155;
+    }
+
+    pre code {
+      background: transparent;
+      color: inherit;
+      padding: 0;
+      border: none;
+      font-size: 7.6pt;
+    }
+
+    /* Tables */
+    table {
+      width: 100%;
+      border-collapse: collapse;
+      margin: 8px 0 10px 0;
+      font-size: 8pt;
+      line-height: 1.3;
+    }
+
+    th {
+      background: #f1f5f9;
+      color: #0f172a;
+      font-weight: 700;
+      text-align: left;
+      padding: 4px 6px;
+      border: 1px solid #cbd5e1;
+      font-size: 8pt;
+    }
+
+    td {
+      padding: 3.5px 6px;
+      border: 1px solid #e2e8f0;
+      vertical-align: top;
+    }
+
+    tr:nth-child(even) {
+      background-color: #f8fafc;
+    }
+
+    .doc-meta {
+      background: #f8fafc;
+      border-left: 3px solid #2563eb;
+      padding: 6px 10px;
+      margin-bottom: 12px;
+      font-size: 8.5pt;
+      color: #475569;
+    }
+  </style>
+
+</head>
+<body>
+
+  <div class="document-container">
+    <h1 id="resume-standar-common-vulnerability-scoring-system-cvss-versi-40">RESUME STANDAR COMMON VULNERABILITY SCORING SYSTEM (CVSS) VERSI 4.0</h1>
+<p><strong>Mata Kuliah:</strong> Praktikum Keamanan Sistem Informasi<br />
+<strong>Topik Bahasan:</strong> Standarisasi Penilaian Keparahan Kerentanan Perangkat Lunak<br />
+<strong>Penyusun:</strong> Tim Analis Keamanan Sistem Informasi<br />
+<strong>Target Studi Kasus:</strong> Aplikasi Web FindServices (Laravel 12 Marketplace)<br />
+<strong>Referensi Utama:</strong> FIRST CVSS-SIG (<em>Forum of Incident Response and Security Teams</em>) — <a href="https://www.first.org/cvss/">https://www.first.org/cvss/</a>  </p>
+<hr />
+<h2 id="daftar-isi">DAFTAR ISI</h2>
+<ol>
+<li><a href="#bab-i-pengertian-tujuan-dan-pengelola-cvss">BAB I: PENGERTIAN, TUJUAN, DAN PENGELOLA CVSS</a></li>
+<li>1.1 Latar Belakang dan Pengertian Dasar</li>
+<li>1.2 Tujuan dan Filosofi Desain (<em>Severity vs. Risk</em>)</li>
+<li>1.3 Badan Pengelola dan Sejarah Evolusi Standar</li>
+<li><a href="#bab-ii-kelompok-metrik-cvss-versi-40">BAB II: KELOMPOK METRIK CVSS VERSI 4.0</a></li>
+<li>2.1 Skema Nomenklatur Skoring Baru (CVSS-B, BT, BE, BTE)</li>
+<li>2.2 Kelompok Metrik Dasar (<em>Base Metric Group</em>)</li>
+<li>2.3 Kelompok Metrik Ancaman (<em>Threat Metric Group</em>)</li>
+<li>2.4 Kelompok Metrik Lingkungan (<em>Environmental Metric Group</em>)</li>
+<li>2.5 Kelompok Metrik Tambahan (<em>Supplemental Metric Group</em>)</li>
+<li><a href="#bab-iii-struktur-vector-string-perhitungan-skor-dan-tingkat-keparahan">BAB III: STRUKTUR VECTOR STRING, PERHITUNGAN SKOR, DAN TINGKAT KEPARAHAN</a></li>
+<li>3.1 Format dan Tata Aturan Vector String CVSS v4.0</li>
+<li>3.2 Metodologi Perhitungan Skor: Konsep <em>Macro-Vectors</em> dan <em>Equivalence Classes</em></li>
+<li>3.3 Skala Tingkat Keparahan Kualitatif (<em>Qualitative Severity Rating Scale</em>)</li>
+<li><a href="#bab-iv-contoh-penilaian-studi-kasus-ancaman-dari-tugas-stride-dread">BAB IV: CONTOH PENILAIAN STUDI KASUS ANCAMAN DARI TUGAS STRIDE-DREAD</a></li>
+<li>4.1 Deskripsi Kerentanan: Broken Object Level Authorization (BOLA/IDOR) pada <code>BookingController</code></li>
+<li>4.2 Pemetaan dan Justifikasi Metrik CVSS v4.0</li>
+<li>4.3 Formulasi Vector String dan Hasil Skoring Komparatif</li>
+<li>4.4 Analisis Perbedaan Hasil Evaluasi CVSS v4.0 vs. DREAD</li>
+<li><a href="#bab-v-analisis-komparatif-cvss-dan-dread-kelebihan-serta-keterbatasan">BAB V: ANALISIS KOMPARATIF CVSS DAN DREAD, KELEBIHAN, SERTA KETERBATASAN</a></li>
+<li>5.1 Matriks Perbandingan Komparatif CVSS vs. DREAD</li>
+<li>5.2 Sinergi Integrasi CVSS dan DREAD dalam Siklus DevSecOps</li>
+<li>5.3 Keunggulan Standar CVSS</li>
+<li>5.4 Keterbatasan dan Tantangan Implementasi CVSS</li>
+<li><a href="#bab-vi-kesimpulan">BAB VI: KESIMPULAN</a></li>
+<li><a href="#daftar-pustaka">DAFTAR PUSTAKA</a></li>
+</ol>
+<hr />
+<h2 id="bab-i-pengertian-tujuan-dan-pengelola-cvss">BAB I: PENGERTIAN, TUJUAN, DAN PENGELOLA CVSS</h2>
+<h3 id="11-latar-belakang-dan-pengertian-dasar">1.1 Latar Belakang dan Pengertian Dasar</h3>
+<p>Dalam ekosistem keamanan siber modern, ribuan kerentanan perangkat lunak (<em>software vulnerabilities</em>) ditemukan setiap tahunnya. Sebelum adanya standarisasi penilaian global, vendor perangkat lunak, peneliti keamanan, dan administrator sistem menilai keparahan suatu kerentanan menggunakan terminologi internal yang bersifat subjektif dan beraneka ragam (misalnya pelabelan "Critical", "Moderate", atau "Urgent" tanpa kriteria yang seragam). Hal ini menimbulkan kebingungan operasional, ketidakkonsistenan prioritas penanganan, serta ketidakmampuan organisasi dalam mengukur urgensi tambalan (<em>patch</em>) secara akurat.</p>
+<p>Untuk mengatasi fragmentasi tersebut, dibentuklah <strong>Common Vulnerability Scoring System (CVSS)</strong>. CVSS adalah standar industri terbuka (<em>open industry standard</em>) yang bebas digunakan untuk menilai, mengukur, dan mengomunikasikan karakteristik serta tingkat keparahan (<em>severity</em>) kerentanan keamanan perangkat lunak maupun perangkat keras. CVSS mentransformasikan karakteristik teknis kerentanan ke dalam representasi numerik terstandarisasi berskala 0.0 hingga 10.0, yang dilengkapi dengan representasi teks terstruktur yang disebut <em>vector string</em>.</p>
+<h3 id="12-tujuan-dan-filosofi-desain-severity-vs-risk">1.2 Tujuan dan Filosofi Desain (<em>Severity vs. Risk</em>)</h3>
+<p>Tujuan fundamental dari CVSS adalah menyediakan bahasa bersama (<em>common language</em>) yang netral vendor, konsisten, dan dapat diulang (<em>repeatable</em>) dalam mendeskripsikan keparahan kerentanan di seluruh dunia. Standar ini memungkinkan tim keamanan untuk membandingkan dampak relatif dari berbagai kerentanan yang terdaftar pada basis data global, seperti <em>National Vulnerability Database</em> (NVD) yang dikelola oleh NIST, basis data CVE (<em>Common Vulnerabilities and Exposures</em>), dan penasihat keamanan (<em>security advisories</em>) vendor.</p>
+<p>Salah satu prinsip filosofis paling krusial yang ditekankan dalam dokumen spesifikasi CVSS versi 4.0 adalah pemisahan tegas antara <strong>Keparahan (Severity)</strong> dan <strong>Risiko (Risk)</strong>:
+- <strong>CVSS mengukur Keparahan (<em>Severity</em>)</strong>: Yaitu karakteristik teknis intrinsik dari suatu kerentanan—seberapa mudah kerentanan tersebut dieksploitasi dan seberapa besar potensi kerusakan komputasi yang dapat ditimbulkannya pada sistem.
+- <strong>CVSS secara mandiri tidak mengukur Risiko (<em>Risk</em>)</strong>: Risiko adalah fungsi dari probabilitas terjadinya ancaman nyata dikalikan dengan dampak bisnis aktual pada organisasi. Menentukan risiko membutuhkan variabel kontekstual tambahan yang berada di luar jangkauan skor dasar CVSS, seperti motivasi aktor ancaman, adanya serangan aktif di alam liar (<em>in-the-wild exploitation</em>), kontrol keamanan kompensasi pada jaringan lokal, serta nilai aset bisnis yang rentan.</p>
+<p>FIRST menegaskan prinsip:
+$$\text{Risk} \neq \text{CVSS Base Score}$$
+Skor dasar CVSS dirancang sebagai salah satu masukan (<em>input</em>) teknis penting menuju kerangka manajemen risiko yang lebih holistik, bukan sebagai penentu risiko akhir.</p>
+<h3 id="13-badan-pengelola-dan-sejarah-evolusi-standar">1.3 Badan Pengelola dan Sejarah Evolusi Standar</h3>
+<p>Pengembangan, standardisasi, dan pemeliharaan CVSS berada di bawah naungan <strong>FIRST</strong> (<em>Forum of Incident Response and Security Teams</em>), sebuah organisasi nirlaba internasional terdepan yang memfasilitasi kerja sama tim respons insiden global. Pengelolaan teknis secara spesifik dijalankan oleh kelompok kerja ahli bernama <strong>CVSS Special Interest Group (CVSS-SIG)</strong>. Kelompok ini terdiri dari perwakilan lintas industri terkemuka, lembaga pertahanan, vendor komersial, penyedia teknologi (seperti Cisco, Red Hat, Microsoft, Intel, Oracle), peneliti independen, dan lembaga standardisasi pemerintah seperti NIST (<em>National Institute of Standards and Technology</em>).</p>
+<p>Evolusi standar CVSS melalui beberapa tonggak sejarah:
+- <strong>CVSS v1.0 (Februari 2005)</strong>: Didesain awal oleh <em>National Infrastructure Advisory Council</em> (NIAC) Amerika Serikat dengan tujuan awal menciptakan mekanisme kuantifikasi kerentanan terpusat.
+- <strong>CVSS v2.0 (Juni 2007)</strong>: Disempurnakan oleh FIRST untuk mengurangi ketidakkonsistenan penilaian antar analis dan mulai diadopsi luas oleh basis data NVD.
+- <strong>CVSS v3.0 (Juni 2015) &amp; v3.1 (Juni 2019)</strong>: Memperkenalkan konsep <em>Scope</em> (perubahan otorisasi lintas komponen), metrik <em>User Interaction</em>, dan penyempurnaan panduan penilaian (<em>User Guide</em>). Namun, versi 3.x menghadapi kritik industri terkait fenomena penumpukan skor (<em>score clustering</em> di rentang 7.0–8.9) dan kebingungan interpretasi metrik <em>Scope</em>.
+- <strong>CVSS v4.0 (Resmi Dirilis 1 November 2023)</strong>: Merupakan pembaruan generasi terbaru yang merombak arsitektur perhitungan, menghapus metrik <em>Scope</em> yang ambigu, memisahkan dampak pada sistem rentan versus sistem turunan, memperkenalkan metrik <em>Attack Requirements</em>, menyempurnakan metrik ancaman (<em>Threat</em>), serta menambahkan kelompok metrik pelengkap (<em>Supplemental Metrics</em>).</p>
+<hr />
+<h2 id="bab-ii-kelompok-metrik-cvss-versi-40">BAB II: KELOMPOK METRIK CVSS VERSI 4.0</h2>
+<p>Struktur CVSS v4.0 disusun secara modular menjadi empat kelompok metrik (<em>Metric Groups</em>): <strong>Base</strong>, <strong>Threat</strong>, <strong>Environmental</strong>, dan <strong>Supplemental</strong>.</p>
+<pre><code>┌────────────────────────────────────────────────────────────────────────────────────────┐
+│                                   CVSS v4.0 METRICS                                    │
+├──────────────────────────┬──────────────────────────┬──────────────────────────────────┤
+│ BASE METRICS             │ THREAT METRICS           │ ENVIRONMENTAL METRICS            │
+│ (Intrinsic Properties)   │ (Temporal Evolution)     │ (Contextual Deployment)          │
+├──────────────────────────┼──────────────────────────┼──────────────────────────────────┤
+│ • Exploitability:        │ • Exploit Maturity (E):  │ • Modified Base Metrics:         │
+│   - Attack Vector (AV)   │   - Unreported (U)       │   - MAV, MAC, MAT, MPR, MUI      │
+│   - Attack Complexity(AC)│   - Proof-of-Concept (P) │   - MVC, MVI, MVA                │
+│   - Attack Req. (AT) [NEW] - Attacked (A)           │   - MSC, MSI, MSA                │
+│   - Privileges Req. (PR) │                          │ • Security Requirements:         │
+│   - User Interaction(UI) │                          │   - Confidentiality Req. (CR)    │
+│ • Impact:                │                          │   - Integrity Req. (IR)          │
+│   - Vuln. System:        │                          │   - Availability Req. (AR)       │
+│     VC, VI, VA           │                          │                                  │
+│   - Subsequent System:   │                          │                                  │
+│     SC, SI, SA           │                          │                                  │
+├──────────────────────────┴──────────────────────────┴──────────────────────────────────┤
+│ SUPPLEMENTAL METRICS [NEW] (Operational Context - Does NOT alter final numerical score)│
+│ • Safety (S)  • Automatable (AU)  • Recovery (R)                                       │
+│ • Value Density (V)  • Vulnerability Response Effort (RE)  • Provider Urgency (U)      │
+└────────────────────────────────────────────────────────────────────────────────────────┘
+</code></pre>
+<h3 id="21-skema-nomenklatur-skoring-baru-cvss-b-bt-be-bte">2.1 Skema Nomenklatur Skoring Baru (CVSS-B, BT, BE, BTE)</h3>
+<p>Salah satu perbaikan tata kelola terpenting dalam CVSS v4.0 adalah kewajiban mencantumkan nomenklatur skor secara eksplisit untuk mencegah kesalahpahaman umum bahwa skor <em>Base</em> adalah skor akhir. Nomenklatur resmi terdiri dari empat kategori:
+1. <strong>CVSS-B</strong>: Penilaian yang hanya menggunakan kelompok metrik dasar (<em>Base Metrics</em>).
+2. <strong>CVSS-BT</strong>: Penilaian yang mengombinasikan kelompok metrik dasar dan ancaman (<em>Base + Threat Metrics</em>).
+3. <strong>CVSS-BE</strong>: Penilaian yang mengombinasikan kelompok dasar dan lingkungan organisasi (<em>Base + Environmental Metrics</em>).
+4. <strong>CVSS-BTE</strong>: Penilaian komprehensif terlengkap yang menggabungkan seluruh kelompok metrik dasar, ancaman, dan lingkungan (<em>Base + Threat + Environmental Metrics</em>).</p>
+<h3 id="22-kelompok-metrik-dasar-base-metric-group">2.2 Kelompok Metrik Dasar (<em>Base Metric Group</em>)</h3>
+<p>Kelompok metrik dasar mengukur kualitas intrinsik suatu kerentanan yang konstan lintas waktu dan tidak bergantung pada konfigurasi lingkungan implementasi pengguna akhir. Metrik dasar dibagi menjadi dua sub-kelompok:</p>
+<h4 id="a-metrik-kemudahan-eksploitasi-exploitability-metrics">A. Metrik Kemudahan Eksploitasi (<em>Exploitability Metrics</em>)</h4>
+<ol>
+<li><strong>Attack Vector (AV)</strong>: Mengukur konteks jaringan atau jalur fisik tempat eksploitasi dapat dilancarkan.</li>
+<li><em>Network (N)</em>: Celah dapat dieksploitasi dari jarak jauh (<em>remote</em>) melalui internet/lapisan perutean L3.</li>
+<li><em>Adjacent (A)</em>: Membutuhkan akses jaringan lokal yang sama (misal: satu subnet LAN, Bluetooth, Wi-Fi lokal).</li>
+<li><em>Local (L)</em>: Celah membutuhkan akses konsol lokal, interaksi keyboard langsung, sesi terminal, atau file lokal.</li>
+<li><em>Physical (P)</em>: Penyerang harus memiliki kontak fisik langsung dengan perangkat keras target.</li>
+<li><strong>Attack Complexity (AC)</strong>: Mengukur adanya mekanisme pertahanan keamanan inheren atau teknik komputasi kompleks yang harus dilewati secara sengaja oleh penyerang.</li>
+<li><em>Low (L)</em>: Tidak ada mekanisme perlindungan bawaan yang menghalangi; eksploitasi bersifat langsung dan dapat diandalkan.</li>
+<li><em>High (H)</em>: Penyerang harus mengatasi rekayasa pertahanan internal, memecahkan kriptografi, atau menerapkan teknik rekayasa balik khusus.</li>
+<li><strong>Attack Requirements (AT)</strong> — <em>Metrik Baru pada v4.0</em>: Mengukur ketergantungan eksploitasi terhadap prasyarat kondisi eksternal lingkungan atau <em>race condition</em>. Metrik ini memisahkan faktor kondisi lingkungan dari kompleksitas serangan (AC).</li>
+<li><em>None (N)</em>: Serangan dapat dieksekusi secara deterministik kapan saja tanpa memerlukan kondisi eksternal khusus.</li>
+<li><em>Present (P)</em>: Serangan bergantung pada kondisi eksternal tertentu (misal: perlunya memicu <em>race condition</em>, ketergantungan pada injeksi man-in-the-middle oleh perantara, atau konfigurasi perangkat keras tertentu).</li>
+<li><strong>Privileges Required (PR)</strong>: Mengukur tingkat hak otorisasi yang harus dimiliki penyerang sebelum dapat melancarkan serangan.</li>
+<li><em>None (N)</em>: Tidak terotentikasi / pengguna anonim.</li>
+<li><em>Low (L)</em>: Membutuhkan akun pengguna dasar (misal: akun pelanggan atau mitra biasa).</li>
+<li><em>High (H)</em>: Membutuhkan kredensial tingkat administrator, root, atau operator sistem.</li>
+<li><strong>User Interaction (UI)</strong>: Mengukur keterlibatan pengguna sah dalam keberhasilan serangan. Pada v4.0, metrik ini diperinci:</li>
+<li><em>None (N)</em>: Serangan berhasil tanpa keterlibatan pengguna sama sekali.</li>
+<li><em>Passive (P)</em>: Pengguna sah harus melakukan interaksi sederhana tanpa niat berbahaya (misal: korban hanya membuka tautan situs web atau melihat email).</li>
+<li><em>Active (A)</em>: Pengguna harus mengambil tindakan manipulatif eksplisit (misal: menonaktifkan peringatan keamanan, menyetujui popup otorisasi, atau memasukkan perintah konsol).</li>
+</ol>
+<h4 id="b-metrik-dampak-impact-metrics">B. Metrik Dampak (<em>Impact Metrics</em>)</h4>
+<p>Pada CVSS v3.x, metrik dampak dikritik karena konsep <em>Scope (S)</em> yang menimbulkan ketidakkonsistenan penilaian. CVSS v4.0 merevolusi pendekatan dampak dengan membaginya secara transparan menjadi dua domain CIA (<em>Confidentiality</em>, <em>Integrity</em>, <em>Availability</em>):</p>
+<ol>
+<li><strong>Dampak pada Sistem Rentan (<em>Vulnerable System - VC, VI, VA</em>)</strong>: Mengukur tingkat kerusakan langsung yang dialami oleh modul, komponen, atau aplikasi yang secara fisik memuat kerentanan.</li>
+<li><em>Vulnerability Confidentiality (VC)</em>: None (N), Low (L), High (H).</li>
+<li><em>Vulnerability Integrity (VI)</em>: None (N), Low (L), High (H).</li>
+<li><em>Vulnerability Availability (VA)</em>: None (N), Low (L), High (H).</li>
+<li><strong>Dampak pada Sistem Turunan (<em>Subsequent System - SC, SI, SA</em>)</strong>: Mengukur tingkat kerusakan lanjutan pada sistem lain di luar batas otorisasi komponen rentan (misalnya: kebocoran basis data pihak ketiga, eskalasi ke sistem operasi <em>host</em>, atau disrupsi layanan mikro hulu/hilir).</li>
+<li><em>Subsequent Confidentiality (SC)</em>: None (N), Low (L), High (H).</li>
+<li><em>Subsequent Integrity (SI)</em>: None (N), Low (L), High (H).</li>
+<li><em>Subsequent Availability (SA)</em>: None (N), Low (L), High (H).</li>
+</ol>
+<h3 id="23-kelompok-metrik-ancaman-threat-metric-group">2.3 Kelompok Metrik Ancaman (<em>Threat Metric Group</em>)</h3>
+<p>Kelompok metrik ancaman (pada versi terdahulu disebut <em>Temporal Metrics</em>) menangkap karakteristik kerentanan yang dinamis dan dapat berubah seiring berjalannya waktu. Metrik utama pada kelompok ini adalah:
+- <strong>Exploit Maturity (E)</strong>: Mengukur kematangan teknik atau ketersediaan senjata eksploitasi (<em>exploit toolset</em>) di domain publik:
+  - <em>Not Defined (X)</em>: Nilai default; analis tidak memasukkan metrik ancaman ke dalam perhitungan.
+  - <em>Unreported (U)</em>: Belum ada kode exploit publik yang diketahui, atau eksploitasi hanya bersifat teoritis murni.
+  - <em>Proof-of-Concept (P)</em>: Kode demonstrasi konsep (<em>PoC code</em>) telah dipublikasikan (misal di repositori riset GitHub atau Exploit-DB), namun memerlukan modifikasi untuk serangan riil.
+  - <em>Attacked (A)</em>: Solusi eksploitasi siap pakai, kit serangan otomatis (<em>exploit kit</em>), atau aktivitas serangan aktif telah terdeteksi secara masif di alam liar (<em>in the wild</em>).</p>
+<h3 id="24-kelompok-metrik-lingkungan-environmental-metric-group">2.4 Kelompok Metrik Lingkungan (<em>Environmental Metric Group</em>)</h3>
+<p>Kelompok metrik lingkungan memungkinkan tim keamanan organisasi konsumen untuk menyesuaikan skor dasar CVSS agar mencerminkan konfigurasi infrastruktur dan prioritas bisnis spesifik mereka:
+1. <strong>Modified Base Metrics (MAV, MAC, MAT, MPR, MUI, MVC, MVI, MVA, MSC, MSI, MSA)</strong>: Mengizinkan analis mengganti nilai dasar jika organisasi telah menerapkan kontrol mitigasi kompensasi (misal: jika antarmuka yang semula terpapar internet [AV:N] telah dipindahkan ke balik VPN tersegmentasi, maka analis dapat menyetel MAV:A atau MAV:L).
+2. <strong>Security Requirements (CR, IR, AR)</strong>: Mengukur tingkat kepentingan relatif dari prinsip Kerahasiaan (<em>Confidentiality Requirement</em>), Keutuhan (<em>Integrity Requirement</em>), dan Ketersediaan (<em>Availability Requirement</em>) aset target bagi kelangsungan operasional organisasi, bernilai <em>Low (L)</em>, <em>Medium (M)</em>, <em>High (H)</em>, atau <em>Not Defined (X)</em>.</p>
+<h3 id="25-kelompok-metrik-tambahan-supplemental-metric-group">2.5 Kelompok Metrik Tambahan (<em>Supplemental Metric Group</em>)</h3>
+<p>Merupakan inovasi murni pada CVSS v4.0. Kelompok ini memuat parameter kontekstual yang <strong>tidak memengaruhi skor numerik</strong>, namun memberikan wawasan mendalam bagi analis risiko operasional:
+- <strong>Safety (S)</strong>: Mengukur potensi bahaya fisik langsung terhadap keselamatan nyawa manusia (<em>Negligible [N]</em> atau <em>Present [P]</em>).
+- <strong>Automatable (AU)</strong>: Menunjukkan apakah kerentanan dapat dieksploitasi secara otomatis oleh botnet/worm pada tahapan awal (<em>No [N]</em> atau <em>Yes [Y]</em>).
+- <strong>Recovery (R)</strong>: Ketahanan pemulihan sistem pasca-serangan (<em>Automatic [A]</em>, <em>User [U]</em> yang butuh intervensi manual, atau <em>Irrecoverable [I]</em> di mana aset rusak permanen).
+- <strong>Value Density (V)</strong>: Konsentrasi nilai sumber daya yang dikuasai penyerang (<em>Diffuse [D]</em> untuk sistem umum, atau <em>Concentrated [C]</em> untuk target bernilai amat tinggi).
+- <strong>Vulnerability Response Effort (RE)</strong>: Estimasi tingkat kerumitan dan biaya organisasi untuk menerapkan patch atau mitigasi (<em>Low [L]</em>, <em>Medium [M]</em>, <em>High [H]</em>).
+- <strong>Provider Urgency (U)</strong>: Rekomendasi tingkat urgensi respons dari vendor penyedia perangkat lunak (<em>Clear</em>, <em>Green</em>, <em>Amber</em>, <em>Red</em>).</p>
+<hr />
+<h2 id="bab-iii-struktur-vector-string-perhitungan-skor-dan-tingkat-keparahan">BAB III: STRUKTUR VECTOR STRING, PERHITUNGAN SKOR, DAN TINGKAT KEPARAHAN</h2>
+<h3 id="31-format-dan-tata-aturan-vector-string-cvss-v40">3.1 Format dan Tata Aturan Vector String CVSS v4.0</h3>
+<p>Vector string adalah representasi tekstual padat yang mencatat secara formal setiap nilai metrik yang dipilih dalam sebuah evaluasi kerentanan. Vector string berfungsi sebagai tanda pengenal matematis yang memungkinkan kalkulasi ulang skor secara deterministik oleh sistem lain.</p>
+<p>Aturan sintaksis vector string CVSS v4.0:
+1. Dimulai dengan penanda versi resmi: <code>CVSS:4.0/</code>
+2. Diikuti oleh pasangan kunci-nilai (<em>metric-value pair</em>) yang dipisahkan oleh karakter garis miring (<code>/</code>).
+3. Seluruh 11 metrik dasar (<em>Base Metrics</em>) wajib diikutsertakan.
+4. Metrik dari kelompok <em>Threat</em>, <em>Environmental</em>, dan <em>Supplemental</em> bersifat opsional dan hanya dicantumkan apabila memiliki nilai selain <em>Not Defined (X)</em>.</p>
+<p>Format Umum:
+$$\text{CVSS:4.0/AV:}\dots\text{/AC:}\dots\text{/AT:}\dots\text{/PR:}\dots\text{/UI:}\dots\text{/VC:}\dots\text{/VI:}\dots\text{/VA:}\dots\text{/SC:}\dots\text{/SI:}\dots\text{/SA:}\dots$$</p>
+<h3 id="32-metodologi-perhitungan-skor-konsep-macro-vectors-dan-equivalence-classes">3.2 Metodologi Perhitungan Skor: Konsep <em>Macro-Vectors</em> dan <em>Equivalence Classes</em></h3>
+<p>Berbeda mendasar dari CVSS v3.1 yang mengandalkan formula matematika polinomial kontinu murni (yang rentan terhadap anomali pembulatan desimal dan <em>score clustering</em>), CVSS v4.0 mengadopsi algoritma berbasis <strong>Equivalence Classes (EQ)</strong> dan <strong>Macro-Vectors</strong>.</p>
+<p>Algoritma CVSS v4.0 membagi dimensi metrik ke dalam 6 kelas ekuivalen:
+- <strong>EQ1 (Nilai 0–2)</strong>: Dampak maksimum pada sistem rentan ($\text{VC}, \text{VI}, \text{VA}$).
+- <strong>EQ2 (Nilai 0–2)</strong>: Dampak maksimum pada sistem turunan ($\text{SC}, \text{SI}, \text{SA}$).
+- <strong>EQ3 (Nilai 0–2)</strong>: Kombinasi vektor eksploitasi dasar ($\text{AV}, \text{PR}$).
+- <strong>EQ4 (Nilai 0–2)</strong>: Kompleksitas eksploitasi dan interaksi pengguna ($\text{AC}, \text{AT}, \text{UI}$).
+- <strong>EQ5 (Nilai 0–2)</strong>: Kematangan ancaman eksploitasi ($\text{E}$).
+- <strong>EQ6 (Nilai 0–1)</strong>: Kebutuhan keamanan lingkungan ($\text{CR}, \text{IR}, \text{AR}$).</p>
+<p>Kombinasi nilai dari $\text{EQ}_1$ hingga $\text{EQ}_6$ membentuk sebuah <em>Macro-Vector</em>. Setiap <em>Macro-Vector</em> dipetakan secara terkalibrasi ke dalam tabel pencarian (<em>lookup table</em>) yang dirumuskan oleh para pakar keamanan global FIRST. Selanjutnya, nilai skor akhir diinterpolasikan secara diskrit dengan mempertimbangkan tingkat keparahan relatif sub-komponen, menghasilkan skor numerik presisi dari 0.0 hingga 10.0 dengan pembulatan satu digit desimal.</p>
+<h3 id="33-skala-tingkat-keparahan-kualitatif-qualitative-severity-rating-scale">3.3 Skala Tingkat Keparahan Kualitatif (<em>Qualitative Severity Rating Scale</em>)</h3>
+<p>Untuk memfasilitasi komunikasi yang cepat bagi pengambil keputusan non-teknis, skor numerik CVSS v4.0 (rentang 0.0 – 10.0) dipetakan ke dalam skala kualitatif resmi FIRST:</p>
+<table>
+<thead>
+<tr>
+<th style="text-align: center;">Rentang Skor Numerik</th>
+<th style="text-align: center;">Tingkat Keparahan Kualitatif (<em>Severity Rating</em>)</th>
+<th style="text-align: left;">Implikasi dan Karakteristik Operasional</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="text-align: center;"><strong>0.0</strong></td>
+<td style="text-align: center;"><strong>None</strong></td>
+<td style="text-align: left;">Tidak ditemukan dampak keamanan teknis langsung terhadap sistem.</td>
+</tr>
+<tr>
+<td style="text-align: center;"><strong>0.1 – 3.9</strong></td>
+<td style="text-align: center;"><strong>Low</strong></td>
+<td style="text-align: left;">Eksploitasi membutuhkan kondisi sulit atau dampak kerusakannya sangat minim. Penanganan dapat dimasukkan ke siklus pemeliharaan berkala.</td>
+</tr>
+<tr>
+<td style="text-align: center;"><strong>4.0 – 6.9</strong></td>
+<td style="text-align: center;"><strong>Medium</strong></td>
+<td style="text-align: left;">Kerentanan dapat dieksploitasi dengan konsekuensi dampak moderat. Perlu dijadwalkan mitigasi dalam rilis pembaruan reguler.</td>
+</tr>
+<tr>
+<td style="text-align: center;"><strong>7.0 – 8.9</strong></td>
+<td style="text-align: center;"><strong>High</strong></td>
+<td style="text-align: left;">Kerentanan menimbulkan ancaman serius terhadap integritas, kerahasiaan, atau ketersediaan data penting. Membutuhkan tindakan perbaikan segera.</td>
+</tr>
+<tr>
+<td style="text-align: center;"><strong>9.0 – 10.0</strong></td>
+<td style="text-align: center;"><strong>Critical</strong></td>
+<td style="text-align: left;">Kerentanan dapat dieksploitasi secara remote tanpa otentikasi dan menimbulkan pengambilalihan kendali sistem penuh. Memerlukan penanganan darurat (<em>hotfix</em> segera).</td>
+</tr>
+</tbody>
+</table>
+<hr />
+<h2 id="bab-iv-contoh-penilaian-studi-kasus-ancaman-dari-tugas-stride-dread">BAB IV: CONTOH PENILAIAN STUDI KASUS ANCAMAN DARI TUGAS STRIDE-DREAD</h2>
+<p>Untuk mendemonstrasikan penerapan praktis CVSS v4.0, diambil satu ancaman paling kritis dari tugas analisis keamanan website <strong>FindServices</strong> yang telah dimodelkan sebelumnya pada sheet <code>STRIDE_DREAD_Template</code>: <strong>Ancaman T-01</strong>.</p>
+<h3 id="41-deskripsi-kerentanan-terpilih-ancaman-t-01">4.1 Deskripsi Kerentanan Terpilih (Ancaman T-01)</h3>
+<ul>
+<li><strong>ID Ancaman</strong>: T-01 (Referensi CVE-2023-28438 / Taksonomi CWE-639)</li>
+<li><strong>Nama Celah</strong>: <em>Broken Object Level Authorization</em> (BOLA) / <em>Insecure Direct Object Reference</em> (IDOR) pada Pembaruan Status Transaksi.</li>
+<li><strong>Lokasi Kode Sumber</strong>: Repositori FindServices, berkas <code>app/Http/Controllers/BookingController.php</code> baris 228–232.</li>
+<li><strong>Bukti Kerentanan</strong>: Baris validasi otentikasi hak kepemilikan akun sengaja dikomentari:
+  <code>php
+  // if (auth()-&gt;id() !== $booking-&gt;provider_id &amp;&amp; auth()-&gt;id() !== $booking-&gt;customer_id) {
+  //     abort(403, 'Unauthorized access to booking');
+  // }
+  $booking-&gt;update(['status' =&gt; $request-&gt;status]);</code></li>
+<li><strong>Mekanisme Serangan</strong>: Penyerang yang memiliki akun pengguna sah (sebagai Customer atau Provider) dapat mengirimkan permintaan HTTP <code>PATCH /bookings/{order_id}/status</code> dengan memanipulasi parameter <code>order_id</code> milik korban, sehingga penyerang dapat membatalkan atau mengubah status pesanan pihak lain secara sepihak tanpa izin.</li>
+</ul>
+<h3 id="42-pemetaan-dan-justifikasi-metrik-cvss-v40">4.2 Pemetaan dan Justifikasi Metrik CVSS v4.0</h3>
+<table>
+<thead>
+<tr>
+<th style="text-align: left;">Kelompok Metrik</th>
+<th style="text-align: left;">Parameter Metrik</th>
+<th style="text-align: center;">Nilai Terpilih</th>
+<th style="text-align: left;">Justifikasi Teknis Berdasarkan Analisis Sistem FindServices</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="text-align: left;"><strong>Base - Exploitability</strong></td>
+<td style="text-align: left;">Attack Vector (AV)</td>
+<td style="text-align: center;"><strong>Network (N)</strong></td>
+<td style="text-align: left;">Endpoint API <code>/bookings/{id}/status</code> dapat diakses dari jarak jauh melalui jaringan internet publik melalui protokol HTTP.</td>
+</tr>
+<tr>
+<td style="text-align: left;"></td>
+<td style="text-align: left;">Attack Complexity (AC)</td>
+<td style="text-align: center;"><strong>Low (L)</strong></td>
+<td style="text-align: left;">Tidak ada proteksi built-in atau teknik bypassing kriptografi yang rumit; penyerang cukup memodifikasi nilai integer ID pesanan pada request body/URL.</td>
+</tr>
+<tr>
+<td style="text-align: left;"></td>
+<td style="text-align: left;">Attack Requirements (AT)</td>
+<td style="text-align: center;"><strong>None (N)</strong></td>
+<td style="text-align: left;">Tidak diperlukan kondisi lingkungan khusus, <em>race condition</em>, atau skenario <em>man-in-the-middle</em> tertentu agar eksploitasi berhasil.</td>
+</tr>
+<tr>
+<td style="text-align: left;"></td>
+<td style="text-align: left;">Privileges Required (PR)</td>
+<td style="text-align: center;"><strong>Low (L)</strong></td>
+<td style="text-align: left;">Celah berada di balik middleware <code>auth:sanctum</code>; penyerang harus memiliki akun pengguna terdaftar aktif untuk mendapatkan sesi token.</td>
+</tr>
+<tr>
+<td style="text-align: left;"></td>
+<td style="text-align: left;">User Interaction (UI)</td>
+<td style="text-align: center;"><strong>None (N)</strong></td>
+<td style="text-align: left;">Eksploitasi dijalankan sepihak oleh penyerang; tidak memerlukan interaksi, klik, atau persetujuan dari korban pemilik pesanan.</td>
+</tr>
+<tr>
+<td style="text-align: left;"><strong>Base - Vuln. System</strong></td>
+<td style="text-align: left;">Vuln. Confidentiality (VC)</td>
+<td style="text-align: center;"><strong>None (N)</strong></td>
+<td style="text-align: left;">Endpoint ini murni berfungsi melakukan mutasi status pesanan dan tidak membocorkan data rahasia tambahan dari basis data.</td>
+</tr>
+<tr>
+<td style="text-align: left;"></td>
+<td style="text-align: left;">Vuln. Integrity (VI)</td>
+<td style="text-align: center;"><strong>High (H)</strong></td>
+<td style="text-align: left;">Integritas data transaksi dilanggar secara masif; penyerang dapat memalsukan status transaksi pesanan bisnis hingga lunas atau batal secara sepihak.</td>
+</tr>
+<tr>
+<td style="text-align: left;"></td>
+<td style="text-align: left;">Vuln. Availability (VA)</td>
+<td style="text-align: center;"><strong>None (N)</strong></td>
+<td style="text-align: left;">Operasional server Laravel dan ketersediaan aplikasi tidak terganggu atau lumpuh akibat serangan ini.</td>
+</tr>
+<tr>
+<td style="text-align: left;"><strong>Base - Subsequent System</strong></td>
+<td style="text-align: left;">Subsequent Confid. (SC)</td>
+<td style="text-align: center;"><strong>None (N)</strong></td>
+<td style="text-align: left;">Tidak terjadi kebocoran informasi pada sistem di luar batas aplikasi FindServices.</td>
+</tr>
+<tr>
+<td style="text-align: left;"></td>
+<td style="text-align: left;">Subsequent Integrity (SI)</td>
+<td style="text-align: center;"><strong>Low (L)</strong></td>
+<td style="text-align: left;">Berdampak sekunder pada keutuhan data sistem hilir: riwayat log audit, mutasi pembukuan finansial mitra, dan sistem notifikasi realtime Reverb mencatat status palsu.</td>
+</tr>
+<tr>
+<td style="text-align: left;"></td>
+<td style="text-align: left;">Subsequent Avail. (SA)</td>
+<td style="text-align: center;"><strong>None (N)</strong></td>
+<td style="text-align: left;">Sistem eksternal (gateway Midtrans, Reverb daemon) tetap beroperasi normal.</td>
+</tr>
+<tr>
+<td style="text-align: left;"><strong>Threat (Temporal)</strong></td>
+<td style="text-align: left;">Exploit Maturity (E)</td>
+<td style="text-align: center;"><strong>Proof-of-Concept (P)</strong></td>
+<td style="text-align: left;">Kode pengujian serangan (<em>exploit PoC</em>) telah dibuat dan divalidasi berhasil di lingkungan pengujian laboratorium, namun belum terpantau eksploitasi massal di alam liar.</td>
+</tr>
+<tr>
+<td style="text-align: left;"><strong>Environmental</strong></td>
+<td style="text-align: left;">Confid. Requirement (CR)</td>
+<td style="text-align: center;"><strong>High (H)</strong></td>
+<td style="text-align: left;">Menjaga kerahasiaan data pesanan pelanggan merupakan prioritas tinggi bagi reputasi platform marketplace.</td>
+</tr>
+<tr>
+<td style="text-align: left;"></td>
+<td style="text-align: left;">Integrity Requirement (IR)</td>
+<td style="text-align: center;"><strong>High (H)</strong></td>
+<td style="text-align: left;">Integritas transaksi finansial dan status pesanan adalah fondasi utama kepercayaan bisnis FindServices.</td>
+</tr>
+<tr>
+<td style="text-align: left;"></td>
+<td style="text-align: left;">Avail. Requirement (AR)</td>
+<td style="text-align: center;"><strong>Low (L)</strong></td>
+<td style="text-align: left;">Ketersediaan sistem pada fitur ini tidak terdampak langsung.</td>
+</tr>
+<tr>
+<td style="text-align: left;"><strong>Supplemental</strong></td>
+<td style="text-align: left;">Automatable (AU)</td>
+<td style="text-align: center;"><strong>Yes (Y)</strong></td>
+<td style="text-align: left;">Serangan dapat diotomatisasi secara masif dengan skrip bot HTTP sederhana untuk mengubah ribuan status transaksi secara berurutan (<em>enumeration loop</em>).</td>
+</tr>
+<tr>
+<td style="text-align: left;"></td>
+<td style="text-align: left;">Recovery (R)</td>
+<td style="text-align: center;"><strong>User (U)</strong></td>
+<td style="text-align: left;">Pemulihan status pesanan yang telah diubah membutuhkan intervensi administratif manual dari tim operasional FindServices.</td>
+</tr>
+<tr>
+<td style="text-align: left;"></td>
+<td style="text-align: left;">Vulnerability Response Effort (RE)</td>
+<td style="text-align: center;"><strong>Low (L)</strong></td>
+<td style="text-align: left;">Upaya mitigasi sangat mudah dan murah; pengembang cukup mengaktifkan kembali baris komentar otorisasi hak milik akun atau menerapkan <code>BookingPolicy</code>.</td>
+</tr>
+</tbody>
+</table>
+<h3 id="43-formulasi-vector-string-dan-hasil-skoring-komparatif">4.3 Formulasi Vector String dan Hasil Skoring Komparatif</h3>
+<p>Berdasarkan metrik yang telah ditentukan, formulasi vector string resmi CVSS v4.0 untuk ancaman T-01 adalah:</p>
+<p>$$\text{CVSS:4.0/AV:N/AC:L/AT:N/PR:L/UI:N/VC:N/VI:H/VA:N/SC:N/SI:L/SA:N/E:P/CR:H/IR:H/AR:L/AU:Y/R:U/RE:L}$$</p>
+<p>Hasil kalkulasi skor resmi berdasarkan algoritma FIRST CVSS v4.0:
+- <strong>Skor Dasar (CVSS-B)</strong>: <strong>7.1</strong> $\rightarrow$ Tingkat Keparahan: <strong>HIGH</strong>
+- <strong>Skor Ancaman (CVSS-BT)</strong>: <strong>5.7</strong> $\rightarrow$ Tingkat Keparahan: <strong>MEDIUM</strong>
+- <strong>Skor Lingkungan Penuh (CVSS-BTE)</strong>: <strong>5.6</strong> $\rightarrow$ Tingkat Keparahan: <strong>MEDIUM</strong></p>
+<h3 id="44-analisis-perbedaan-hasil-evaluasi-cvss-v40-vs-dread">4.4 Analisis Perbedaan Hasil Evaluasi CVSS v4.0 vs. DREAD</h3>
+<p>Terdapat perbedaan klasifikasi tingkat risiko yang menarik antara evaluasi DREAD sebelumnya dengan CVSS v4.0 terhadap ancaman T-01 yang sama:</p>
+<pre><code>┌────────────────────────────────────────────────────────────────────────────────────────┐
+│                        KOMPARASI PENILAIAN ANCAMAN T-01 BOLA                           │
+├──────────────────────────┬─────────────────────────────────────────────────────────────┤
+│ METODE EVALUASI          │ HASIL SKOR &amp; TINGKAT KEPARAHAN                              │
+├──────────────────────────┼─────────────────────────────────────────────────────────────┤
+│ DREAD                    │ Total Skor: 40 / 50 ──► CRITICAL                            │
+│ (Threat Risk Modeling)   │ (Damage: 8, Reprod: 9, Exploit: 8, Affected: 8, Discov: 7) │
+├──────────────────────────┼─────────────────────────────────────────────────────────────┤
+│ CVSS-B v4.0              │ Base Score: 7.1 / 10.0 ──► HIGH                             │
+│ (Intrinsic Severity)     │ (AV:N/AC:L/AT:N/PR:L/UI:N/VC:N/VI:H/VA:N/SC:N/SI:L/SA:N)   │
+├──────────────────────────┼─────────────────────────────────────────────────────────────┤
+│ CVSS-BT v4.0             │ Threat-Adjusted Score: 5.7 / 10.0 ──► MEDIUM                │
+│ (Temporal Reality)       │ (Faktor E:P menurunkan skor karena exploit belum liar)      │
+└──────────────────────────┴─────────────────────────────────────────────────────────────┘
+</code></pre>
+<p><strong>Alasan Utama Perbedaan Skor:</strong>
+1. <strong>Faktor Pengguna Terdampak (<em>Affected Users</em>) dan Penemuan (<em>Discoverability</em>)</strong>: Pada metode DREAD, tingginya populasi pengguna yang rentan terkena dampak (skor 8) serta mudahnya celah ditemukan melalui inspeksi endpoint (skor 7) menyumbang poin besar secara linier, sehingga mengangkat ancaman ke level <strong>CRITICAL (Skor 40)</strong>.
+2. <strong>Objektivitas Keparahan Teknis pada CVSS Base</strong>: CVSS v4.0 menetapkan bahwa karena celah memerlukan hak akses masuk (<em>Privileges Required: Low</em>) serta tidak merusak ketersediaan (<em>Availability: None</em>) maupun kerahasiaan data (<em>Confidentiality: None</em>), maka tingkat keparahan teknis intrinsiknya berada pada level <strong>HIGH (Skor 7.1)</strong>, bukan <em>Critical</em>. Kerusakan <em>Critical</em> ($\ge 9.0$) pada CVSS umumnya mensyaratkan hilangnya ketiga aspek CIA secara penuh atau eksploitasi tanpa hak akses sama sekali (<em>PR:None</em>).
+3. <strong>Koreksi Realitas Ancaman pada CVSS-BT</strong>: Ketika parameter <em>Threat</em> dimasukkan ($\text{E:P}$), skor CVSS-BT terkoreksi turun menjadi <strong>5.7 (Medium)</strong>. Hal ini logis secara operasional: ancaman yang baru berstatus <em>Proof-of-Concept</em> di laboratorium belum memiliki urgensi penanganan darurat sebesar ancaman yang sedang dieksploitasi aktif oleh sindikat peretas di dunia nyata ($\text{E:A}$).</p>
+<hr />
+<h2 id="bab-v-analisis-komparatif-cvss-dan-dread-kelebihan-serta-keterbatasan">BAB V: ANALISIS KOMPARATIF CVSS DAN DREAD, KELEBIHAN, SERTA KETERBATASAN</h2>
+<h3 id="51-matriks-perbandingan-komparatif-cvss-vs-dread">5.1 Matriks Perbandingan Komparatif CVSS vs. DREAD</h3>
+<p>Meskipun sama-sama digunakan dalam domain tata kelola keamanan informasi, CVSS dan DREAD memiliki peran, paradigma, dan metodologi yang sangat berbeda:</p>
+<table>
+<thead>
+<tr>
+<th style="text-align: left;">Parameter Perbandingan</th>
+<th style="text-align: left;">Common Vulnerability Scoring System (CVSS v4.0)</th>
+<th style="text-align: left;">DREAD Threat Risk Ranking Model</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="text-align: left;"><strong>Definisi &amp; Fokus Utama</strong></td>
+<td style="text-align: left;">Mengukur <strong>keparahan teknis intrinsik (<em>severity</em>)</strong> dari kerentanan perangkat lunak yang telah teridentifikasi secara spesifik.</td>
+<td style="text-align: left;">Mengukur <strong>tingkat risiko komparatif (<em>risk priority</em>)</strong> dari skenario ancaman potensial dalam perancangan sistem.</td>
+</tr>
+<tr>
+<td style="text-align: left;"><strong>Pengembang / Standar</strong></td>
+<td style="text-align: left;">Dikelola secara global oleh organisasi nirlaba <strong>FIRST</strong>; standar formal de facto internasional.</td>
+<td style="text-align: left;">Awalnya dikembangkan oleh <strong>Microsoft</strong> sebagai bagian dari metodologi <em>Security Development Lifecycle</em> (SDL).</td>
+</tr>
+<tr>
+<td style="text-align: left;"><strong>Tahapan Siklus SDLC</strong></td>
+<td style="text-align: left;">Ideal pada tahapan akhir SDLC: Pengujian penetrasi (<em>penetration testing</em>), audit kode sumber, manajemen kerentanan (<em>patch management</em>), dan respons insiden.</td>
+<td style="text-align: left;">Ideal pada tahapan awal SDLC: Analisis kebutuhan, perancangan arsitektur, pemodelan ancaman (<em>threat modeling</em> bersama STRIDE).</td>
+</tr>
+<tr>
+<td style="text-align: left;"><strong>Perspektif Penilaian</strong></td>
+<td style="text-align: left;"><strong>Objektif dan Kaku</strong>: Didasarkan pada atribut teknis sistem yang dapat diverifikasi secara ilmiah.</td>
+<td style="text-align: left;"><strong>Subjektif dan Kontekstual</strong>: Bergantung pada persepsi tim perancang mengenai dampak dan kemudahan serangan.</td>
+</tr>
+<tr>
+<td style="text-align: left;"><strong>Skala Penilaian</strong></td>
+<td style="text-align: left;">Skala desimal kontinu 0.0 – 10.0 dengan 5 tingkatan kualitatif resmi (<em>None, Low, Medium, High, Critical</em>).</td>
+<td style="text-align: left;">Skala ordinal 0–10 per dimensi (total 0–50) yang dipetakan ke level risiko (<em>Low, Medium, High, Critical</em>).</td>
+</tr>
+<tr>
+<td style="text-align: left;"><strong>Dimensi Pengukuran</strong></td>
+<td style="text-align: left;">11 metrik dasar (vektor, kompleksitas, prasyarat, hak akses, interaksi, dampak CIA ganda) + metrik ancaman/lingkungan.</td>
+<td style="text-align: left;">5 dimensi linier: <em>Damage, Reproducibility, Exploitability, Affected Users, Discoverability</em>.</td>
+</tr>
+<tr>
+<td style="text-align: left;"><strong>Interoperabilitas Industri</strong></td>
+<td style="text-align: left;">Sangat tinggi; terintegrasi langsung dengan ekosistem CVE, NVD NIST, advisory vendor, dan scanner otomatis.</td>
+<td style="text-align: left;">Rendah; umumnya hanya digunakan sebagai dokumen internal tim pengembang atau tugas akademis.</td>
+</tr>
+<tr>
+<td style="text-align: left;"><strong>Sensitivitas Waktu</strong></td>
+<td style="text-align: left;">Tinggi; memiliki kelompok metrik <em>Threat</em> yang dapat diperbarui saat exploit mulai beredar luas di publik.</td>
+<td style="text-align: left;">Statis; skor umumnya tidak memiliki mekanisme resmi pembaruan temporal otomatis.</td>
+</tr>
+</tbody>
+</table>
+<h3 id="52-sinergi-integrasi-cvss-dan-dread-dalam-siklus-devsecops">5.2 Sinergi Integrasi CVSS dan DREAD dalam Siklus DevSecOps</h3>
+<p>Daripada mempertentangkan kedua kerangka kerja, organisasi keamanan modern mengintegrasikan DREAD dan CVSS secara komplementer dalam siklus hidup pengembangan perangkat lunak aman (<em>DevSecOps</em>):
+1. <strong>Fase Desain &amp; Arsitektur (<em>Design Phase</em>)</strong>: Tim pengembang menerapkan <strong>STRIDE dan DREAD</strong> saat membuat diagram alur data (DFD). DREAD sangat efektif untuk memprioritaskan skenario ancaman abstrak sebelum sebaris kode pun ditulis.
+2. <strong>Fase Pengujian &amp; Audit (<em>Testing &amp; Verification Phase</em>)</strong>: Ketika perangkat lunak telah selesai dibangun dan ditemukan kelemahan kode konkret (seperti BOLA pada <code>BookingController.php</code>), celah tersebut dinilai menggunakan <strong>CVSS v4.0</strong> untuk menghasilkan skor keparahan teknis resmi dan vector string yang dapat ditindaklanjuti tim <em>security operations</em>.
+3. <strong>Fase Operasional &amp; Rilis (<em>Operation &amp; Maintenance</em>)</strong>: Tim <em>DevSecOps</em> menggabungkan skor CVSS dengan data intelijen ancaman real-time (seperti <em>Exploit Prediction Scoring System</em> / EPSS) guna menentukan urutan rilis patch prioritas.</p>
+<h3 id="53-keunggulan-standar-cvss">5.3 Keunggulan Standar CVSS</h3>
+<ol>
+<li><strong>Konsistensi dan Standardisasi Universal</strong>: Memungkinkan organisasi di seluruh dunia berkomunikasi menggunakan bahasa metrik yang persis sama tanpa bias vendor.</li>
+<li><strong>Granularitas Tinggi pada Versi 4.0</strong>: Pemisahan tegas dampak pada <em>Vulnerable System</em> ($VC/VI/VA$) dan <em>Subsequent System</em> ($SC/SI/SA$) menyelesaikan kelemahan historis v3.x dalam menilai sistem multi-tier, <em>cloud infrastructure</em>, dan API gateway.</li>
+<li><strong>Kontekstualisasi Ancaman dan Lingkungan</strong>: Keberadaan metrik <em>Threat</em> dan <em>Environmental</em> mencegah organisasi membuang sumber daya untuk menambal celah berstatus <em>Base High</em> yang sebenarnya berada di jaringan terisolasi dan belum memiliki senjata eksploitasi aktif.</li>
+<li><strong>Penyertaan Dimensi Keselamatan Fisik (<em>Safety</em>)</strong>: Hadirnya kelompok <em>Supplemental Metrics</em> menjadikan CVSS v4.0 relevan untuk sistem <em>Internet of Things</em> (IoT), <em>Operational Technology</em> (OT), dan <em>Cyber-Physical Systems</em> (CPS) seperti perangkat medis dan otomotif.</li>
+</ol>
+<h3 id="54-keterbatasan-dan-tantangan-implementasi-cvss">5.4 Keterbatasan dan Tantangan Implementasi CVSS</h3>
+<ol>
+<li><strong><em>Severity vs. Risk Fallacy</em> (Kekeliruan Keparahan vs. Risiko)</strong>: Kesalahan paling umum di industri adalah menganggap skor <em>Base</em> CVSS sebagai penentu risiko mutlak. Kerentanan dengan skor 9.8 yang berada pada server laboratorium tanpa data sensitif sering kali diperbaiki lebih dulu daripada kerentanan ber-skor 6.5 yang aktif dieksploitasi pada basis data perbankan utama.</li>
+<li><strong>Kompleksitas Evaluasi yang Tinggi</strong>: Dengan diperkenalkannya metrik baru pada v4.0 (seperti <em>Attack Requirements</em>, <em>Passive/Active UI</em>, dan 6 metrik dampak CIA), analis memerlukan pengetahuan arsitektur teknis yang sangat mendalam agar tidak salah memilih nilai metrik.</li>
+<li><strong>Keterbatasan Evaluasi Lingkungan di Lapangan</strong>: Sebagian besar basis data publik (seperti NVD) hanya menerbitkan skor <em>Base</em> ($CVSS-B$) karena mereka tidak mengetahui konteks lingkungan spesifik pengguna. Sayangnya, banyak organisasi enggan menghitung skor lingkungan ($CVSS-BE/BTE$) secara mandiri karena keterbatasan sumber daya analis.</li>
+<li><strong>Kebutuhan Pengayaan Data Eksternal</strong>: Skor CVSS perlu dilengkapi dengan kerangka penilaian probabilitas eksploitasi seperti <strong>EPSS</strong> (<em>Exploit Prediction Scoring System</em>) dan katalog <strong>CISA KEV</strong> (<em>Known Exploited Vulnerabilities</em>) agar manajemen kerentanan berbasis risiko (<em>Risk-Based Vulnerability Management</em>) dapat tercapai secara paripurna.</li>
+</ol>
+<hr />
+<h2 id="bab-vi-kesimpulan">BAB VI: KESIMPULAN</h2>
+<p>Berdasarkan kajian komprehensif terhadap standar resmi FIRST CVSS versi 4.0 dan perbandingannya dengan pemodelan ancaman DREAD, dapat ditarik beberapa kesimpulan fundamental:</p>
+<ol>
+<li><strong>CVSS v4.0 Merupakan Evolusi Signifikan</strong>: Rilis resmi CVSS v4.0 pada November 2023 sukses memperbaiki berbagai kelemahan historis versi 3.x. Standardisasi baru ini mengeliminasi ambiguitas metrik <em>Scope</em> melalui pembagian eksplisit dampak terhadap <em>Vulnerable System</em> dan <em>Subsequent System</em>, memisahkan kompleksitas eksploitasi dari kondisi lingkungan melalui metrik <em>Attack Requirements</em>, serta memperkenalkan nomenklatur transparan ($CVSS-B, BT, BE, BTE$).</li>
+<li><strong>Karakteristik Matematis yang Lebih Adil</strong>: Penggunaan pendekatan <em>Macro-Vectors</em> dan <em>Equivalence Classes</em> pada CVSS v4.0 berhasil mengatasi fenomena <em>score clustering</em> pada rentang 7.0–8.9, sehingga distribusi skor menjadi lebih berimbang dan mencerminkan pertimbangan para pakar keamanan siber dunia.</li>
+<li><strong>Pembedaan Ranah Kerja CVSS vs. DREAD</strong>: DREAD berfungsi optimal sebagai alat pemeringkat risiko subjektif internal pada tahap awal perencanaan arsitektur (<em>threat modeling</em>), sedangkan CVSS merupakan standar evaluasi keparahan teknis objektif untuk kerentanan nyata yang telah teridentifikasi pada implementasi sistem.</li>
+<li><strong>Penerapan pada Kasus FindServices (T-01)</strong>: Penilaian kerentanan BOLA pada endpoint <code>BookingController.php</code> menghasilkan skor <strong>CVSS-B 7.1 (High)</strong> dengan vector string <code>CVSS:4.0/AV:N/AC:L/AT:N/PR:L/UI:N/VC:N/VI:H/VA:N/SC:N/SI:L/SA:N</code>. Skor ini memberikan panduan teknis yang presisi bagi pengembang untuk memprioritaskan hotfix validasi otorisasi sebelum meluncurkan aplikasi ke lingkungan produksi.</li>
+</ol>
+<hr />
+<h2 id="daftar-pustaka">DAFTAR PUSTAKA</h2>
+<ol>
+<li><strong>FIRST (Forum of Incident Response and Security Teams)</strong>. (2023). <em>Common Vulnerability Scoring System v4.0: Specification Document</em>. Diakses dari https://www.first.org/cvss/v4-0/specification-document</li>
+<li><strong>FIRST (Forum of Incident Response and Security Teams)</strong>. (2023). <em>Common Vulnerability Scoring System v4.0: User Guide</em>. Diakses dari https://www.first.org/cvss/v4-0/user-guide</li>
+<li><strong>FIRST (Forum of Incident Response and Security Teams)</strong>. (2023). <em>CVSS v4.0 Scoring Calculator and Implementation Reference</em>. Diakses dari https://www.first.org/cvss/calculator/4.0</li>
+<li><strong>NIST (National Institute of Standards and Technology)</strong>. (2023). <em>National Vulnerability Database (NVD) CVSS Guidelines</em>. U.S. Department of Commerce. Diakses dari https://nvd.nist.gov/vuln-metrics/cvss</li>
+<li><strong>Mell, P., Scarfone, K., &amp; Romanosky, S.</strong> (2007). <em>A Complete Guide to the Common Vulnerability Scoring System Version 2.0</em>. Published by FIRST.</li>
+<li><strong>OWASP Foundation</strong>. (2023). <em>OWASP Top 10 API Security Risks: API1:2023 Broken Object Level Authorization (BOLA)</em>. Diakses dari https://owasp.org/API-Security/editions/2023/en/0xa1-broken-object-level-authorization/</li>
+<li><strong>Shostack, A.</strong> (2014). <em>Threat Modeling: Designing for Security</em>. Indianapolis: John Wiley &amp; Sons, Inc. ISBN: 978-1-118-80999-0.</li>
+<li><strong>ISO/IEC</strong>. (2018). <em>Information technology — Security techniques — Vulnerability disclosure</em> (ISO/IEC Standard No. 29147:2018). International Organization for Standardization.</li>
+<li><strong>CISA (Cybersecurity and Infrastructure Security Agency)</strong>. (2022). <em>Reducing the Significant Risk of Known Exploited Vulnerabilities</em>. Binding Operational Directive 22-01. Washington, D.C.: U.S. Department of Homeland Security.</li>
+<li><strong>Jacobs, J., Romanosky, S., Edwards, B., &amp; Roytman, M.</strong> (2021). <em>Exploit Prediction Scoring System (EPSS)</em>. Digital Threats: Research and Practice, 2(3), 1–17. https://doi.org/10.1145/3436242</li>
+</ol>
+  </div>
+
+</body>
+</html>

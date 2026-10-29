@@ -1,0 +1,546 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+<meta charset="utf-8">
+<title>Panduan Pengisian Manual Template CVSS v4.0 - FindServices</title>
+<style>
+
+body {
+    font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Helvetica, Arial, sans-serif;
+    line-height: 1.5;
+    color: #1e293b;
+    max-width: 1300px;
+    margin: 0 auto;
+    padding: 24px;
+    background-color: #f8fafc;
+}
+.container {
+    background: #ffffff;
+    border: 1px solid #e2e8f0;
+    border-radius: 8px;
+    padding: 32px;
+    box-shadow: 0 4px 6px -1px rgb(0 0 0 / 0.1);
+}
+h1 {
+    color: #0f172a;
+    font-size: 18pt;
+    border-bottom: 3px solid #2563eb;
+    padding-bottom: 8px;
+    margin-top: 0;
+}
+h2 {
+    color: #1e40af;
+    font-size: 14pt;
+    margin-top: 24px;
+}
+h3 {
+    color: #0f172a;
+    font-size: 12pt;
+    background: #f1f5f9;
+    padding: 6px 12px;
+    border-left: 4px solid #2563eb;
+    border-radius: 2px;
+    margin-top: 24px;
+}
+h4 {
+    color: #334155;
+    font-size: 10.5pt;
+    margin-top: 16px;
+    border-bottom: 1px solid #cbd5e1;
+    padding-bottom: 4px;
+}
+table {
+    width: 100%;
+    border-collapse: collapse;
+    margin: 16px 0;
+    font-size: 8pt;
+    background: #ffffff;
+}
+th, td {
+    border: 1px solid #cbd5e1;
+    padding: 6px 8px;
+    text-align: left;
+    vertical-align: top;
+}
+th {
+    background-color: #0f172a;
+    color: #ffffff;
+    font-weight: 600;
+}
+tr:nth-child(even) td {
+    background-color: #f8fafc;
+}
+tr:hover td {
+    background-color: #f1f5f9;
+}
+code {
+    font-family: 'Consolas', 'Courier New', monospace;
+    font-size: 8pt;
+    background-color: #f1f5f9;
+    color: #0969da;
+    padding: 2px 4px;
+    border-radius: 3px;
+    word-break: break-all;
+}
+pre {
+    background: #1e293b;
+    color: #f8fafc;
+    padding: 14px;
+    border-radius: 6px;
+    overflow-x: auto;
+    font-size: 8pt;
+    line-height: 1.35;
+}
+pre code {
+    background: none;
+    color: inherit;
+    padding: 0;
+}
+ul, ol {
+    padding-left: 24px;
+}
+li {
+    margin-bottom: 4px;
+}
+hr {
+    border: none;
+    border-top: 1px solid #e2e8f0;
+    margin: 20px 0;
+}
+.badge-critical {
+    background: #fee2e2;
+    color: #991b1b;
+    font-weight: bold;
+    padding: 2px 6px;
+    border-radius: 4px;
+}
+.badge-high {
+    background: #ffedd5;
+    color: #9a3412;
+    font-weight: bold;
+    padding: 2px 6px;
+    border-radius: 4px;
+}
+.badge-med {
+    background: #fef9c3;
+    color: #854d0e;
+    font-weight: bold;
+    padding: 2px 6px;
+    border-radius: 4px;
+}
+
+</style>
+</head>
+<body>
+<div class="container">
+<h1>PANDUAN PENGISIAN MANUAL TEMPLATE LATIHAN CVSS v4.0</h1>
+<h2>Proyek: Aplikasi FindServices (Mata Kuliah Keamanan Sistem Informasi)</h2>
+<p><strong>Berkas Sasaran Pengisian:</strong> <code>keamanan_sistem_informasi/cvss/TemplateLatihan_CVSS_1.xlsx</code> (Sheet: <code>CVSS_Template</code>)<br />
+<strong>Sumber Perbandingan DREAD:</strong> <code>keamanan_sistem_informasi/1. template_baru_Praktikum_STRIDE-DREAD.xlsx</code> (Sheet: <code>STRIDE_DREAD_Template</code>)</p>
+<hr />
+<h3>A. Petunjuk &amp; Ketentuan Pengerjaan</h3>
+<ol>
+<li><strong>Pengisian Manual:</strong> Berkas <code>TemplateLatihan_CVSS_1.xlsx</code> <strong>tidak diubah otomatis</strong> oleh skrip. Anda dapat menyalin data dari panduan ini ke dalam Excel secara manual.</li>
+<li><strong>Jumlah Kerentanan (9 Baris):</strong> Dari 10 ancaman sebelumnya, kerentanan <strong>T-10 telah dimitigasi</strong> (<code>APP_DEBUG=false</code>), sehingga dihilangkan dan tidak dihitung. Hanya ada <strong>9 kerentanan aktif</strong> (<code>T-01</code> sampai <code>T-09</code>).</li>
+<li><strong>Tanpa CVE:</strong> ID kerentanan cukup ditulis <code>T-01</code> hingga <code>T-09</code> tanpa embel-embel kode CVE.</li>
+<li><strong>Warna Sel pada Excel:</strong></li>
+<li>🟨 <strong>Sel Kuning / Font Biru (Input Manual):</strong> Kolom B, C, D, E, F, G, H, I, J, K, L, M, N, P, S, dan V.</li>
+<li>⬜ <strong>Sel Abu-abu (Rumus Otomatis - JANGAN DIUBAH):</strong> Kolom O (Vector String), Kolom Q (Severity), Kolom R (Prioritas), Kolom T (Level DREAD), dan Kolom U (Sejalan dengan DREAD?).</li>
+</ol>
+<hr />
+<h3>B. Tabel Matriks Lengkap Pengisian Sheet <code>CVSS_Template</code> (Baris 5 s.d. 13)</h3>
+<p>Gunakan tabel di bawah ini sebagai rujukan saat mengisi baris 5 hingga 13 pada sheet <strong><code>CVSS_Template</code></strong>:</p>
+<table>
+<thead>
+<tr>
+<th style="text-align: center;">No (A)</th>
+<th style="text-align: center;">ID (B)</th>
+<th style="text-align: left;">Deskripsi (C)</th>
+<th style="text-align: center;">AV (D)</th>
+<th style="text-align: center;">AC (E)</th>
+<th style="text-align: center;">AT (F)</th>
+<th style="text-align: center;">PR (G)</th>
+<th style="text-align: center;">UI (H)</th>
+<th style="text-align: center;">VC (I)</th>
+<th style="text-align: center;">VI (J)</th>
+<th style="text-align: center;">VA (K)</th>
+<th style="text-align: center;">SC (L)</th>
+<th style="text-align: center;">SI (M)</th>
+<th style="text-align: center;">SA (N)</th>
+<th style="text-align: left;">Vector String (O - Auto)</th>
+<th style="text-align: center;">Skor Base (P)</th>
+<th style="text-align: center;">Severity (Q - Auto)</th>
+<th style="text-align: center;">Prioritas (R - Auto)</th>
+<th style="text-align: center;">Skor DREAD (S)</th>
+<th style="text-align: center;">Level DREAD (T - Auto)</th>
+<th style="text-align: center;">Sejalan? (U - Auto)</th>
+<th style="text-align: left;">Catatan / Alasan Pemetaan Metrik (V)</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="text-align: center;"><strong>1</strong></td>
+<td style="text-align: center;"><strong>T-01</strong></td>
+<td style="text-align: left;">Penyerang yang terautentikasi memanipulasi parameter order_id pada endpoint status booking di BookingController tanpa verifikasi kepemilikan akun, sehingga dapat mengubah status pesanan milik pengguna lain secara sepihak.</td>
+<td style="text-align: center;"><strong>N</strong></td>
+<td style="text-align: center;"><strong>L</strong></td>
+<td style="text-align: center;"><strong>N</strong></td>
+<td style="text-align: center;"><strong>L</strong></td>
+<td style="text-align: center;"><strong>N</strong></td>
+<td style="text-align: center;"><strong>L</strong></td>
+<td style="text-align: center;"><strong>H</strong></td>
+<td style="text-align: center;"><strong>N</strong></td>
+<td style="text-align: center;"><strong>N</strong></td>
+<td style="text-align: center;"><strong>N</strong></td>
+<td style="text-align: center;"><strong>N</strong></td>
+<td style="text-align: left;"><code>CVSS:4.0/AV:N/AC:L/AT:N/PR:L/UI:N/VC:L/VI:H/VA:N/SC:N/SI:N/SA:N</code></td>
+<td style="text-align: center;"><strong>7.1</strong></td>
+<td style="text-align: center;">HIGH</td>
+<td style="text-align: center;">5</td>
+<td style="text-align: center;"><strong>40</strong></td>
+<td style="text-align: center;">CRITICAL</td>
+<td style="text-align: center;">Berbeda</td>
+<td style="text-align: left;">Penyerang login biasa (PR:L) memodifikasi status pesanan pengguna lain (VI:H, VC:L). Berbeda dengan DREAD (40 Critical) karena CVSS memperhitungkan pembatasan akses akun sah yang memperkecil populasi penyerang.</td>
+</tr>
+<tr>
+<td style="text-align: center;"><strong>2</strong></td>
+<td style="text-align: center;"><strong>T-02</strong></td>
+<td style="text-align: left;">Penyerang tanpa autentikasi mengirimkan ribuan request ke endpoint uji latensi WebSocket Reverb secara masif, sehingga membanjiri channel Reverb dan mengakibatkan server socket mengalami kehabisan memori serta lumpuh.</td>
+<td style="text-align: center;"><strong>N</strong></td>
+<td style="text-align: center;"><strong>L</strong></td>
+<td style="text-align: center;"><strong>N</strong></td>
+<td style="text-align: center;"><strong>N</strong></td>
+<td style="text-align: center;"><strong>N</strong></td>
+<td style="text-align: center;"><strong>N</strong></td>
+<td style="text-align: center;"><strong>N</strong></td>
+<td style="text-align: center;"><strong>H</strong></td>
+<td style="text-align: center;"><strong>N</strong></td>
+<td style="text-align: center;"><strong>N</strong></td>
+<td style="text-align: center;"><strong>N</strong></td>
+<td style="text-align: left;"><code>CVSS:4.0/AV:N/AC:L/AT:N/PR:N/UI:N/VC:N/VI:N/VA:H/SC:N/SI:N/SA:N</code></td>
+<td style="text-align: center;"><strong>8.7</strong></td>
+<td style="text-align: center;">HIGH</td>
+<td style="text-align: center;">2</td>
+<td style="text-align: center;"><strong>40</strong></td>
+<td style="text-align: center;">CRITICAL</td>
+<td style="text-align: center;">Berbeda</td>
+<td style="text-align: left;">Serangan jarak jauh tanpa kredensial (AV:N/PR:N) melumpuhkan ketersediaan socket (VA:H). Berbeda dengan DREAD (40 Critical) karena DoS murni tanpa kebocoran data di CVSS v4 berplafon High 8.7.</td>
+</tr>
+<tr>
+<td style="text-align: center;"><strong>3</strong></td>
+<td style="text-align: center;"><strong>T-03</strong></td>
+<td style="text-align: left;">Penyerang memalsukan notifikasi callback webhook Midtrans dengan mengeksploitasi kemungkinan kunci rahasia kosong pada berkas konfigurasi, sehingga status pembayaran booking berubah menjadi lunas tanpa transfer uang sesungguhnya.</td>
+<td style="text-align: center;"><strong>N</strong></td>
+<td style="text-align: center;"><strong>L</strong></td>
+<td style="text-align: center;"><strong>P</strong></td>
+<td style="text-align: center;"><strong>N</strong></td>
+<td style="text-align: center;"><strong>N</strong></td>
+<td style="text-align: center;"><strong>N</strong></td>
+<td style="text-align: center;"><strong>H</strong></td>
+<td style="text-align: center;"><strong>N</strong></td>
+<td style="text-align: center;"><strong>N</strong></td>
+<td style="text-align: center;"><strong>N</strong></td>
+<td style="text-align: center;"><strong>N</strong></td>
+<td style="text-align: left;"><code>CVSS:4.0/AV:N/AC:L/AT:P/PR:N/UI:N/VC:N/VI:H/VA:N/SC:N/SI:N/SA:N</code></td>
+<td style="text-align: center;"><strong>8.2</strong></td>
+<td style="text-align: center;">HIGH</td>
+<td style="text-align: center;">3</td>
+<td style="text-align: center;"><strong>39</strong></td>
+<td style="text-align: center;">HIGH</td>
+<td style="text-align: center;">Sama</td>
+<td style="text-align: left;">Penyerang publik (AV:N/PR:N) memanipulasi status pembayaran transaksi (VI:H) dengan prasyarat kunci server kosong (AT:P). Sejalan dengan DREAD (39 High).</td>
+</tr>
+<tr>
+<td style="text-align: center;"><strong>4</strong></td>
+<td style="text-align: center;"><strong>T-04</strong></td>
+<td style="text-align: left;">Pengguna jahat memicu pencarian katalog dengan koordinat radius geolokasi secara berulang dan mengunggah banyak berkas berukuran 10MB, sehingga membebani CPU database dan menghabiskan ruang penyimpanan server.</td>
+<td style="text-align: center;"><strong>N</strong></td>
+<td style="text-align: center;"><strong>L</strong></td>
+<td style="text-align: center;"><strong>N</strong></td>
+<td style="text-align: center;"><strong>L</strong></td>
+<td style="text-align: center;"><strong>N</strong></td>
+<td style="text-align: center;"><strong>N</strong></td>
+<td style="text-align: center;"><strong>N</strong></td>
+<td style="text-align: center;"><strong>L</strong></td>
+<td style="text-align: center;"><strong>N</strong></td>
+<td style="text-align: center;"><strong>N</strong></td>
+<td style="text-align: center;"><strong>N</strong></td>
+<td style="text-align: left;"><code>CVSS:4.0/AV:N/AC:L/AT:N/PR:L/UI:N/VC:N/VI:N/VA:L/SC:N/SI:N/SA:N</code></td>
+<td style="text-align: center;"><strong>5.3</strong></td>
+<td style="text-align: center;">MEDIUM</td>
+<td style="text-align: center;">6</td>
+<td style="text-align: center;"><strong>38</strong></td>
+<td style="text-align: center;">HIGH</td>
+<td style="text-align: center;">Berbeda</td>
+<td style="text-align: left;">Pengguna login (PR:L) memicu degradasi ketersediaan dan beban disk/CPU parsial (VA:L). Berbeda dengan DREAD karena CVSS membedakan degradasi parsial secara ketat sebagai Medium.</td>
+</tr>
+<tr>
+<td style="text-align: center;"><strong>5</strong></td>
+<td style="text-align: center;"><strong>T-05</strong></td>
+<td style="text-align: left;">Pengguna menyisipkan skrip berbahaya berupa payload JavaScript pada kolom ulasan review atau catatan pemesanan jasa, sehingga skrip dieksekusi di browser penyedia jasa atau administrator saat membuka halaman.</td>
+<td style="text-align: center;"><strong>N</strong></td>
+<td style="text-align: center;"><strong>L</strong></td>
+<td style="text-align: center;"><strong>N</strong></td>
+<td style="text-align: center;"><strong>L</strong></td>
+<td style="text-align: center;"><strong>P</strong></td>
+<td style="text-align: center;"><strong>L</strong></td>
+<td style="text-align: center;"><strong>L</strong></td>
+<td style="text-align: center;"><strong>N</strong></td>
+<td style="text-align: center;"><strong>N</strong></td>
+<td style="text-align: center;"><strong>N</strong></td>
+<td style="text-align: center;"><strong>N</strong></td>
+<td style="text-align: left;"><code>CVSS:4.0/AV:N/AC:L/AT:N/PR:L/UI:P/VC:L/VI:L/VA:N/SC:N/SI:N/SA:N</code></td>
+<td style="text-align: center;"><strong>5.1</strong></td>
+<td style="text-align: center;">MEDIUM</td>
+<td style="text-align: center;">8</td>
+<td style="text-align: center;"><strong>37</strong></td>
+<td style="text-align: center;">HIGH</td>
+<td style="text-align: center;">Berbeda</td>
+<td style="text-align: left;">Stored XSS memerlukan login (PR:L) dan interaksi pasif korban (UI:P) berdampak terbatas di sisi klien (VC:L/VI:L). Berbeda dengan DREAD karena CVSS mengukur keparahan teknis spesifik tanpa pembobotan discoverability.</td>
+</tr>
+<tr>
+<td style="text-align: center;"><strong>6</strong></td>
+<td style="text-align: center;"><strong>T-06</strong></td>
+<td style="text-align: left;">Pengguna mendaftar atau memperbarui profil lalu menambahkan parameter role=admin melalui manipulasi HTTP request payload, sehingga hak akses akun meningkat menjadi administrator karena atribut role masuk ke fillable model.</td>
+<td style="text-align: center;"><strong>N</strong></td>
+<td style="text-align: center;"><strong>L</strong></td>
+<td style="text-align: center;"><strong>N</strong></td>
+<td style="text-align: center;"><strong>N</strong></td>
+<td style="text-align: center;"><strong>N</strong></td>
+<td style="text-align: center;"><strong>H</strong></td>
+<td style="text-align: center;"><strong>H</strong></td>
+<td style="text-align: center;"><strong>H</strong></td>
+<td style="text-align: center;"><strong>N</strong></td>
+<td style="text-align: center;"><strong>N</strong></td>
+<td style="text-align: center;"><strong>N</strong></td>
+<td style="text-align: left;"><code>CVSS:4.0/AV:N/AC:L/AT:N/PR:N/UI:N/VC:H/VI:H/VA:H/SC:N/SI:N/SA:N</code></td>
+<td style="text-align: center;"><strong>9.3</strong></td>
+<td style="text-align: center;">CRITICAL</td>
+<td style="text-align: center;">1</td>
+<td style="text-align: center;"><strong>37</strong></td>
+<td style="text-align: center;">HIGH</td>
+<td style="text-align: center;">Berbeda</td>
+<td style="text-align: left;">Eskalasi hak akses penuh ke Admin tanpa autentikasi saat registrasi (PR:N) merusak seluruh pilar CIA (VC:H/VI:H/VA:H). Berbeda dengan DREAD karena CVSS menilai kompromi sistem total sebagai Critical, sedangkan DREAD teredam skor Discoverability.</td>
+</tr>
+<tr>
+<td style="text-align: center;"><strong>7</strong></td>
+<td style="text-align: center;"><strong>T-07</strong></td>
+<td style="text-align: left;">Pengguna mengunggah berkas gambar manipulasi (seperti polyglot file atau SVG berbisa) pada fitur foto jasa dan avatar profil, sehingga berkas berbahaya tersimpan di direktori publik server dan dapat memicu SSRF atau XSS.</td>
+<td style="text-align: center;"><strong>N</strong></td>
+<td style="text-align: center;"><strong>L</strong></td>
+<td style="text-align: center;"><strong>N</strong></td>
+<td style="text-align: center;"><strong>L</strong></td>
+<td style="text-align: center;"><strong>P</strong></td>
+<td style="text-align: center;"><strong>L</strong></td>
+<td style="text-align: center;"><strong>L</strong></td>
+<td style="text-align: center;"><strong>N</strong></td>
+<td style="text-align: center;"><strong>N</strong></td>
+<td style="text-align: center;"><strong>N</strong></td>
+<td style="text-align: center;"><strong>N</strong></td>
+<td style="text-align: left;"><code>CVSS:4.0/AV:N/AC:L/AT:N/PR:L/UI:P/VC:L/VI:L/VA:N/SC:N/SI:N/SA:N</code></td>
+<td style="text-align: center;"><strong>5.1</strong></td>
+<td style="text-align: center;">MEDIUM</td>
+<td style="text-align: center;">8</td>
+<td style="text-align: center;"><strong>34</strong></td>
+<td style="text-align: center;">HIGH</td>
+<td style="text-align: center;">Berbeda</td>
+<td style="text-align: left;">Unggah gambar SVG manipulatif butuh akun (PR:L) dan interaksi korban (UI:P) berdampak XSS/SSRF terbatas di klien (VC:L/VI:L). Berbeda dengan DREAD karena web server tidak mengeksekusi PHP di folder storage.</td>
+</tr>
+<tr>
+<td style="text-align: center;"><strong>8</strong></td>
+<td style="text-align: center;"><strong>T-08</strong></td>
+<td style="text-align: left;">Pihak ketiga pada jaringan lokal atau perantara sniffing mencuri session ID pengguna karena konfigurasi sesi di database tidak dienkripsi, sehingga penyerang dapat membajak sesi login pengguna tanpa memerlukan password.</td>
+<td style="text-align: center;"><strong>A</strong></td>
+<td style="text-align: center;"><strong>L</strong></td>
+<td style="text-align: center;"><strong>P</strong></td>
+<td style="text-align: center;"><strong>N</strong></td>
+<td style="text-align: center;"><strong>P</strong></td>
+<td style="text-align: center;"><strong>H</strong></td>
+<td style="text-align: center;"><strong>H</strong></td>
+<td style="text-align: center;"><strong>N</strong></td>
+<td style="text-align: center;"><strong>N</strong></td>
+<td style="text-align: center;"><strong>N</strong></td>
+<td style="text-align: center;"><strong>N</strong></td>
+<td style="text-align: left;"><code>CVSS:4.0/AV:A/AC:L/AT:P/PR:N/UI:P/VC:H/VI:H/VA:N/SC:N/SI:N/SA:N</code></td>
+<td style="text-align: center;"><strong>7.4</strong></td>
+<td style="text-align: center;">HIGH</td>
+<td style="text-align: center;">4</td>
+<td style="text-align: center;"><strong>34</strong></td>
+<td style="text-align: center;">HIGH</td>
+<td style="text-align: center;">Sama</td>
+<td style="text-align: left;">Sniffing sesi di jaringan lokal (AV:A) dengan prasyarat posisi MitM (AT:P) dan interaksi pasif korban (UI:P) mengambil alih akun korban (VC:H/VI:H). Sejalan dengan DREAD (34 High).</td>
+</tr>
+<tr>
+<td style="text-align: center;"><strong>9</strong></td>
+<td style="text-align: center;"><strong>T-09</strong></td>
+<td style="text-align: left;">Pengguna yang terautentikasi memanipulasi parameter hash_id pada URL percakapan atau request penghapusan pesan, sehingga dapat membaca pesan rahasia atau menghapus riwayat chat milik pihak lain tanpa izin.</td>
+<td style="text-align: center;"><strong>N</strong></td>
+<td style="text-align: center;"><strong>L</strong></td>
+<td style="text-align: center;"><strong>N</strong></td>
+<td style="text-align: center;"><strong>L</strong></td>
+<td style="text-align: center;"><strong>N</strong></td>
+<td style="text-align: center;"><strong>L</strong></td>
+<td style="text-align: center;"><strong>L</strong></td>
+<td style="text-align: center;"><strong>N</strong></td>
+<td style="text-align: center;"><strong>N</strong></td>
+<td style="text-align: center;"><strong>N</strong></td>
+<td style="text-align: center;"><strong>N</strong></td>
+<td style="text-align: left;"><code>CVSS:4.0/AV:N/AC:L/AT:N/PR:L/UI:N/VC:L/VI:L/VA:N/SC:N/SI:N/SA:N</code></td>
+<td style="text-align: center;"><strong>5.3</strong></td>
+<td style="text-align: center;">MEDIUM</td>
+<td style="text-align: center;">6</td>
+<td style="text-align: center;"><strong>33</strong></td>
+<td style="text-align: center;">HIGH</td>
+<td style="text-align: center;">Berbeda</td>
+<td style="text-align: left;">IDOR pada chat membutuhkan akun terdaftar (PR:L) dengan dampak kerahasiaan dan integritas terbatas pada pesan yang disasar (VC:L/VI:L). Berbeda dengan DREAD karena dampaknya terisolasi pada chat individual.</td>
+</tr>
+</tbody>
+</table>
+<hr />
+<h3>C. Rincian Teknis &amp; Alasan Perbandingan DREAD vs CVSS per Kerentanan</h3>
+<h4>1. T-01: Broken Object Level Authorization (BOLA/IDOR) pada Status Booking</h4>
+<ul>
+<li><strong>Konteks Kode:</strong> <code>BookingController.php</code> baris 228–232 (pengecekan otorisasi <code>auth()-&gt;id()</code> dikomentari).</li>
+<li><strong>Nilai Metrik CVSS v4.0:</strong> <code>AV:N / AC:L / AT:N / PR:L / UI:N / VC:L / VI:H / VA:N / SC:N / SI:N / SA:N</code></li>
+<li><strong>Vector String:</strong> <code>CVSS:4.0/AV:N/AC:L/AT:N/PR:L/UI:N/VC:L/VI:H/VA:N/SC:N/SI:N/SA:N</code></li>
+<li><strong>Skor Base CVSS:</strong> <strong>7.1 (HIGH)</strong> | <strong>Skor DREAD:</strong> <strong>40 (CRITICAL)</strong></li>
+<li><strong>Status:</strong> <strong>Berbeda</strong></li>
+<li><strong>Analisis Mendalam:</strong><br />
+  Dalam DREAD Latihan 3.1, ancaman ini memperoleh skor 40 (Critical) karena sifat penjumlahan aditif dari Reproducibility (9), Exploitability (8), dan Affected Users (8) yang tinggi. Namun pada CVSS v4.0, terdapat metrik <strong>Privileges Required (PR: Low)</strong> karena penyerang wajib memiliki akun sah untuk mengakses endpoint booking. Dalam algoritma Macro-Vector CVSS v4.0, kebutuhan otentikasi membatasi populasi penyerang potensial sehingga menurunkan skor keparahan ke <strong>7.1 (High)</strong>.</li>
+</ul>
+<hr />
+<h4>2. T-02: Denial of Service (DoS) pada Endpoint Uji Latensi Reverb WebSocket</h4>
+<ul>
+<li><strong>Konteks Kode:</strong> <code>routes/api.php</code> baris 15–52 (route <code>POST /api/test-latency</code> tanpa middleware auth dan tanpa throttling).</li>
+<li><strong>Nilai Metrik CVSS v4.0:</strong> <code>AV:N / AC:L / AT:N / PR:N / UI:N / VC:N / VI:N / VA:H / SC:N / SI:N / SA:N</code></li>
+<li><strong>Vector String:</strong> <code>CVSS:4.0/AV:N/AC:L/AT:N/PR:N/UI:N/VC:N/VI:N/VA:H/SC:N/SI:N/SA:N</code></li>
+<li><strong>Skor Base CVSS:</strong> <strong>8.7 (HIGH)</strong> | <strong>Skor DREAD:</strong> <strong>40 (CRITICAL)</strong></li>
+<li><strong>Status:</strong> <strong>Berbeda</strong></li>
+<li><strong>Analisis Mendalam:</strong><br />
+  Pada DREAD, ketiadaan autentikasi dan kemudahan flooding menghasilkan skor 40 (Critical). Pada CVSS v4.0, serangan DoS murni hanya berdampak pada ketersediaan sistem rentan (<code>VA:H</code>), sementara kerahasiaan (<code>VC:N</code>) dan integritas data (<code>VI:N</code>) tetap terjaga sempurna. Dalam matriks kalibrasi pakar CVSS v4.0, kerentanan tanpa kompromi data memiliki batas maksimal pada level <strong>8.7 (High)</strong>.</li>
+</ul>
+<hr />
+<h4>3. T-03: Pemalsuan Webhook Callback Midtrans (Empty Server Key)</h4>
+<ul>
+<li><strong>Konteks Kode:</strong> <code>PaymentCallbackController.php</code> baris 14–38 dan <code>bootstrap/app.php</code> baris 21–23 (route webhook tanpa CSRF, server key rentan kosong di <code>.env</code>).</li>
+<li><strong>Nilai Metrik CVSS v4.0:</strong> <code>AV:N / AC:L / AT:P / PR:N / UI:N / VC:N / VI:H / VA:N / SC:N / SI:N / SA:N</code></li>
+<li><strong>Vector String:</strong> <code>CVSS:4.0/AV:N/AC:L/AT:P/PR:N/UI:N/VC:N/VI:H/VA:N/SC:N/SI:N/SA:N</code></li>
+<li><strong>Skor Base CVSS:</strong> <strong>8.2 (HIGH)</strong> | <strong>Skor DREAD:</strong> <strong>39 (HIGH)</strong></li>
+<li><strong>Status:</strong> <strong>Sama (Sejalan)</strong></li>
+<li><strong>Analisis Mendalam:</strong><br />
+  Kedua metode penilaian menyimpulkan tingkat keparahan yang sama (<strong>HIGH</strong>). Manipulasi status pembayaran menjadi lunas secara sepihak merupakan ancaman integritas fatal (<code>VI:H</code> / Damage: 9). Di sisi lain, serangan ini memerlukan kondisi prasyarat spesifik (<code>AT:P</code> pada CVSS dan Discoverability: 7 pada DREAD), yaitu file konfigurasi <code>.env</code> membiarkan kunci server kosong.</li>
+</ul>
+<hr />
+<h4>4. T-04: DoS melalui Konsumsi CPU Geolokasi &amp; Penyalahgunaan Upload 10MB</h4>
+<ul>
+<li><strong>Konteks Kode:</strong> <code>MarketplaceController.php</code> baris 57–68 (rumus Haversine tanpa indexing spasial) dan upload 10MB.</li>
+<li><strong>Nilai Metrik CVSS v4.0:</strong> <code>AV:N / AC:L / AT:N / PR:L / UI:N / VC:N / VI:N / VA:L / SC:N / SI:N / SA:N</code></li>
+<li><strong>Vector String:</strong> <code>CVSS:4.0/AV:N/AC:L/AT:N/PR:L/UI:N/VC:N/VI:N/VA:L/SC:N/SI:N/SA:N</code></li>
+<li><strong>Skor Base CVSS:</strong> <strong>5.3 (MEDIUM)</strong> | <strong>Skor DREAD:</strong> <strong>38 (HIGH)</strong></li>
+<li><strong>Status:</strong> <strong>Berbeda</strong></li>
+<li><strong>Analisis Mendalam:</strong><br />
+  DREAD menghasilkan level HIGH (38) karena penilai mengkhawatirkan dampak kelambatan pada banyak pengguna (Affected Users: 8). Namun CVSS v4.0 membedakan antara kelumpuhan total (<code>VA:H</code>) dan penurunan performa/kapasitas penyimpanan sebagian (<code>VA:L</code>). Karena fitur upload mensyaratkan akun (<code>PR:L</code>) dan sistem tidak mengalami <em>hard crash</em>, CVSS secara objektif menilainya sebagai <strong>5.3 (Medium)</strong>.</li>
+</ul>
+<hr />
+<h4>5. T-05: Stored Cross-Site Scripting (XSS) pada Ulasan &amp; Catatan Booking</h4>
+<ul>
+<li><strong>Konteks Kode:</strong> <code>BookingController.php</code> baris 470–502 (kolom ulasan hanya divalidasi string tanpa pembersihan tag HTML).</li>
+<li><strong>Nilai Metrik CVSS v4.0:</strong> <code>AV:N / AC:L / AT:N / PR:L / UI:P / VC:L / VI:L / VA:N / SC:N / SI:N / SA:N</code></li>
+<li><strong>Vector String:</strong> <code>CVSS:4.0/AV:N/AC:L/AT:N/PR:L/UI:P/VC:L/VI:L/VA:N/SC:N/SI:N/SA:N</code></li>
+<li><strong>Skor Base CVSS:</strong> <strong>5.1 (MEDIUM)</strong> | <strong>Skor DREAD:</strong> <strong>37 (HIGH)</strong></li>
+<li><strong>Status:</strong> <strong>Berbeda</strong></li>
+<li><strong>Analisis Mendalam:</strong><br />
+  DREAD menetapkan HIGH (37) akibat potensi penyebaran ke pengunjung ulasan. Pada CVSS v4.0, XSS tersimpan pada form ulasan membutuhkan akun pengguna (<code>PR:L</code>), memerlukan korban membuka halaman ulasan (<code>UI:P</code>), dan dampaknya terbatas pada konteks sesi klien (<code>VC:L/VI:L</code>). Oleh karena itu, CVSS v4.0 memeringkatnya sebagai <strong>5.1 (Medium)</strong>.</li>
+</ul>
+<hr />
+<h4>6. T-06: Privilege Escalation via Mass Assignment pada Model User (<code>role=admin</code>)</h4>
+<ul>
+<li><strong>Konteks Kode:</strong> <code>app/Models/User.php</code> baris 26 (atribut <code>'role'</code> tercantum di <code>$fillable</code>).</li>
+<li><strong>Nilai Metrik CVSS v4.0:</strong> <code>AV:N / AC:L / AT:N / PR:N / UI:N / VC:H / VI:H / VA:H / SC:N / SI:N/ SA:N</code></li>
+<li><strong>Vector String:</strong> <code>CVSS:4.0/AV:N/AC:L/AT:N/PR:N/UI:N/VC:H/VI:H/VA:H/SC:N/SI:N/SA:N</code></li>
+<li><strong>Skor Base CVSS:</strong> <strong>9.3 (CRITICAL)</strong> | <strong>Skor DREAD:</strong> <strong>37 (HIGH)</strong></li>
+<li><strong>Status:</strong> <strong>Berbeda</strong></li>
+<li><strong>Analisis Mendalam:</strong><br />
+  Ini adalah perbedaan paling signifikan. Pada DREAD, skor tertahan pada level HIGH (37) karena penilai memberi skor moderat pada Discoverability (6) dan Exploitability (7). Namun pada CVSS v4.0, penyerang yang mendaftar langsung sebagai Administrator tanpa autentikasi awal (<code>PR:N</code>) mendapatkan kendali penuh atas seluruh aspek Kerahasiaan, Integritas, dan Ketersediaan sistem (<code>VC:H/VI:H/VA:H</code>), sehingga CVSS menilainya secara tepat sebagai kerentanan paling berbahaya: <strong>9.3 (Critical, Prioritas 1)</strong>.</li>
+</ul>
+<hr />
+<h4>7. T-07: Insecure File Upload (Polyglot / Malicious SVG)</h4>
+<ul>
+<li><strong>Konteks Kode:</strong> <code>ServiceController.php</code> baris 63–64 dan <code>UserReportController.php</code> baris 36 (validasi ekstensi tanpa verifikasi magic bytes).</li>
+<li><strong>Nilai Metrik CVSS v4.0:</strong> <code>AV:N / AC:L / AT:N / PR:L / UI:P / VC:L / VI:L / VA:N / SC:N / SI:N / SA:N</code></li>
+<li><strong>Vector String:</strong> <code>CVSS:4.0/AV:N/AC:L/AT:N/PR:L/UI:P/VC:L/VI:L/VA:N/SC:N/SI:N/SA:N</code></li>
+<li><strong>Skor Base CVSS:</strong> <strong>5.1 (MEDIUM)</strong> | <strong>Skor DREAD:</strong> <strong>34 (HIGH)</strong></li>
+<li><strong>Status:</strong> <strong>Berbeda</strong></li>
+<li><strong>Analisis Mendalam:</strong><br />
+  DREAD memberi skor HIGH (34) karena asumsi Damage (8) pada server. Namun secara teknis, Laravel menyimpan berkas pada direktori publik tanpa mengeksekusi PHP di dalamnya, sehingga ancaman berkas SVG hanya tereksekusi di browser korban yang melihat gambar (<code>UI:P</code>) dengan dampak lokal klien (<code>VC:L/VI:L</code>), menghasilkan skor <strong>5.1 (Medium)</strong> di CVSS v4.0.</li>
+</ul>
+<hr />
+<h4>8. T-08: Penyimpanan Sesi Tanpa Enkripsi (Session Sniffing)</h4>
+<ul>
+<li><strong>Konteks Kode:</strong> <code>.env</code> baris 34–36 (<code>SESSION_DRIVER=database</code> dan <code>SESSION_ENCRYPT=false</code>).</li>
+<li><strong>Nilai Metrik CVSS v4.0:</strong> <code>AV:A / AC:L / AT:P / PR:N / UI:P / VC:H / VI:H / VA:N / SC:N / SI:N / SA:N</code></li>
+<li><strong>Vector String:</strong> <code>CVSS:4.0/AV:A/AC:L/AT:P/PR:N/UI:P/VC:H/VI:H/VA:N/SC:N/SI:N/SA:N</code></li>
+<li><strong>Skor Base CVSS:</strong> <strong>7.4 (HIGH)</strong> | <strong>Skor DREAD:</strong> <strong>34 (HIGH)</strong></li>
+<li><strong>Status:</strong> <strong>Sama (Sejalan)</strong></li>
+<li><strong>Analisis Mendalam:</strong><br />
+  Keduanya sepakat pada level <strong>HIGH</strong>. Dampak pembajakan sesi bernilai fatal (<code>VC:H/VI:H</code> / Damage: 8) karena akun korban diambil alih secara penuh. Namun eksploitasinya dibatasi oleh keharusan berada pada jaringan lokal/segmen WiFi yang sama (<code>AV:A</code>) dengan prasyarat posisi sniffing (<code>AT:P</code>).</li>
+</ul>
+<hr />
+<h4>9. T-09: IDOR pada Percakapan Chat via Hashids</h4>
+<ul>
+<li><strong>Konteks Kode:</strong> <code>ChatController.php</code> baris 59–97 dan baris 240–253 (validasi kepemilikan mengandalkan decode hash tanpa Policy terpusat).</li>
+<li><strong>Nilai Metrik CVSS v4.0:</strong> <code>AV:N / AC:L / AT:N / PR:L / UI:N / VC:L / VI:L / VA:N / SC:N / SI:N / SA:N</code></li>
+<li><strong>Vector String:</strong> <code>CVSS:4.0/AV:N/AC:L/AT:N/PR:L/UI:N/VC:L/VI:L/VA:N/SC:N/SI:N/SA:N</code></li>
+<li><strong>Skor Base CVSS:</strong> <strong>5.3 (MEDIUM)</strong> | <strong>Skor DREAD:</strong> <strong>33 (HIGH)</strong></li>
+<li><strong>Status:</strong> <strong>Berbeda</strong></li>
+<li><strong>Analisis Mendalam:</strong><br />
+  DREAD menilainya HIGH (33) karena kemudahan manipulasi ID (Reproducibility: 8). CVSS v4.0 secara lebih proporsional melihat bahwa eksploitasi IDOR ini memerlukan akun login (<code>PR:L</code>) dan dampaknya terisolasi hanya pada ruang obrolan individu yang disasar (<code>VC:L/VI:L</code>), bukan kebocoran basis data global, sehingga terklasifikasi sebagai <strong>5.3 (Medium)</strong>.</li>
+</ul>
+<hr />
+<h3>D. Ekspektasi Hasil pada Sheet <code>Ringkasan</code></h3>
+<p>Setelah Anda menginputkan data di atas ke sheet <code>CVSS_Template</code>, tabel pada sheet <strong><code>Ringkasan</code></strong> akan otomatis menampilkan nilai-nilai berikut:</p>
+<pre><code>┌────────────────────────────────────────────────────────────────────────┐
+│ RINGKASAN HASIL CVSS v4.0 — APLIKASI FINDSERVICES                     │
+├────────────────────────────────────────┬───────────────────────────────┤
+│ Severity CVSS                          │ Jumlah Kerentanan             │
+├────────────────────────────────────────┼───────────────────────────────┤
+│ CRITICAL                               │ 1                             │
+│ HIGH                                   │ 4                             │
+│ MEDIUM                                 │ 4                             │
+│ LOW                                    │ 0                             │
+│ NONE                                   │ 0                             │
+├────────────────────────────────────────┼───────────────────────────────┤
+│ Total Ternilai                         │ 9                             │
+├────────────────────────────────────────┴───────────────────────────────┤
+│ PERBANDINGAN DENGAN DREAD                                              │
+├────────────────────────────────────────┬───────────────────────────────┤
+│ Sama (Sejalan)                         │ 2                             │
+│ Berbeda                                │ 7                             │
+├────────────────────────────────────────┴───────────────────────────────┤
+│ INDIKATOR STATISTIK                                                    │
+├────────────────────────────────────────┬───────────────────────────────┤
+│ Rata-rata Skor Base CVSS               │ 6.83                          │
+│ Skor Base Tertinggi                    │ 9.3                           │
+│ Kerentanan Prioritas 1                 │ T-06                          │
+└────────────────────────────────────────┴───────────────────────────────┘
+</code></pre>
+<hr />
+<h3>E. Langkah Praktis Pengisian ke Excel</h3>
+<ol>
+<li>Buka berkas <code>keamanan_sistem_informasi/cvss/TemplateLatihan_CVSS_1.xlsx</code>.</li>
+<li>Klik tab sheet <strong><code>CVSS_Template</code></strong>.</li>
+<li>Pada baris <strong>5 sampai 13</strong>:</li>
+<li>Salin isi kolom <strong>B</strong> (ID) dan <strong>C</strong> (Deskripsi).</li>
+<li>Pada kolom <strong>D sampai N</strong>, klik tanda panah dropdown di masing-masing sel lalu pilih huruf sesuai tabel di atas (<code>N</code>, <code>L</code>, <code>H</code>, <code>P</code>).</li>
+<li>Periksa kolom <strong>O (Vector String)</strong>: rumus otomatis akan membentuk vector string.</li>
+<li>Ketikkan angka pada kolom <strong>P (Skor Base)</strong> (misal <code>7.1</code>, <code>8.7</code>, <code>8.2</code>, dst).</li>
+<li>Kolom <strong>Q (Severity)</strong> dan <strong>R (Prioritas)</strong> akan terhitung otomatis.</li>
+<li>Ketikkan angka pada kolom <strong>S (Skor DREAD)</strong> (misal <code>40</code>, <code>40</code>, <code>39</code>, dst).</li>
+<li>Kolom <strong>T (Level DREAD)</strong> dan <strong>U (Sejalan?)</strong> akan terisi otomatis.</li>
+<li>Salin penjelasan singkat ke kolom <strong>V (Catatan / Alasan)</strong>.</li>
+<li>Klik tab sheet <strong><code>Ringkasan</code></strong> untuk melihat rekapitulasi grafik dan tabel statistik otomatis.</li>
+<li>Simpan (<em>Save</em>) berkas Excel Anda.</li>
+</ol>
+</div>
+</body>
+</html>
