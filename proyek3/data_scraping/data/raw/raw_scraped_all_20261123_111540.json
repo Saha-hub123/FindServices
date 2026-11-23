@@ -1,0 +1,278 @@
+[
+  {
+    "source": "projects.co.id",
+    "title": "Jasa Pembuatan Website Company Profile & Toko Online Laravel / WordPress",
+    "description": "Membantu pembuatan website profesional dengan tampilan modern, responsive, fast loading, dan SEO friendly. Menggunakan framework Laravel atau CMS WordPress dengan fitur lengkap.",
+    "price_min": 750000.0,
+    "price_max": 2500000.0,
+    "location": "Bandung, Jawa Barat",
+    "status": "active",
+    "rating_avg": 4.95,
+    "tags": [
+      "Laravel",
+      "WordPress",
+      "Web Development",
+      "PHP",
+      "MySQL",
+      "Responsive Design"
+    ],
+    "total_completed_orders": 48,
+    "estimated_duration": "5 hari",
+    "source_url": "https://projects.co.id/public/browse_services/view/a1b2/jasa-pembuatan-website-laravel",
+    "user": {
+      "name": "Budi Santoso",
+      "email": null,
+      "phone": null,
+      "bio": "Fullstack Web Developer berpengalaman 5+ tahun dalam pengembangan aplikasi web Laravel, Vue.js, dan integrasi Payment Gateway.",
+      "location": "Bandung, Jawa Barat"
+    }
+  },
+  {
+    "source": "projects.co.id",
+    "title": "Desain Logo Perusahaan, Branding Identity, dan Desain Kemasan Produk",
+    "description": "Jasa desain logo profesional orisinil, elegan, dan berfilosofi tinggi. File yang didapat lengkap: AI, EPS, SVG, PNG transparan, mockup 3D, dan PDF panduan brand.",
+    "price_min": 250000.0,
+    "price_max": 800000.0,
+    "location": "Jakarta Selatan, DKI Jakarta",
+    "status": "active",
+    "rating_avg": 4.88,
+    "tags": [
+      "Desain Logo",
+      "Graphic Design",
+      "Branding",
+      "Adobe Illustrator",
+      "Mockup 3D"
+    ],
+    "total_completed_orders": 72,
+    "estimated_duration": "2 hari",
+    "source_url": "https://projects.co.id/public/browse_services/view/c3d4/desain-logo-branding",
+    "user": {
+      "name": "Citra Lestari",
+      "email": null,
+      "phone": null,
+      "bio": "Creative Designer lulusan DKV dengan portofolio lebih dari 100+ brand UMKM dan korporat di Indonesia.",
+      "location": "Jakarta Selatan, DKI Jakarta"
+    }
+  },
+  {
+    "source": "projects.co.id",
+    "title": "Jasa Penulisan Artikel SEO Friendly Bahasa Indonesia & Inggris 1000 Kata",
+    "description": "Menulis artikel berkualitas tinggi, lolos uji plagiarisme Copyscape 100%, riset kata kunci Google, struktur heading H1-H3 rapi, dan mudah dipahami pembaca.",
+    "price_min": 85000.0,
+    "price_max": 250000.0,
+    "location": "Yogyakarta, DI Yogyakarta",
+    "status": "active",
+    "rating_avg": 4.91,
+    "tags": [
+      "Content Writing",
+      "SEO",
+      "Copywriting",
+      "Blogging",
+      "Penerjemahan"
+    ],
+    "total_completed_orders": 115,
+    "estimated_duration": "1 hari",
+    "source_url": "https://projects.co.id/public/browse_services/view/e5f6/jasa-penulisan-artikel-seo",
+    "user": {
+      "name": "Dimas Pratama",
+      "email": null,
+      "phone": null,
+      "bio": "Content Strategist & Professional Writer dengan pengalaman menulis artikel di berbagai portal berita dan blog teknologi.",
+      "location": "Sleman, DI Yogyakarta"
+    }
+  },
+  {
+    "source": "projects.co.id",
+    "title": "Perbaikan Bug Aplikasi Web PHP, Optimasi Database MySQL, dan Server Setup",
+    "description": "Membantu memperbaiki error aplikasi web, perbaikan query database yang lambat, migrasi hosting/VPS cPanel/Ubuntu, dan audit keamanan dasar.",
+    "price_min": 350000.0,
+    "price_max": 1200000.0,
+    "location": "Surabaya, Jawa Timur",
+    "status": "active",
+    "rating_avg": 5.0,
+    "tags": [
+      "PHP",
+      "MySQL",
+      "Bug Fixing",
+      "VPS Linux",
+      "Database Optimization"
+    ],
+    "total_completed_orders": 34,
+    "estimated_duration": "2 hari",
+    "source_url": "https://projects.co.id/public/browse_services/view/g7h8/perbaikan-bug-php-mysql",
+    "user": {
+      "name": "Eko Prasetyo",
+      "email": null,
+      "phone": null,
+      "bio": "Backend Developer & DevOps enthusiast dengan pengalaman menangani server produksi bervolume tinggi.",
+      "location": "Surabaya, Jawa Timur"
+    }
+  },
+  {
+    "source": "sribu.com",
+    "title": "Jasa Pembuatan UI/UX Design Aplikasi Mobile & Website Figma Modern",
+    "description": "Desain antarmuka (UI/UX) berbasis Human-Centered Design untuk aplikasi Android/iOS dan Web Dashboard. Dilengkapi design system, interactive prototype, dan siap diserahkan ke developer.",
+    "price_min": 1200000.0,
+    "price_max": 4500000.0,
+    "location": "Jakarta Barat, DKI Jakarta",
+    "status": "active",
+    "rating_avg": 4.97,
+    "tags": [
+      "UI/UX Design",
+      "Figma",
+      "Mobile App Design",
+      "Wireframing",
+      "Prototype",
+      "Design System"
+    ],
+    "total_completed_orders": 86,
+    "estimated_duration": "4 hari",
+    "source_url": "https://www.sribu.com/id/services/ui-ux-design-figma",
+    "user": {
+      "name": "Fajar Nugraha",
+      "email": null,
+      "phone": null,
+      "bio": "Senior Product Designer dengan pengalaman 6 tahun di berbagai startup unicorn Indonesia. Berfokus pada konversi dan estetika.",
+      "location": "Jakarta Barat, DKI Jakarta"
+    }
+  },
+  {
+    "source": "sribu.com",
+    "title": "Editing Video Reels, TikTok, YouTube Shorts & Company Video Profesional",
+    "description": "Layanan edit video dinamis dengan efek visual modern, subtitle animasi kece (Alex Hormozi style), sound design memikat, dan color grading cinematic.",
+    "price_min": 350000.0,
+    "price_max": 1500000.0,
+    "location": "Tangerang Selatan, Banten",
+    "status": "active",
+    "rating_avg": 4.92,
+    "tags": [
+      "Video Editing",
+      "Reels",
+      "TikTok",
+      "Premiere Pro",
+      "After Effects",
+      "Color Grading"
+    ],
+    "total_completed_orders": 142,
+    "estimated_duration": "2 hari",
+    "source_url": "https://www.sribu.com/id/services/video-editing-reels-tiktok",
+    "user": {
+      "name": "Gita Savitri",
+      "email": null,
+      "phone": null,
+      "bio": "Video Editor & Motion Designer handal. Telah mengedit ratusan video viral untuk brand ternama dan kreator konten Indonesia.",
+      "location": "Tangerang Selatan, Banten"
+    }
+  },
+  {
+    "source": "sribu.com",
+    "title": "Jasa Optimasi SEO On-Page, Off-Page, dan Riset Keyword Mendalam",
+    "description": "Tingkatkan peringkat website Anda di halaman #1 Google dengan strategi White Hat SEO. Termasuk audit teknis SEO, perbaikan meta tag, speed optimization, dan backlink berkualitas.",
+    "price_min": 1500000.0,
+    "price_max": 3500000.0,
+    "location": "Depok, Jawa Barat",
+    "status": "active",
+    "rating_avg": 4.85,
+    "tags": [
+      "SEO Optimization",
+      "Google Ranking",
+      "Keyword Research",
+      "Backlink",
+      "Digital Marketing"
+    ],
+    "total_completed_orders": 53,
+    "estimated_duration": "7 hari",
+    "source_url": "https://www.sribu.com/id/services/seo-optimization-google",
+    "user": {
+      "name": "Hendra Wijaya",
+      "email": null,
+      "phone": null,
+      "bio": "Certified SEO Specialist & Digital Marketer. Berpengalaman mendongkrak organic traffic hingga 300% dalam 3 bulan.",
+      "location": "Depok, Jawa Barat"
+    }
+  },
+  {
+    "source": "fastwork.id",
+    "title": "Jasa Pembuatan Aplikasi Mobile Flutter / React Native Android & iOS",
+    "description": "Pengembangan aplikasi mobile multi-platform modern menggunakan Flutter atau React Native. Fitur meliputi: login Google, push notifications, REST API backend integration, dan publish ke Play Store & App Store.",
+    "price_min": 2500000.0,
+    "price_max": 8000000.0,
+    "location": "Malang, Jawa Timur",
+    "status": "active",
+    "rating_avg": 4.98,
+    "tags": [
+      "Flutter",
+      "React Native",
+      "Android",
+      "iOS",
+      "Mobile App Development",
+      "Firebase",
+      "API"
+    ],
+    "total_completed_orders": 64,
+    "estimated_duration": "10 hari",
+    "source_url": "https://fastwork.id/user/irfan-flutter/mobile-app-flutter",
+    "user": {
+      "name": "Irfan Maulana",
+      "email": null,
+      "phone": null,
+      "bio": "Senior Mobile App Engineer dengan portofolio puluhan aplikasi komersial yang aktif di Google Play Store dan Apple App Store.",
+      "location": "Malang, Jawa Timur"
+    }
+  },
+  {
+    "source": "fastwork.id",
+    "title": "Penerjemahan Resmi & Tersumpah Dokumen Bahasa Inggris - Indonesia",
+    "description": "Jasa sworn translation untuk dokumen resmi: ijazah, transkrip nilai, akta lahir, kontrak bisnis, jurnal ilmiah, dan dokumen legal lainnya. Akurat, terpercaya, dan bersertifikat.",
+    "price_min": 100000.0,
+    "price_max": 350000.0,
+    "location": "Jakarta Pusat, DKI Jakarta",
+    "status": "active",
+    "rating_avg": 4.94,
+    "tags": [
+      "Penerjemah Tersumpah",
+      "Sworn Translator",
+      "English to Indonesian",
+      "Dokumen Legal",
+      "Proofreading"
+    ],
+    "total_completed_orders": 180,
+    "estimated_duration": "1 hari",
+    "source_url": "https://fastwork.id/user/jessica-translator/sworn-translation-english",
+    "user": {
+      "name": "Jessica Amanda",
+      "email": null,
+      "phone": null,
+      "bio": "Penerjemah Tersumpah (Sworn Translator) bersertifikat HPI dengan pengalaman lebih dari 8 tahun dalam translasi dokumen korporat dan akademik.",
+      "location": "Jakarta Pusat, DKI Jakarta"
+    }
+  },
+  {
+    "source": "fastwork.id",
+    "title": "Jasa Pembuatan Desain Feed, Story Instagram, dan Konten TikTok UMKM",
+    "description": "Bantu bisnismu tampil profesional di media sosial! Paket berisi template desain Canva/Photoshop, copywriting caption menarik, riset hashtag relevan, dan panduan jadwal posting.",
+    "price_min": 450000.0,
+    "price_max": 1800000.0,
+    "location": "Semarang, Jawa Tengah",
+    "status": "active",
+    "rating_avg": 4.89,
+    "tags": [
+      "Social Media Design",
+      "Instagram Feed",
+      "Canva",
+      "Content Creator",
+      "Copywriting",
+      "Digital Marketing"
+    ],
+    "total_completed_orders": 95,
+    "estimated_duration": "3 hari",
+    "source_url": "https://fastwork.id/user/kurnia-sosmed/desain-feed-instagram",
+    "user": {
+      "name": "Kurnia Dewi",
+      "email": null,
+      "phone": null,
+      "bio": "Social Media Specialist & Graphic Designer. Membantu puluhan UMKM lokal meningkatkan brand awareness dan penjualan melalui visual menarik.",
+      "location": "Semarang, Jawa Tengah"
+    }
+  }
+]

@@ -1,0 +1,10 @@
+# Dependensi Python untuk Data Scraping FindServices (Proyek 3)
+requests>=2.31.0
+beautifulsoup4>=4.12.3
+urllib3>=2.0.0
+fake-useragent>=1.4.0
+pandas>=2.0.0
+
+# Opsional untuk website dengan proteksi JavaScript/Cloudflare lanjutan:
+# cloudscraper>=1.2.71
+# playwright>=1.40.0
