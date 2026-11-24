@@ -1,0 +1,27 @@
+[
+  {
+    "source": "fastwork.id",
+    "title": "Jasa Pembuatan Website Profesional untuk Bisnis yang Ingin Tampil Lebih Kredibel",
+    "description": "Tersedia jasa pembuatan website profesional dari web developer freelance berpengalaman di Fastwork dengan harga terjangkau. Wujudkan website impian Anda",
+    "price_min": 500000.0,
+    "price_max": 1250000.0,
+    "location": "Surabaya, Jawa Timur",
+    "status": "active",
+    "rating_avg": 4.9,
+    "tags": [
+      "Web Development",
+      "Fastwork Pro",
+      "Freelancer Indonesia"
+    ],
+    "total_completed_orders": 8121,
+    "estimated_duration": "7 hari",
+    "source_url": "https://fastwork.id/web-development",
+    "user": {
+      "name": "Ahmad Rizky",
+      "email": null,
+      "phone": null,
+      "bio": "Freelancer handal terverifikasi di Fastwork.id spesialisasi Web Development.",
+      "location": "Surabaya, Jawa Timur"
+    }
+  }
+]
