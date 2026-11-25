@@ -1,0 +1,165 @@
+[
+  {
+    "source": "projects.co.id",
+    "title": "Jasa Pembuatan Website Company Profile & Toko Online Laravel / WordPress",
+    "description": "Membantu pembuatan website profesional dengan tampilan modern, responsive, fast loading, dan SEO friendly. Menggunakan framework Laravel atau CMS WordPress dengan fitur lengkap.",
+    "price_min": 750000.0,
+    "price_max": 2500000.0,
+    "location": "Bandung, Jawa Barat",
+    "status": "active",
+    "rating_avg": 4.95,
+    "tags": [
+      "Laravel",
+      "WordPress",
+      "Web Development",
+      "PHP",
+      "MySQL",
+      "Responsive Design"
+    ],
+    "total_completed_orders": 48,
+    "estimated_duration": "5 hari",
+    "source_url": "https://projects.co.id/public/browse_services/view/a1b2/jasa-pembuatan-website-laravel",
+    "user": {
+      "name": "Budi Santoso",
+      "email": null,
+      "phone": null,
+      "bio": "Fullstack Web Developer berpengalaman 5+ tahun dalam pengembangan aplikasi web Laravel, Vue.js, dan integrasi Payment Gateway.",
+      "location": "Bandung, Jawa Barat"
+    }
+  },
+  {
+    "source": "projects.co.id",
+    "title": "Desain Logo Perusahaan, Branding Identity, dan Desain Kemasan Produk",
+    "description": "Jasa desain logo profesional orisinil, elegan, dan berfilosofi tinggi. File yang didapat lengkap: AI, EPS, SVG, PNG transparan, mockup 3D, dan PDF panduan brand.",
+    "price_min": 250000.0,
+    "price_max": 800000.0,
+    "location": "Jakarta Selatan, DKI Jakarta",
+    "status": "active",
+    "rating_avg": 4.88,
+    "tags": [
+      "Desain Logo",
+      "Graphic Design",
+      "Branding",
+      "Adobe Illustrator",
+      "Mockup 3D"
+    ],
+    "total_completed_orders": 72,
+    "estimated_duration": "2 hari",
+    "source_url": "https://projects.co.id/public/browse_services/view/c3d4/desain-logo-branding",
+    "user": {
+      "name": "Citra Lestari",
+      "email": null,
+      "phone": null,
+      "bio": "Creative Designer lulusan DKV dengan portofolio lebih dari 100+ brand UMKM dan korporat di Indonesia.",
+      "location": "Jakarta Selatan, DKI Jakarta"
+    }
+  },
+  {
+    "source": "projects.co.id",
+    "title": "Jasa Penulisan Artikel SEO Friendly Bahasa Indonesia & Inggris 1000 Kata",
+    "description": "Menulis artikel berkualitas tinggi, lolos uji plagiarisme Copyscape 100%, riset kata kunci Google, struktur heading H1-H3 rapi, dan mudah dipahami pembaca.",
+    "price_min": 85000.0,
+    "price_max": 250000.0,
+    "location": "Yogyakarta, DI Yogyakarta",
+    "status": "active",
+    "rating_avg": 4.91,
+    "tags": [
+      "Content Writing",
+      "SEO",
+      "Copywriting",
+      "Blogging",
+      "Penerjemahan"
+    ],
+    "total_completed_orders": 115,
+    "estimated_duration": "1 hari",
+    "source_url": "https://projects.co.id/public/browse_services/view/e5f6/jasa-penulisan-artikel-seo",
+    "user": {
+      "name": "Dimas Pratama",
+      "email": null,
+      "phone": null,
+      "bio": "Content Strategist & Professional Writer dengan pengalaman menulis artikel di berbagai portal berita dan blog teknologi.",
+      "location": "Sleman, DI Yogyakarta"
+    }
+  },
+  {
+    "source": "sejasa.com",
+    "title": "Jasa Service AC Profesional & Bergaransi Resmi",
+    "description": "Layanan resmi dari Sejasa.com untuk Service AC dan sekitarnya. Dikerjakan oleh teknisi bersertifikat, transparan tanpa biaya tersembunyi, serta dilengkapi asuransi garansi pengerjaan.",
+    "price_min": 85000.0,
+    "price_max": 350000.0,
+    "location": "Jakarta Selatan, DKI Jakarta",
+    "status": "active",
+    "rating_avg": 4.88,
+    "tags": [
+      "Service AC",
+      "Cuci AC",
+      "Tambah Freon",
+      "Bongkar Pasang AC",
+      "Teknisi AC Bergaransi"
+    ],
+    "total_completed_orders": 185,
+    "estimated_duration": "1 hari",
+    "source_url": "https://www.sejasa.com/layanan/service-ac",
+    "user": {
+      "name": "Berkah Cool Mandiri Teknik",
+      "email": null,
+      "phone": null,
+      "bio": "Mitra penyedia jasa profesional di platform Sejasa.com dengan spesialisasi Service AC & Elektronik. Telah melayani ratusan pelanggan dengan rating kepuasan 4.8+.",
+      "location": "Jakarta Selatan, DKI Jakarta"
+    }
+  },
+  {
+    "source": "sejasa.com",
+    "title": "Jasa Daily Cleaning Profesional & Bergaransi Resmi",
+    "description": "Layanan resmi dari Sejasa.com untuk Daily Cleaning dan sekitarnya. Dikerjakan oleh teknisi bersertifikat, transparan tanpa biaya tersembunyi, serta dilengkapi asuransi garansi pengerjaan.",
+    "price_min": 75000.0,
+    "price_max": 250000.0,
+    "location": "Tangerang, Banten",
+    "status": "active",
+    "rating_avg": 4.88,
+    "tags": [
+      "Daily Cleaning",
+      "Bersih Rumah",
+      "General Cleaning",
+      "Housekeeping",
+      "Pembersihan Apartemen"
+    ],
+    "total_completed_orders": 185,
+    "estimated_duration": "1 hari",
+    "source_url": "https://www.sejasa.com/layanan/daily-cleaning",
+    "user": {
+      "name": "CleanHouse Solution Pratama",
+      "email": null,
+      "phone": null,
+      "bio": "Mitra penyedia jasa profesional di platform Sejasa.com dengan spesialisasi Kebersihan & Cleaning. Telah melayani ratusan pelanggan dengan rating kepuasan 4.8+.",
+      "location": "Tangerang, Banten"
+    }
+  },
+  {
+    "source": "sejasa.com",
+    "title": "Jasa Renovasi Rumah Profesional & Bergaransi Resmi",
+    "description": "Layanan resmi dari Sejasa.com untuk Renovasi Rumah dan sekitarnya. Dikerjakan oleh teknisi bersertifikat, transparan tanpa biaya tersembunyi, serta dilengkapi asuransi garansi pengerjaan.",
+    "price_min": 1500000.0,
+    "price_max": 15000000.0,
+    "location": "Bandung, Jawa Barat",
+    "status": "active",
+    "rating_avg": 4.88,
+    "tags": [
+      "Renovasi Rumah",
+      "Tukang Bangunan",
+      "Perbaikan Atap Bocor",
+      "Pengecatan Tembok",
+      "Pasang Keramik"
+    ],
+    "total_completed_orders": 185,
+    "estimated_duration": "14 hari",
+    "source_url": "https://www.sejasa.com/layanan/renovasi-rumah",
+    "user": {
+      "name": "CV Karya Mandiri Bangun Nusantara",
+      "email": null,
+      "phone": null,
+      "bio": "Mitra penyedia jasa profesional di platform Sejasa.com dengan spesialisasi Pertukangan & Renovasi. Telah melayani ratusan pelanggan dengan rating kepuasan 4.8+.",
+      "location": "Bandung, Jawa Barat"
+    }
+  }
+]

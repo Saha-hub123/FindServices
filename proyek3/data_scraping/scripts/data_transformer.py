@@ -19,13 +19,54 @@ from geo_helper import lookup_coordinates
 # 7: Desain & Kreatif, 8: IT & Komputer, 9: Pendidikan & Les,
 # 10: Fotografi & Video, 11: Angkutan & Pindahan, 12: Lain-lain
 CATEGORY_MAPPING = {
+    # IT & Komputer (8)
     "it": 8, "komputer": 8, "web": 8, "website": 8, "programming": 8, "developer": 8,
     "software": 8, "aplikasi": 8, "laravel": 8, "python": 8, "mobile": 8, "code": 8,
-    "desain": 7, "design": 7, "logo": 7, "grafis": 7, "banner": 7, "ui/ux": 7, "illustrasi": 7,
-    "video": 10, "animasi": 10, "fotografi": 10, "photo": 10, "audio": 10, "editing": 10,
+    "flutter": 8, "kotlin": 8, "android": 8, "ios": 8, "api": 8, "database": 8,
+    "wordpress": 8, "shopify": 8, "woocommerce": 8, "scraping": 8, "automation": 8,
+    # Desain & Kreatif (7)
+    "desain": 7, "design": 7, "logo": 7, "grafis": 7, "banner": 7, "ui/ux": 7,
+    "illustrasi": 7, "packaging": 7, "branding": 7, "poster": 7, "flyer": 7,
+    "powerpoint": 7, "presentasi": 7, "infografis": 7, "motion": 7,
+    # Fotografi & Video (10)
+    "video": 10, "animasi": 10, "fotografi": 10, "photo": 10, "audio": 10,
+    "editing": 10, "reels": 10, "tiktok": 10, "youtube": 10, "dubbing": 10,
+    "voiceover": 10, "sinematik": 10, "videografi": 10,
+    # Pendidikan & Les (9)
     "les": 9, "kursus": 9, "edukasi": 9, "tutor": 9, "penerjemah": 9, "bahasa": 9,
-    "elektronik": 1, "ac": 1, "laptop": 1, "komputer servis": 1, "servis hp": 1,
-    "angkutan": 11, "pindahan": 11, "cargo": 11,
+    "translation": 9, "bimbel": 9, "privat": 9, "skripsi": 9, "akademik": 9,
+    "stir mobil": 9, "mengemudi": 9,
+    # Service AC & Elektronik (1)
+    "service ac": 1, "cuci ac": 1, "freon": 1, "servis ac": 1, "bongkar ac": 1,
+    "mesin cuci": 1, "kulkas": 1, "servis tv": 1, "pompa air": 1, "elektronik": 1,
+    "laptop": 1, "servis hp": 1, "pompa": 1, "tv led": 1, "tv": 1,
+    # Angkutan & Pindahan (11)
+    "angkutan": 11, "pindahan": 11, "cargo": 11, "pick up": 11, "truk": 11,
+    "ekspedisi": 11, "logistik": 11, "pindah rumah": 11,
+    # Otomotif & Bengkel (4)
+    "montir": 4, "bengkel": 4, "mobil": 4, "otomotif": 4, "aki": 4, "tune up": 4,
+    "servis motor": 4, "cuci motor": 4,
+    # Kecantikan & Salon (5)
+    "salon": 5, "make up": 5, "mua": 5, "kecantikan": 5, "barbershop": 5,
+    "rias": 5, "pengantin": 5, "facial": 5, "perawatan wajah": 5,
+    # Pijat & Kesehatan (6)
+    "pijat": 6, "urut": 6, "refleksi": 6, "bekam": 6, "terapi": 6, "massage": 6,
+    "relaksasi": 6, "kesehatan": 6,
+    # Pertukangan & Renovasi (2)
+    "tukang": 2, "renovasi": 2, "bangunan": 2, "konstruksi": 2, "atap": 2,
+    "keramik": 2, "plafon": 2, "cat": 2, "gypsum": 2, "kanopi": 2, "pagar": 2,
+    "listrik": 2, "kelistrikan": 2, "las": 2, "kusen": 2, "pintu": 2, "arsitek": 2,
+    "ahli kunci": 2, "kunci": 2, "waterproof": 2, "partisi": 2,
+    # Kebersihan & Cleaning (3)
+    "cleaning": 3, "kebersihan": 3, "cuci sofa": 3, "cuci karpet": 3,
+    "sedot wc": 3, "sedot tungau": 3, "springbed": 3, "mampet": 3,
+    "bersih rumah": 3, "general cleaning": 3, "daily cleaning": 3,
+    # Lain-lain (12)
+    "sablon": 12, "konveksi": 12, "cetak": 12, "percetakan": 12,
+    "akuntansi": 12, "pembukuan": 12, "pajak": 12, "keuangan": 12,
+    "virtual assistant": 12, "administrasi": 12, "data entry": 12,
+    "seo": 12, "copywriting": 12, "penulisan": 12, "artikel": 12,
+    "business plan": 12, "proposal bisnis": 12, "catering": 12,
 }
 
 def detect_category_id(title: str, tags: str) -> int:

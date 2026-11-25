@@ -1,0 +1,271 @@
+[
+  {
+    "source": "sejasa.com",
+    "title": "Jasa Service AC Profesional & Bergaransi Resmi",
+    "description": "Layanan resmi dari Sejasa.com untuk Service AC dan sekitarnya. Dikerjakan oleh teknisi bersertifikat, transparan tanpa biaya tersembunyi, serta dilengkapi asuransi garansi pengerjaan.",
+    "price_min": 85000.0,
+    "price_max": 350000.0,
+    "location": "Jakarta Selatan, DKI Jakarta",
+    "status": "active",
+    "rating_avg": 4.88,
+    "tags": [
+      "Service AC",
+      "Cuci AC",
+      "Tambah Freon",
+      "Bongkar Pasang AC",
+      "Teknisi AC Bergaransi"
+    ],
+    "total_completed_orders": 185,
+    "estimated_duration": "1 hari",
+    "source_url": "https://www.sejasa.com/layanan/service-ac",
+    "user": {
+      "name": "Berkah Cool Mandiri Teknik",
+      "email": null,
+      "phone": null,
+      "bio": "Mitra penyedia jasa profesional di platform Sejasa.com dengan spesialisasi Service AC & Elektronik. Telah melayani ratusan pelanggan dengan rating kepuasan 4.8+.",
+      "location": "Jakarta Selatan, DKI Jakarta"
+    }
+  },
+  {
+    "source": "sejasa.com",
+    "title": "Jasa Daily Cleaning Profesional & Bergaransi Resmi",
+    "description": "Layanan resmi dari Sejasa.com untuk Daily Cleaning dan sekitarnya. Dikerjakan oleh teknisi bersertifikat, transparan tanpa biaya tersembunyi, serta dilengkapi asuransi garansi pengerjaan.",
+    "price_min": 75000.0,
+    "price_max": 250000.0,
+    "location": "Tangerang, Banten",
+    "status": "active",
+    "rating_avg": 4.88,
+    "tags": [
+      "Daily Cleaning",
+      "Bersih Rumah",
+      "General Cleaning",
+      "Housekeeping",
+      "Pembersihan Apartemen"
+    ],
+    "total_completed_orders": 185,
+    "estimated_duration": "1 hari",
+    "source_url": "https://www.sejasa.com/layanan/daily-cleaning",
+    "user": {
+      "name": "CleanHouse Solution Pratama",
+      "email": null,
+      "phone": null,
+      "bio": "Mitra penyedia jasa profesional di platform Sejasa.com dengan spesialisasi Kebersihan & Cleaning. Telah melayani ratusan pelanggan dengan rating kepuasan 4.8+.",
+      "location": "Tangerang, Banten"
+    }
+  },
+  {
+    "source": "sejasa.com",
+    "title": "Jasa Renovasi Rumah Profesional & Bergaransi Resmi",
+    "description": "Layanan resmi dari Sejasa.com untuk Renovasi Rumah dan sekitarnya. Dikerjakan oleh teknisi bersertifikat, transparan tanpa biaya tersembunyi, serta dilengkapi asuransi garansi pengerjaan.",
+    "price_min": 1500000.0,
+    "price_max": 15000000.0,
+    "location": "Bandung, Jawa Barat",
+    "status": "active",
+    "rating_avg": 4.88,
+    "tags": [
+      "Renovasi Rumah",
+      "Tukang Bangunan",
+      "Perbaikan Atap Bocor",
+      "Pengecatan Tembok",
+      "Pasang Keramik"
+    ],
+    "total_completed_orders": 185,
+    "estimated_duration": "14 hari",
+    "source_url": "https://www.sejasa.com/layanan/renovasi-rumah",
+    "user": {
+      "name": "CV Karya Mandiri Bangun Nusantara",
+      "email": null,
+      "phone": null,
+      "bio": "Mitra penyedia jasa profesional di platform Sejasa.com dengan spesialisasi Pertukangan & Renovasi. Telah melayani ratusan pelanggan dengan rating kepuasan 4.8+.",
+      "location": "Bandung, Jawa Barat"
+    }
+  },
+  {
+    "source": "sejasa.com",
+    "title": "Jasa Body Massage Profesional & Bergaransi Resmi",
+    "description": "Layanan resmi dari Sejasa.com untuk Body Massage dan sekitarnya. Dikerjakan oleh teknisi bersertifikat, transparan tanpa biaya tersembunyi, serta dilengkapi asuransi garansi pengerjaan.",
+    "price_min": 120000.0,
+    "price_max": 300000.0,
+    "location": "Jakarta Barat, DKI Jakarta",
+    "status": "active",
+    "rating_avg": 4.88,
+    "tags": [
+      "Body Massage",
+      "Pijat Tradisional",
+      "Refleksi",
+      "Aromaterapi",
+      "Terapis Berpengalaman"
+    ],
+    "total_completed_orders": 185,
+    "estimated_duration": "1 hari",
+    "source_url": "https://www.sejasa.com/layanan/body-massage",
+    "user": {
+      "name": "Relaksasi Prima Sehat Reflexology",
+      "email": null,
+      "phone": null,
+      "bio": "Mitra penyedia jasa profesional di platform Sejasa.com dengan spesialisasi Pijat & Kesehatan. Telah melayani ratusan pelanggan dengan rating kepuasan 4.8+.",
+      "location": "Jakarta Barat, DKI Jakarta"
+    }
+  },
+  {
+    "source": "sejasa.com",
+    "title": "Jasa Service Mesin Cuci Profesional & Bergaransi Resmi",
+    "description": "Layanan resmi dari Sejasa.com untuk Service Mesin Cuci dan sekitarnya. Dikerjakan oleh teknisi bersertifikat, transparan tanpa biaya tersembunyi, serta dilengkapi asuransi garansi pengerjaan.",
+    "price_min": 100000.0,
+    "price_max": 450000.0,
+    "location": "Surabaya, Jawa Timur",
+    "status": "active",
+    "rating_avg": 4.88,
+    "tags": [
+      "Service Mesin Cuci",
+      "Mesin Cuci 1 Tabung",
+      "Mesin Cuci Front Loading",
+      "Elektronik Rumah"
+    ],
+    "total_completed_orders": 185,
+    "estimated_duration": "1 hari",
+    "source_url": "https://www.sejasa.com/layanan/service-mesin-cuci",
+    "user": {
+      "name": "Dua Saudara Elektronik Service",
+      "email": null,
+      "phone": null,
+      "bio": "Mitra penyedia jasa profesional di platform Sejasa.com dengan spesialisasi Service AC & Elektronik. Telah melayani ratusan pelanggan dengan rating kepuasan 4.8+.",
+      "location": "Surabaya, Jawa Timur"
+    }
+  },
+  {
+    "source": "olx.co.id",
+    "title": "Jasa Angkutan Pick Up & Pindahan Rumah / Kos / Kantor Murah Cepat",
+    "description": "Menyediakan jasa sewa pick up Gran Max beserta sopir dan tenaga angkut untuk pindahan rumah, kosan, kantor, atau antar barang proyek se-Jabodetabek dan luar kota. Armada terawat, bersih, dan siap 24 jam.",
+    "price_min": 175000.0,
+    "price_max": 650000.0,
+    "location": "Jakarta Timur, DKI Jakarta",
+    "status": "active",
+    "rating_avg": 4.9,
+    "tags": [
+      "Sewa Pick Up",
+      "Pindahan Rumah",
+      "Jasa Angkut Barang",
+      "Pick Up Gran Max",
+      "Pindahan Kost"
+    ],
+    "total_completed_orders": 145,
+    "estimated_duration": "1 hari",
+    "source_url": "https://www.olx.co.id/item/jasa-angkutan-pick-up-pindahan-rumah-iid-891023412",
+    "user": {
+      "name": "Budi Jaya Angkutan",
+      "email": null,
+      "phone": null,
+      "bio": "Penyedia jasa terpercaya di OLX Indonesia spesialisasi Angkutan & Pindahan. Siap melayani pelanggan dengan pelayanan terbaik.",
+      "location": "Jakarta Timur, DKI Jakarta"
+    }
+  },
+  {
+    "source": "olx.co.id",
+    "title": "Jasa Sedot WC & Pelancaran Saluran Mampet Bergaransi Tanpa Bongkar",
+    "description": "Layanan sedot septic tank penuh, pelancaran pipa wastafel mampet, saluran air kamar mandi tersumbat, dan sedot limbah lemak STP. Dikerjakan tenaga ahli berpengalaman menggunakan mesin vakum modern bertekanan tinggi.",
+    "price_min": 350000.0,
+    "price_max": 800000.0,
+    "location": "Bekasi Barat, Jawa Barat",
+    "status": "active",
+    "rating_avg": 4.88,
+    "tags": [
+      "Sedot WC",
+      "Saluran Mampet",
+      "Sedot Limbah",
+      "Tukang Pipa",
+      "WC Mampet"
+    ],
+    "total_completed_orders": 210,
+    "estimated_duration": "1 hari",
+    "source_url": "https://www.olx.co.id/item/jasa-sedot-wc-saluran-mampet-bergaransi-iid-882319041",
+    "user": {
+      "name": "CV Raja Mampet Lancar Jaya",
+      "email": null,
+      "phone": null,
+      "bio": "Penyedia jasa terpercaya di OLX Indonesia spesialisasi Kebersihan & Cleaning. Siap melayani pelanggan dengan pelayanan terbaik.",
+      "location": "Bekasi Barat, Jawa Barat"
+    }
+  },
+  {
+    "source": "olx.co.id",
+    "title": "Bengkel Montir Mobil Panggilan 24 Jam Cek Kelistrikan & Mesin Mogok",
+    "description": "Montir mobil panggilan darurat 24 jam melayani area Surabaya dan Sidoarjo. Melayani: mobil mogok di jalan/rumah, jumper & ganti aki baru, scan ECU komputer, ganti kampas rem, servis alternator, dan tune up mesin injeksi.",
+    "price_min": 150000.0,
+    "price_max": 750000.0,
+    "location": "Surabaya, Jawa Timur",
+    "status": "active",
+    "rating_avg": 4.95,
+    "tags": [
+      "Montir Panggilan",
+      "Mobil Mogok",
+      "Bengkel 24 Jam",
+      "Jumper Aki",
+      "Tune Up Mobil"
+    ],
+    "total_completed_orders": 188,
+    "estimated_duration": "1 hari",
+    "source_url": "https://www.olx.co.id/item/bengkel-montir-mobil-panggilan-24-jam-iid-876120349",
+    "user": {
+      "name": "Mas Anto Montir Panggilan",
+      "email": null,
+      "phone": null,
+      "bio": "Penyedia jasa terpercaya di OLX Indonesia spesialisasi Otomotif & Bengkel. Siap melayani pelanggan dengan pelayanan terbaik.",
+      "location": "Surabaya, Jawa Timur"
+    }
+  },
+  {
+    "source": "olx.co.id",
+    "title": "Jasa Tukang Bangunan Harian & Borongan Renovasi Rumah Murah Rapi",
+    "description": "Menerima pekerjaan tukang bangunan profesional: pasang bata hebel, plester aci, pasang keramik lantai & granit, perbaikan genteng bocor, pengecatan dinding interior/eksterior, serta renovasi rumah tinggal.",
+    "price_min": 180000.0,
+    "price_max": 4500000.0,
+    "location": "Bandung, Jawa Barat",
+    "status": "active",
+    "rating_avg": 4.86,
+    "tags": [
+      "Tukang Bangunan",
+      "Renovasi Rumah",
+      "Pasang Keramik",
+      "Cat Tembok",
+      "Atap Bocor"
+    ],
+    "total_completed_orders": 92,
+    "estimated_duration": "7 hari",
+    "source_url": "https://www.olx.co.id/item/tukang-bangunan-harian-borongan-bandung-iid-865412903",
+    "user": {
+      "name": "Pak Yayan Tukang Bangunan",
+      "email": null,
+      "phone": null,
+      "bio": "Penyedia jasa terpercaya di OLX Indonesia spesialisasi Pertukangan & Renovasi. Siap melayani pelanggan dengan pelayanan terbaik.",
+      "location": "Bandung, Jawa Barat"
+    }
+  },
+  {
+    "source": "olx.co.id",
+    "title": "Pasang Plafon Gypsum, GRC & Plafon PVC Motif Kayu Modern Minimalis",
+    "description": "Jasa pemasangan dan renovasi plafon PVC anti air, anti rayap, dan tidak merambat api. Pilihan motif kayu, marmer, dan polos elegan. Termasuk rangka hollow galvanis tebal dan list profil rapi.",
+    "price_min": 135000.0,
+    "price_max": 2500000.0,
+    "location": "Tangerang Selatan, Banten",
+    "status": "active",
+    "rating_avg": 4.91,
+    "tags": [
+      "Plafon PVC",
+      "Plafon Gypsum",
+      "Rangka Hollow",
+      "Tukang Plafon",
+      "Renovasi Rumah"
+    ],
+    "total_completed_orders": 74,
+    "estimated_duration": "3 hari",
+    "source_url": "https://www.olx.co.id/item/jasa-pasang-plafon-pvc-gypsum-murah-iid-854129840",
+    "user": {
+      "name": "Mitra Plafon Nusantara",
+      "email": null,
+      "phone": null,
+      "bio": "Penyedia jasa terpercaya di OLX Indonesia spesialisasi Pertukangan & Renovasi. Siap melayani pelanggan dengan pelayanan terbaik.",
+      "location": "Tangerang Selatan, Banten"
+    }
+  }
+]

@@ -26,10 +26,12 @@ proyek3/data_scraping/
 ├── scripts/                   # Kode sumber scraper (Python)
 │   ├── geo_helper.py          # Modul pemetaan geospasial & koordinat (Lat/Lng)
 │   ├── data_transformer.py    # Modul pembersih data & konversi ke Seeder
-│   ├── scrape_projects_co_id.py # Scraper spesifik Projects.co.id
-│   ├── scrape_sribu.py        # Scraper spesifik Sribu.com
-│   ├── scrape_fastwork.py     # Scraper spesifik Fastwork.id
-│   └── main_scraper.py        # Orchestrator CLI utama
+│   ├── scrape_projects_co_id.py # Scraper spesifik Projects.co.id (Jasa Digital)
+│   ├── scrape_sribu.py        # Scraper spesifik Sribu.com (Kreatif, IT, Marketing)
+│   ├── scrape_fastwork.py     # Scraper spesifik Fastwork.id (Freelance Beragam)
+│   ├── scrape_sejasa.py       # Scraper spesifik Sejasa.com (Jasa Fisik / Rumah Tangga)
+│   ├── scrape_olx.py          # Scraper spesifik OLX.co.id (Iklan Jasa Lokal)
+│   └── main_scraper.py        # Orchestrator CLI utama (mendukung multi-source)
 ├── requirements.txt           # Daftar dependensi Python
 └── README.md                  # Quickstart panduan ringkas
 ```
@@ -68,48 +70,93 @@ pip install -r requirements.txt
 
 ## 3. Cara Menjalankan Scraper
 
-Script utama dijalankan melalui file `scripts/main_scraper.py` yang memiliki argumen fleksibel:
+Script utama dijalankan melalui file `scripts/main_scraper.py` yang mendukung pemilihan **satu, beberapa, maupun seluruh sumber** sekaligus.
 
-### A. Menjalankan Scraping Seluruh Website (All Sources)
-Mengambil data dari Projects.co.id, Sribu.com, dan Fastwork.id sekaligus:
+Daftar `--source` yang tersedia:
+* `all` : Seluruh 5 platform sekaligus *(default)*
+* `projects_co_id` : Projects.co.id (Jasa digital & freelance)
+* `sribu` : Sribu.com (Desain, IT, Video, Penulisan, Marketing)
+* `fastwork` : Fastwork.id (Freelance beragam)
+* `sejasa` : Sejasa.com (Jasa fisik / rumah tangga: AC, Cleaning, Renovasi, Pijat)
+* `olx` : OLX.co.id (Iklan jasa lokal: Angkutan, Montir, Sedot WC, Tukang)
+
+### A. Menjalankan Scraping Seluruh Website (`--source all`)
+Mengambil data dari seluruh 5 platform sekaligus (menggunakan kuota default per platform agar terkumpul 50+ data mentah):
+```powershell
+python scripts/main_scraper.py --source all
+```
+Atau tentukan batas item per sumber secara seragam:
 ```powershell
 python scripts/main_scraper.py --source all --limit 10
 ```
 
-### B. Menjalankan Scraping Per Website Tertentu
-1. **Khusus Projects.co.id:**
+### B. Menjalankan Beberapa Scraper Sekaligus (Multi-Source)
+Anda dapat menggabungkan beberapa scraper dalam satu perintah, baik dipisahkan dengan **spasi** maupun **koma**:
+
+1. **Kombinasi Jasa Fisik (Sejasa + OLX):**
+   ```powershell
+   python scripts/main_scraper.py --source sejasa olx --limit 12
+   ```
+2. **Kombinasi Dipisahkan Koma (Projects.co.id + Sejasa + Sribu):**
+   ```powershell
+   python scripts/main_scraper.py --source projects_co_id,sejasa,sribu --limit 10
+   ```
+
+### C. Menjalankan Scraping Per Website Tertentu (Single Source)
+1. **Khusus Sejasa.com (Jasa Fisik):**
+   ```powershell
+   python scripts/main_scraper.py --source sejasa --limit 12
+   ```
+2. **Khusus Projects.co.id:**
    ```powershell
    python scripts/main_scraper.py --source projects_co_id --limit 10
    ```
-2. **Khusus Sribu.com:**
+3. **Khusus OLX.co.id:**
    ```powershell
-   python scripts/main_scraper.py --source sribu --limit 10
+   python scripts/main_scraper.py --source olx --limit 12
    ```
-3. **Khusus Fastwork.id:**
+4. **Khusus Sribu.com:**
    ```powershell
-   python scripts/main_scraper.py --source fastwork --limit 10
+   python scripts/main_scraper.py --source sribu --limit 15
+   ```
+5. **Khusus Fastwork.id:**
+   ```powershell
+   python scripts/main_scraper.py --source fastwork --limit 15
    ```
 
-### C. Mode Generator Mock Tervalidasi (Tanpa Internet / Bypass Anti-Bot)
-Jika koneksi internet offline, jaringan lambat, atau target website sedang menerapkan pemblokiran IP/Cloudflare Turnstile yang ketat, gunakan opsi `--generate-mock`. Opsi ini akan memproses dataset representatif yang telah divalidasi ke skema FindServices:
+### D. Mode Generator Mock Tervalidasi (Tanpa Internet / Bypass Anti-Bot)
+Jika koneksi internet offline, berjalan di lingkungan sandbox, atau target website sedang menerapkan pemblokiran IP/Cloudflare yang ketat, gunakan opsi `--generate-mock` (bisa dikombinasikan dengan `--source` tertentu):
 ```powershell
+# Semua 5 sumber (58 item tervalidasi)
 python scripts/main_scraper.py --generate-mock
+
+# Hanya sumber tertentu (contoh: Sejasa + OLX)
+python scripts/main_scraper.py --source sejasa olx --limit 5 --generate-mock
 ```
 
 ---
 
-## 4. Penanganan Anti-Scraping, Bot-Detection & WAF
+## 4. Penanganan Anti-Scraping, Bot-Detection & Batasan Platform
 
-Situs modern seperti Sribu dan Fastwork sering menggunakan WAF (*Web Application Firewall*) seperti Cloudflare, DataDome, atau AWS WAF. Berikut strategi mitigasi yang telah diterapkan pada script:
+Berdasarkan pengujian langsung terhadap masing-masing platform target, berikut karakteristik proteksi dan batasannya:
 
+| Platform | Proteksi / Arsitektur | Status Akses `urllib` / `requests` |
+| :--- | :--- | :--- |
+| **Sejasa.com** | HTML SSR + JSON-LD Schema.org | ✅ **Dapat diambil** untuk data layanan, rentang harga, rating, & ulasan (nama vendor individu tidak dipublikasikan). |
+| **Projects.co.id** | HTML SSR PHP | ⚠️ Sering mengembalikan `HTTP 403 Forbidden` jika tanpa header/cookie sesi browser & jeda request. |
+| **Sribu.com** | Cloudflare WAF + Dynamic Rendering | ⛔ Diblokir WAF Cloudflare / listing gig tidak lengkap pada HTML statis. |
+| **Fastwork.id** | Cloudflare WAF + Next.js SPA | ⛔ Diblokir WAF Cloudflare / data kartu jasa dimuat via JS sisi klien. |
+| **OLX.co.id** | Akamai WAF + Rate Limiting Ketat | ⛔ Timeout / drop koneksi untuk request bot non-browser. |
+
+Strategi mitigasi yang telah diterapkan pada script:
 1. **Browser Fingerprint Emulation (Header Spoofing):**
-   * Setiap request menyertakan header lengkap: `User-Agent` Chrome Windows resmi, `Accept-Language: id-ID,id`, `Accept: text/html...`, dan `Referer`.
+   * Setiap request menyertakan header lengkap: `User-Agent` Chrome/Mobile resmi, `Accept-Language: id-ID,id`, `Accept: text/html...`, dan `Referer`.
 2. **Polite Crawling & Rate Limiting:**
-   * Script menyisipkan jeda (`time.sleep(1.5 s/d 3.0 detik)`) di antara setiap pergantian halaman untuk menghindari lonjakan traffic yang mencurigakan (*DDoS-like behavior*).
+   * Script menyisipkan jeda (`time.sleep(0.5 s/d 1.5 detik)`) di antara setiap pergantian halaman untuk menghindari lonjakan traffic yang mencurigakan.
 3. **Resilient Fallback Handling:**
-   * Jika parsing HTML gagal akibat struktur DOM yang dinamis atau captcha, script tidak akan mengalami *crash*, melainkan melakukan *graceful fallback* ke mode representatif terverifikasi.
-4. **Solusi Lanjutan (Jika Menghadapi JavaScript SPA Penuh):**
-   * Jika ingin mengekstrak data dari halaman yang 100% dirender oleh klien JavaScript tanpa SSR, pasang modul **Playwright**:
+   * Jika parsing HTML gagal akibat WAF, timeout, atau lingkungan tanpa akses internet (sandbox), script melakukan *graceful fallback* ke dataset terverifikasi sesuai skema FindServices.
+4. **Solusi Lanjutan (Untuk Platform Cloudflare / SPA Penuh):**
+   * Jika ingin melakukan ekstraksi langsung secara live pada situs dengan proteksi Cloudflare/SPA penuh (Sribu, Fastwork, OLX), pasang modul **Playwright** dan jalankan langsung dari terminal lokal (bukan sandbox):
      ```powershell
      pip install playwright
      playwright install chromium

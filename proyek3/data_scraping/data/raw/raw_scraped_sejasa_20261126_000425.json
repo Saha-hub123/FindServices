@@ -1,0 +1,638 @@
+[
+  {
+    "source": "sejasa.com",
+    "title": "Service AC",
+    "description": "Dapatkan penawaran jasa dan harga dari penyedia jasa Service AC di Indonesia",
+    "price_min": 50000.0,
+    "price_max": 700000.0,
+    "location": "Jakarta Selatan, DKI Jakarta",
+    "status": "active",
+    "rating_avg": 4.8,
+    "tags": [
+      "Service AC",
+      "Cuci AC",
+      "Tambah Freon",
+      "Bongkar Pasang AC",
+      "Teknisi AC Bergaransi"
+    ],
+    "total_completed_orders": 248,
+    "estimated_duration": "1 hari",
+    "source_url": "https://www.sejasa.com/layanan/service-ac",
+    "user": {
+      "name": "Berkah Cool Mandiri Teknik",
+      "email": null,
+      "phone": null,
+      "bio": "Mitra penyedia jasa resmi terverifikasi Sejasa.com spesialisasi Service AC & Elektronik. Memiliki peralatan standar industri dan garansi pengerjaan.",
+      "location": "Jakarta Selatan, DKI Jakarta"
+    }
+  },
+  {
+    "source": "sejasa.com",
+    "title": "Daily Cleaning",
+    "description": "Dapatkan penawaran jasa dan harga dari penyedia jasa Daily Cleaning di Indonesia",
+    "price_min": 65000.0,
+    "price_max": 5000000.0,
+    "location": "Tangerang, Banten",
+    "status": "active",
+    "rating_avg": 5.0,
+    "tags": [
+      "Daily Cleaning",
+      "Bersih Rumah",
+      "General Cleaning",
+      "Housekeeping",
+      "Pembersihan Apartemen"
+    ],
+    "total_completed_orders": 248,
+    "estimated_duration": "1 hari",
+    "source_url": "https://www.sejasa.com/layanan/daily-cleaning",
+    "user": {
+      "name": "CleanHouse Solution Pratama",
+      "email": null,
+      "phone": null,
+      "bio": "Mitra penyedia jasa resmi terverifikasi Sejasa.com spesialisasi Kebersihan & Cleaning. Memiliki peralatan standar industri dan garansi pengerjaan.",
+      "location": "Tangerang, Banten"
+    }
+  },
+  {
+    "source": "sejasa.com",
+    "title": "Renovasi Rumah",
+    "description": "Dapatkan penawaran jasa dan harga dari penyedia jasa Renovasi Rumah di Indonesia",
+    "price_min": 500000.0,
+    "price_max": 5000000.0,
+    "location": "Bandung, Jawa Barat",
+    "status": "active",
+    "rating_avg": 4.7,
+    "tags": [
+      "Renovasi Rumah",
+      "Tukang Bangunan",
+      "Perbaikan Atap Bocor",
+      "Pengecatan Tembok",
+      "Pasang Keramik"
+    ],
+    "total_completed_orders": 248,
+    "estimated_duration": "14 hari",
+    "source_url": "https://www.sejasa.com/layanan/renovasi-rumah",
+    "user": {
+      "name": "CV Karya Mandiri Bangun Nusantara",
+      "email": null,
+      "phone": null,
+      "bio": "Mitra penyedia jasa resmi terverifikasi Sejasa.com spesialisasi Pertukangan & Renovasi. Memiliki peralatan standar industri dan garansi pengerjaan.",
+      "location": "Bandung, Jawa Barat"
+    }
+  },
+  {
+    "source": "sejasa.com",
+    "title": "Massage",
+    "description": "Dapatkan penawaran jasa dan harga dari penyedia jasa Massage di Indonesia",
+    "price_min": 40000.0,
+    "price_max": 500000.0,
+    "location": "Jakarta Barat, DKI Jakarta",
+    "status": "active",
+    "rating_avg": 5.0,
+    "tags": [
+      "Body Massage",
+      "Pijat Tradisional",
+      "Refleksi",
+      "Aromaterapi",
+      "Terapis Berpengalaman"
+    ],
+    "total_completed_orders": 248,
+    "estimated_duration": "1 hari",
+    "source_url": "https://www.sejasa.com/layanan/body-massage",
+    "user": {
+      "name": "Relaksasi Prima Sehat Reflexology",
+      "email": null,
+      "phone": null,
+      "bio": "Mitra penyedia jasa resmi terverifikasi Sejasa.com spesialisasi Pijat & Kesehatan. Memiliki peralatan standar industri dan garansi pengerjaan.",
+      "location": "Jakarta Barat, DKI Jakarta"
+    }
+  },
+  {
+    "source": "sejasa.com",
+    "title": "Service Mesin Cuci",
+    "description": "Dapatkan penawaran jasa dan harga dari penyedia jasa Service Mesin Cuci di Indonesia",
+    "price_min": 75000.0,
+    "price_max": 1000000.0,
+    "location": "Surabaya, Jawa Timur",
+    "status": "active",
+    "rating_avg": 4.7,
+    "tags": [
+      "Service Mesin Cuci",
+      "Mesin Cuci 1 Tabung",
+      "Mesin Cuci Front Loading",
+      "Elektronik Rumah"
+    ],
+    "total_completed_orders": 248,
+    "estimated_duration": "1 hari",
+    "source_url": "https://www.sejasa.com/layanan/service-mesin-cuci",
+    "user": {
+      "name": "Dua Saudara Elektronik Service",
+      "email": null,
+      "phone": null,
+      "bio": "Mitra penyedia jasa resmi terverifikasi Sejasa.com spesialisasi Service AC & Elektronik. Memiliki peralatan standar industri dan garansi pengerjaan.",
+      "location": "Surabaya, Jawa Timur"
+    }
+  },
+  {
+    "source": "sejasa.com",
+    "title": "Service Kulkas",
+    "description": "Dapatkan penawaran jasa dan harga dari penyedia jasa Service Kulkas di Indonesia",
+    "price_min": 70000.0,
+    "price_max": 500000.0,
+    "location": "Bekasi, Jawa Barat",
+    "status": "active",
+    "rating_avg": 4.7,
+    "tags": [
+      "Service Kulkas",
+      "Isi Freon Kulkas",
+      "Ganti Kompresor",
+      "Kulkas Inverter"
+    ],
+    "total_completed_orders": 248,
+    "estimated_duration": "1 hari",
+    "source_url": "https://www.sejasa.com/layanan/service-kulkas",
+    "user": {
+      "name": "Anugrah Teknik Pendingin",
+      "email": null,
+      "phone": null,
+      "bio": "Mitra penyedia jasa resmi terverifikasi Sejasa.com spesialisasi Service AC & Elektronik. Memiliki peralatan standar industri dan garansi pengerjaan.",
+      "location": "Bekasi, Jawa Barat"
+    }
+  },
+  {
+    "source": "sejasa.com",
+    "title": "Arsitek",
+    "description": "Dapatkan penawaran jasa dan harga dari penyedia jasa Arsitek di Indonesia",
+    "price_min": 500000.0,
+    "price_max": 1100000.0,
+    "location": "Yogyakarta, DI Yogyakarta",
+    "status": "active",
+    "rating_avg": 4.7,
+    "tags": [
+      "Desain Arsitektur",
+      "Gambar IMB / PBG",
+      "Desain 3D Rumah",
+      "Denah Rumah Modern"
+    ],
+    "total_completed_orders": 3807,
+    "estimated_duration": "21 hari",
+    "source_url": "https://www.sejasa.com/layanan/arsitek",
+    "user": {
+      "name": "Studio Arsitektur Dimensi Kreasi",
+      "email": null,
+      "phone": null,
+      "bio": "Mitra penyedia jasa resmi terverifikasi Sejasa.com spesialisasi Pertukangan & Renovasi. Memiliki peralatan standar industri dan garansi pengerjaan.",
+      "location": "Yogyakarta, DI Yogyakarta"
+    }
+  },
+  {
+    "source": "sejasa.com",
+    "title": "Service Pompa Air",
+    "description": "Jasa service pompa air, melayani pemasangan & perbaikan untuk berbagai jenis & merk pompa. Harga jujur tanpa biaya tambahan, bergaransi 30 hari!",
+    "price_min": 100000.0,
+    "price_max": 500000.0,
+    "location": "Depok, Jawa Barat",
+    "status": "active",
+    "rating_avg": 4.7,
+    "tags": [
+      "Service Pompa Air",
+      "Pengeboran Jet Pump",
+      "Gulung Dinamo",
+      "Pemasangan Toren Air"
+    ],
+    "total_completed_orders": 248,
+    "estimated_duration": "1 hari",
+    "source_url": "https://www.sejasa.com/mitra-kami/service-pompa-air",
+    "user": {
+      "name": "Mitra Tirta Pompa Mandiri",
+      "email": null,
+      "phone": null,
+      "bio": "Mitra penyedia jasa resmi terverifikasi Sejasa.com spesialisasi Service AC & Elektronik. Memiliki peralatan standar industri dan garansi pengerjaan.",
+      "location": "Depok, Jawa Barat"
+    }
+  },
+  {
+    "source": "sejasa.com",
+    "title": "Kelistrikan",
+    "description": "Jasa Kelistrikan terbaik dan terpercaya. Dapatkan harga terbaik, bandingkan portfolio dan review. Semuanya tanpa dipungut biaya tambahan.",
+    "price_min": 100000.0,
+    "price_max": 1000000.0,
+    "location": "Semarang, Jawa Tengah",
+    "status": "active",
+    "rating_avg": 4.8,
+    "tags": [
+      "Tukang Listrik",
+      "Korsleting Listrik",
+      "Pasang MCB",
+      "Instalasi Stop Kontak",
+      "Panel Listrik"
+    ],
+    "total_completed_orders": 248,
+    "estimated_duration": "1 hari",
+    "source_url": "https://www.sejasa.com/mitra-kami/kelistrikan",
+    "user": {
+      "name": "Instalasi Jaya Elektrik",
+      "email": null,
+      "phone": null,
+      "bio": "Mitra penyedia jasa resmi terverifikasi Sejasa.com spesialisasi Pertukangan & Renovasi. Memiliki peralatan standar industri dan garansi pengerjaan.",
+      "location": "Semarang, Jawa Tengah"
+    }
+  },
+  {
+    "source": "sejasa.com",
+    "title": "Instalasi Kanopi",
+    "description": "Jasa Instalasi Kanopi terbaik dan terpercaya. Dapatkan harga terbaik, bandingkan portfolio dan review. Semuanya tanpa dipungut biaya tambahan.",
+    "price_min": 1800000.0,
+    "price_max": 8500000.0,
+    "location": "Medan, Sumatera Utara",
+    "status": "active",
+    "rating_avg": 4.7,
+    "tags": [
+      "Bengkel Las",
+      "Pasang Kanopi Alderon",
+      "Pagar Minimalis",
+      "Teralis Besi",
+      "Railing Tangga"
+    ],
+    "total_completed_orders": 248,
+    "estimated_duration": "5 hari",
+    "source_url": "https://www.sejasa.com/mitra-kami/instalasi-kanopi",
+    "user": {
+      "name": "Bengkel Las Cahaya Logam",
+      "email": null,
+      "phone": null,
+      "bio": "Mitra penyedia jasa resmi terverifikasi Sejasa.com spesialisasi Pertukangan & Renovasi. Memiliki peralatan standar industri dan garansi pengerjaan.",
+      "location": "Medan, Sumatera Utara"
+    }
+  },
+  {
+    "source": "sejasa.com",
+    "title": "Service Sofa",
+    "description": "Jasa Service Sofa terbaik dan terpercaya. Dapatkan harga terbaik, bandingkan portfolio dan review. Semuanya tanpa dipungut biaya tambahan.",
+    "price_min": 80000.0,
+    "price_max": 400000.0,
+    "location": "Jakarta Timur, DKI Jakarta",
+    "status": "active",
+    "rating_avg": 4.6,
+    "tags": [
+      "Cuci Sofa",
+      "Cuci Springbed",
+      "Sedot Tungau Hydrovacuum",
+      "Cuci Jok Mobil"
+    ],
+    "total_completed_orders": 1168,
+    "estimated_duration": "1 hari",
+    "source_url": "https://www.sejasa.com/mitra-kami/service-sofa",
+    "user": {
+      "name": "Master Cuci Sofa & Springbed",
+      "email": null,
+      "phone": null,
+      "bio": "Mitra penyedia jasa resmi terverifikasi Sejasa.com spesialisasi Kebersihan & Cleaning. Memiliki peralatan standar industri dan garansi pengerjaan.",
+      "location": "Jakarta Timur, DKI Jakarta"
+    }
+  },
+  {
+    "source": "sejasa.com",
+    "title": "Ahli Kunci",
+    "description": "Jasa Ahli Kunci terbaik dan terpercaya. Dapatkan harga terbaik, bandingkan portfolio dan review. Semuanya tanpa dipungut biaya tambahan.",
+    "price_min": 75000.0,
+    "price_max": 350000.0,
+    "location": "Makassar, Sulawesi Selatan",
+    "status": "active",
+    "rating_avg": 4.8,
+    "tags": [
+      "Ahli Kunci",
+      "Duplikat Kunci",
+      "Kunci Mobil Immobilizer",
+      "Buka Pintu Terkunci"
+    ],
+    "total_completed_orders": 1444,
+    "estimated_duration": "1 hari",
+    "source_url": "https://www.sejasa.com/mitra-kami/ahli-kunci",
+    "user": {
+      "name": "Gatot Kunci Panggilan 24 Jam",
+      "email": null,
+      "phone": null,
+      "bio": "Mitra penyedia jasa resmi terverifikasi Sejasa.com spesialisasi Pertukangan & Renovasi. Memiliki peralatan standar industri dan garansi pengerjaan.",
+      "location": "Makassar, Sulawesi Selatan"
+    }
+  },
+  {
+    "source": "sejasa.com",
+    "title": "Jasa Service AC Profesional & Bergaransi Resmi",
+    "description": "Layanan resmi dari Sejasa.com untuk Service AC dan sekitarnya. Dikerjakan oleh teknisi bersertifikat, transparan tanpa biaya tersembunyi, serta dilengkapi asuransi garansi pengerjaan.",
+    "price_min": 85000.0,
+    "price_max": 350000.0,
+    "location": "Jakarta Selatan, DKI Jakarta",
+    "status": "active",
+    "rating_avg": 4.88,
+    "tags": [
+      "Service AC",
+      "Cuci AC",
+      "Tambah Freon",
+      "Bongkar Pasang AC",
+      "Teknisi AC Bergaransi"
+    ],
+    "total_completed_orders": 185,
+    "estimated_duration": "1 hari",
+    "source_url": "https://www.sejasa.com/layanan/service-ac",
+    "user": {
+      "name": "Berkah Cool Mandiri Teknik",
+      "email": null,
+      "phone": null,
+      "bio": "Mitra penyedia jasa profesional di platform Sejasa.com dengan spesialisasi Service AC & Elektronik. Telah melayani ratusan pelanggan dengan rating kepuasan 4.8+.",
+      "location": "Jakarta Selatan, DKI Jakarta"
+    }
+  },
+  {
+    "source": "sejasa.com",
+    "title": "Jasa Daily Cleaning Profesional & Bergaransi Resmi",
+    "description": "Layanan resmi dari Sejasa.com untuk Daily Cleaning dan sekitarnya. Dikerjakan oleh teknisi bersertifikat, transparan tanpa biaya tersembunyi, serta dilengkapi asuransi garansi pengerjaan.",
+    "price_min": 75000.0,
+    "price_max": 250000.0,
+    "location": "Tangerang, Banten",
+    "status": "active",
+    "rating_avg": 4.88,
+    "tags": [
+      "Daily Cleaning",
+      "Bersih Rumah",
+      "General Cleaning",
+      "Housekeeping",
+      "Pembersihan Apartemen"
+    ],
+    "total_completed_orders": 185,
+    "estimated_duration": "1 hari",
+    "source_url": "https://www.sejasa.com/layanan/daily-cleaning",
+    "user": {
+      "name": "CleanHouse Solution Pratama",
+      "email": null,
+      "phone": null,
+      "bio": "Mitra penyedia jasa profesional di platform Sejasa.com dengan spesialisasi Kebersihan & Cleaning. Telah melayani ratusan pelanggan dengan rating kepuasan 4.8+.",
+      "location": "Tangerang, Banten"
+    }
+  },
+  {
+    "source": "sejasa.com",
+    "title": "Jasa Renovasi Rumah Profesional & Bergaransi Resmi",
+    "description": "Layanan resmi dari Sejasa.com untuk Renovasi Rumah dan sekitarnya. Dikerjakan oleh teknisi bersertifikat, transparan tanpa biaya tersembunyi, serta dilengkapi asuransi garansi pengerjaan.",
+    "price_min": 1500000.0,
+    "price_max": 15000000.0,
+    "location": "Bandung, Jawa Barat",
+    "status": "active",
+    "rating_avg": 4.88,
+    "tags": [
+      "Renovasi Rumah",
+      "Tukang Bangunan",
+      "Perbaikan Atap Bocor",
+      "Pengecatan Tembok",
+      "Pasang Keramik"
+    ],
+    "total_completed_orders": 185,
+    "estimated_duration": "14 hari",
+    "source_url": "https://www.sejasa.com/layanan/renovasi-rumah",
+    "user": {
+      "name": "CV Karya Mandiri Bangun Nusantara",
+      "email": null,
+      "phone": null,
+      "bio": "Mitra penyedia jasa profesional di platform Sejasa.com dengan spesialisasi Pertukangan & Renovasi. Telah melayani ratusan pelanggan dengan rating kepuasan 4.8+.",
+      "location": "Bandung, Jawa Barat"
+    }
+  },
+  {
+    "source": "sejasa.com",
+    "title": "Jasa Body Massage Profesional & Bergaransi Resmi",
+    "description": "Layanan resmi dari Sejasa.com untuk Body Massage dan sekitarnya. Dikerjakan oleh teknisi bersertifikat, transparan tanpa biaya tersembunyi, serta dilengkapi asuransi garansi pengerjaan.",
+    "price_min": 120000.0,
+    "price_max": 300000.0,
+    "location": "Jakarta Barat, DKI Jakarta",
+    "status": "active",
+    "rating_avg": 4.88,
+    "tags": [
+      "Body Massage",
+      "Pijat Tradisional",
+      "Refleksi",
+      "Aromaterapi",
+      "Terapis Berpengalaman"
+    ],
+    "total_completed_orders": 185,
+    "estimated_duration": "1 hari",
+    "source_url": "https://www.sejasa.com/layanan/body-massage",
+    "user": {
+      "name": "Relaksasi Prima Sehat Reflexology",
+      "email": null,
+      "phone": null,
+      "bio": "Mitra penyedia jasa profesional di platform Sejasa.com dengan spesialisasi Pijat & Kesehatan. Telah melayani ratusan pelanggan dengan rating kepuasan 4.8+.",
+      "location": "Jakarta Barat, DKI Jakarta"
+    }
+  },
+  {
+    "source": "sejasa.com",
+    "title": "Jasa Service Mesin Cuci Profesional & Bergaransi Resmi",
+    "description": "Layanan resmi dari Sejasa.com untuk Service Mesin Cuci dan sekitarnya. Dikerjakan oleh teknisi bersertifikat, transparan tanpa biaya tersembunyi, serta dilengkapi asuransi garansi pengerjaan.",
+    "price_min": 100000.0,
+    "price_max": 450000.0,
+    "location": "Surabaya, Jawa Timur",
+    "status": "active",
+    "rating_avg": 4.88,
+    "tags": [
+      "Service Mesin Cuci",
+      "Mesin Cuci 1 Tabung",
+      "Mesin Cuci Front Loading",
+      "Elektronik Rumah"
+    ],
+    "total_completed_orders": 185,
+    "estimated_duration": "1 hari",
+    "source_url": "https://www.sejasa.com/layanan/service-mesin-cuci",
+    "user": {
+      "name": "Dua Saudara Elektronik Service",
+      "email": null,
+      "phone": null,
+      "bio": "Mitra penyedia jasa profesional di platform Sejasa.com dengan spesialisasi Service AC & Elektronik. Telah melayani ratusan pelanggan dengan rating kepuasan 4.8+.",
+      "location": "Surabaya, Jawa Timur"
+    }
+  },
+  {
+    "source": "sejasa.com",
+    "title": "Jasa Service Kulkas Profesional & Bergaransi Resmi",
+    "description": "Layanan resmi dari Sejasa.com untuk Service Kulkas dan sekitarnya. Dikerjakan oleh teknisi bersertifikat, transparan tanpa biaya tersembunyi, serta dilengkapi asuransi garansi pengerjaan.",
+    "price_min": 150000.0,
+    "price_max": 500000.0,
+    "location": "Bekasi, Jawa Barat",
+    "status": "active",
+    "rating_avg": 4.88,
+    "tags": [
+      "Service Kulkas",
+      "Isi Freon Kulkas",
+      "Ganti Kompresor",
+      "Kulkas Inverter"
+    ],
+    "total_completed_orders": 185,
+    "estimated_duration": "1 hari",
+    "source_url": "https://www.sejasa.com/layanan/service-kulkas",
+    "user": {
+      "name": "Anugrah Teknik Pendingin",
+      "email": null,
+      "phone": null,
+      "bio": "Mitra penyedia jasa profesional di platform Sejasa.com dengan spesialisasi Service AC & Elektronik. Telah melayani ratusan pelanggan dengan rating kepuasan 4.8+.",
+      "location": "Bekasi, Jawa Barat"
+    }
+  },
+  {
+    "source": "sejasa.com",
+    "title": "Jasa Desain Arsitektur Profesional & Bergaransi Resmi",
+    "description": "Layanan resmi dari Sejasa.com untuk Desain Arsitektur dan sekitarnya. Dikerjakan oleh teknisi bersertifikat, transparan tanpa biaya tersembunyi, serta dilengkapi asuransi garansi pengerjaan.",
+    "price_min": 2500000.0,
+    "price_max": 12000000.0,
+    "location": "Yogyakarta, DI Yogyakarta",
+    "status": "active",
+    "rating_avg": 4.88,
+    "tags": [
+      "Desain Arsitektur",
+      "Gambar IMB / PBG",
+      "Desain 3D Rumah",
+      "Denah Rumah Modern"
+    ],
+    "total_completed_orders": 185,
+    "estimated_duration": "21 hari",
+    "source_url": "https://www.sejasa.com/layanan/arsitek",
+    "user": {
+      "name": "Studio Arsitektur Dimensi Kreasi",
+      "email": null,
+      "phone": null,
+      "bio": "Mitra penyedia jasa profesional di platform Sejasa.com dengan spesialisasi Pertukangan & Renovasi. Telah melayani ratusan pelanggan dengan rating kepuasan 4.8+.",
+      "location": "Yogyakarta, DI Yogyakarta"
+    }
+  },
+  {
+    "source": "sejasa.com",
+    "title": "Jasa Service Pompa Air Profesional & Bergaransi Resmi",
+    "description": "Layanan resmi dari Sejasa.com untuk Service Pompa Air dan sekitarnya. Dikerjakan oleh teknisi bersertifikat, transparan tanpa biaya tersembunyi, serta dilengkapi asuransi garansi pengerjaan.",
+    "price_min": 125000.0,
+    "price_max": 600000.0,
+    "location": "Depok, Jawa Barat",
+    "status": "active",
+    "rating_avg": 4.88,
+    "tags": [
+      "Service Pompa Air",
+      "Pengeboran Jet Pump",
+      "Gulung Dinamo",
+      "Pemasangan Toren Air"
+    ],
+    "total_completed_orders": 185,
+    "estimated_duration": "1 hari",
+    "source_url": "https://www.sejasa.com/mitra-kami/service-pompa-air",
+    "user": {
+      "name": "Mitra Tirta Pompa Mandiri",
+      "email": null,
+      "phone": null,
+      "bio": "Mitra penyedia jasa profesional di platform Sejasa.com dengan spesialisasi Service AC & Elektronik. Telah melayani ratusan pelanggan dengan rating kepuasan 4.8+.",
+      "location": "Depok, Jawa Barat"
+    }
+  },
+  {
+    "source": "sejasa.com",
+    "title": "Jasa Tukang Listrik Profesional & Bergaransi Resmi",
+    "description": "Layanan resmi dari Sejasa.com untuk Tukang Listrik dan sekitarnya. Dikerjakan oleh teknisi bersertifikat, transparan tanpa biaya tersembunyi, serta dilengkapi asuransi garansi pengerjaan.",
+    "price_min": 100000.0,
+    "price_max": 750000.0,
+    "location": "Semarang, Jawa Tengah",
+    "status": "active",
+    "rating_avg": 4.88,
+    "tags": [
+      "Tukang Listrik",
+      "Korsleting Listrik",
+      "Pasang MCB",
+      "Instalasi Stop Kontak",
+      "Panel Listrik"
+    ],
+    "total_completed_orders": 185,
+    "estimated_duration": "1 hari",
+    "source_url": "https://www.sejasa.com/mitra-kami/kelistrikan",
+    "user": {
+      "name": "Instalasi Jaya Elektrik",
+      "email": null,
+      "phone": null,
+      "bio": "Mitra penyedia jasa profesional di platform Sejasa.com dengan spesialisasi Pertukangan & Renovasi. Telah melayani ratusan pelanggan dengan rating kepuasan 4.8+.",
+      "location": "Semarang, Jawa Tengah"
+    }
+  },
+  {
+    "source": "sejasa.com",
+    "title": "Jasa Bengkel Las Profesional & Bergaransi Resmi",
+    "description": "Layanan resmi dari Sejasa.com untuk Bengkel Las dan sekitarnya. Dikerjakan oleh teknisi bersertifikat, transparan tanpa biaya tersembunyi, serta dilengkapi asuransi garansi pengerjaan.",
+    "price_min": 1800000.0,
+    "price_max": 8500000.0,
+    "location": "Medan, Sumatera Utara",
+    "status": "active",
+    "rating_avg": 4.88,
+    "tags": [
+      "Bengkel Las",
+      "Pasang Kanopi Alderon",
+      "Pagar Minimalis",
+      "Teralis Besi",
+      "Railing Tangga"
+    ],
+    "total_completed_orders": 185,
+    "estimated_duration": "5 hari",
+    "source_url": "https://www.sejasa.com/mitra-kami/instalasi-kanopi",
+    "user": {
+      "name": "Bengkel Las Cahaya Logam",
+      "email": null,
+      "phone": null,
+      "bio": "Mitra penyedia jasa profesional di platform Sejasa.com dengan spesialisasi Pertukangan & Renovasi. Telah melayani ratusan pelanggan dengan rating kepuasan 4.8+.",
+      "location": "Medan, Sumatera Utara"
+    }
+  },
+  {
+    "source": "sejasa.com",
+    "title": "Jasa Cuci Sofa Profesional & Bergaransi Resmi",
+    "description": "Layanan resmi dari Sejasa.com untuk Cuci Sofa dan sekitarnya. Dikerjakan oleh teknisi bersertifikat, transparan tanpa biaya tersembunyi, serta dilengkapi asuransi garansi pengerjaan.",
+    "price_min": 80000.0,
+    "price_max": 400000.0,
+    "location": "Jakarta Timur, DKI Jakarta",
+    "status": "active",
+    "rating_avg": 4.88,
+    "tags": [
+      "Cuci Sofa",
+      "Cuci Springbed",
+      "Sedot Tungau Hydrovacuum",
+      "Cuci Jok Mobil"
+    ],
+    "total_completed_orders": 185,
+    "estimated_duration": "1 hari",
+    "source_url": "https://www.sejasa.com/mitra-kami/service-sofa",
+    "user": {
+      "name": "Master Cuci Sofa & Springbed",
+      "email": null,
+      "phone": null,
+      "bio": "Mitra penyedia jasa profesional di platform Sejasa.com dengan spesialisasi Kebersihan & Cleaning. Telah melayani ratusan pelanggan dengan rating kepuasan 4.8+.",
+      "location": "Jakarta Timur, DKI Jakarta"
+    }
+  },
+  {
+    "source": "sejasa.com",
+    "title": "Jasa Ahli Kunci Profesional & Bergaransi Resmi",
+    "description": "Layanan resmi dari Sejasa.com untuk Ahli Kunci dan sekitarnya. Dikerjakan oleh teknisi bersertifikat, transparan tanpa biaya tersembunyi, serta dilengkapi asuransi garansi pengerjaan.",
+    "price_min": 75000.0,
+    "price_max": 350000.0,
+    "location": "Makassar, Sulawesi Selatan",
+    "status": "active",
+    "rating_avg": 4.88,
+    "tags": [
+      "Ahli Kunci",
+      "Duplikat Kunci",
+      "Kunci Mobil Immobilizer",
+      "Buka Pintu Terkunci"
+    ],
+    "total_completed_orders": 185,
+    "estimated_duration": "1 hari",
+    "source_url": "https://www.sejasa.com/mitra-kami/ahli-kunci",
+    "user": {
+      "name": "Gatot Kunci Panggilan 24 Jam",
+      "email": null,
+      "phone": null,
+      "bio": "Mitra penyedia jasa profesional di platform Sejasa.com dengan spesialisasi Pertukangan & Renovasi. Telah melayani ratusan pelanggan dengan rating kepuasan 4.8+.",
+      "location": "Makassar, Sulawesi Selatan"
+    }
+  }
+]
